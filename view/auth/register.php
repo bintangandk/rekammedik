@@ -1,3 +1,8 @@
+
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 
 <html lang="en" class="light-style customizer-hide" dir="ltr" data-theme="theme-default" data-assets-path="../../assets/" data-template="vertical-menu-template-free">
@@ -90,35 +95,35 @@
             <!-- /Logo -->
             <h4 class="mb-2"></h4>
 
-            <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+            <form id="formAuthentication" class="mb-3" action="../../controller/Auth.php" method="POST">
+              <input type="hidden" name="action" value="register">
               <div class="mb-3">
                 <label for="username" class="form-label">Nama Pegawai <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan nama anda" autofocus />
+                <input type="text" class="form-control" id="username" name="Nama" placeholder="Masukkan nama anda" value="<?php echo isset($_SESSION['form_data']['Nama']) ? htmlspecialchars($_SESSION['form_data']['Nama']) : ''; ?>" autofocus />
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan email anda" />
+                <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan email anda" value="<?php echo isset($_SESSION['form_data']['email']) ? htmlspecialchars($_SESSION['form_data']['email']) : ''; ?>" />
               </div>
               <div class="mb-3">
-                <label for="notelp" class="form-label">Nomor Telpon <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="notelp" name="notelp" placeholder="Masukkan Nomor telp anda" />
+                <label for="no_telfon" class="form-label">Nomor Telpon <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="notelp" name="no_telfon" placeholder="Masukkan Nomor telp anda" value="<?php echo isset($_SESSION['form_data']['no_telfon']) ? htmlspecialchars($_SESSION['form_data']['no_telfon']) : ''; ?>" />
               </div>
               <div class="mb-3">
-                <label for="nip" class="form-label">NIP <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukkan NIP anda" />
+                <label for="nip" class="form-label">NIP <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukkan NIP anda" value="<?php echo isset($_SESSION['form_data']['nip']) ? htmlspecialchars($_SESSION['form_data']['nip']) : ''; ?>" />
               </div>
               <div class="mb-3">
-                <label for="jabatan" class="form-label">Jabatan/Peranan <span class="text-danger">*</span></label>
-                <select name="jabatan" class="form-control" id="jabatan" placeholder="Pilih Jabatan/Peranan anda" required>
+                <label for="role" class="form-label">Jabatan/Peranan <span class="text-danger">*</span></label>
+                <select name="role" class="form-control" id="role" required>
                   <option value="">Pilih Jabatan/Peranan</option>
-                  <!-- Opsi Jabatan -->
-                  <option value="Dokter">Dokter</option>
-                  <option value="Perawat">Perawat</option>
+                  <option value="Dokter" <?php echo isset($_SESSION['form_data']['role']) && $_SESSION['form_data']['role'] == 'Dokter' ? 'selected' : ''; ?>>Dokter</option>
+                  <option value="Perawat" <?php echo isset($_SESSION['form_data']['role']) && $_SESSION['form_data']['role'] == 'Perawat' ? 'selected' : ''; ?>>Perawat</option>
                 </select>
               </div>
               <div class="mb-3">
                 <label for="instalasi" class="form-label">Instalasi <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="instalasi" name="istalasi" placeholder="Masukkan Instalasi anda" />
+                <input type="text" class="form-control" id="instalasi" name="instalasi" placeholder="Masukkan Instalasi anda" value="<?php echo isset($_SESSION['form_data']['instalasi']) ? htmlspecialchars($_SESSION['form_data']['instalasi']) : ''; ?>" />
               </div>
               <div class="mb-3 form-password-toggle">
                 <label class="form-label" for="password">Password <span class="text-danger">*</span></label>
@@ -129,8 +134,8 @@
               </div>
 
               <div class="mb-3">
+                <button class="btn btn-primary d-grid w-100" type="submit">Register</button>
               </div>
-              <button class="btn btn-primary d-grid w-100">Register</button>
             </form>
 
             <p class="text-center">
@@ -148,6 +153,42 @@
 
   <!-- / Content -->
 
+<!-- SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Ambil pesan error dari sesi
+    const errors = <?php echo json_encode(isset($_SESSION['errors']) ? $_SESSION['errors'] : []); ?>;
+    // Ambil pesan sukses dari sesi
+    const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+
+    // Jika ada pesan error, tampilkan notifikasi error
+    if (errors.length > 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        html: errors.join('<br>'),
+        confirmButtonText: 'OK'
+      }).then(() => {
+        // Kosongkan pesan error setelah ditampilkan
+        <?php unset($_SESSION['errors']); ?>
+      });
+    }
+
+    // Jika ada pesan sukses, tampilkan notifikasi sukses
+    if (success) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Sukses',
+        text: success,
+        confirmButtonText: 'OK'
+      }).then(() => {
+        // Kosongkan pesan sukses setelah ditampilkan
+        <?php unset($_SESSION['success']); ?>
+      });
+    }
+  });
+</script>
 
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->
