@@ -92,15 +92,36 @@
 
             <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
               <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username anda" autofocus />
+                <label for="username" class="form-label">Nama Pegawai <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan nama anda" autofocus />
               </div>
               <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
+                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan email anda" />
               </div>
+              <div class="mb-3">
+                <label for="notelp" class="form-label">Nomor Telpon <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="notelp" name="notelp" placeholder="Masukkan Nomor telp anda" />
+              </div>
+              <div class="mb-3">
+                <label for="nip" class="form-label">NIP <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukkan NIP anda" />
+              </div>
+              <div class="mb-3">
+                <label for="jabatan" class="form-label">Jabatan/Peranan <span class="text-danger">*</span></label>
+                <select name="jabatan" class="form-control" id="jabatan" placeholder="Pilih Jabatan/Peranan anda" required>
+                  <option value="">Pilih Jabatan/Peranan</option>
+                  <!-- Opsi Jabatan -->
+                  <option value="Dokter">Dokter</option>
+                  <option value="Perawat">Perawat</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="instalasi" class="form-label">Instalasi <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="instalasi" name="istalasi" placeholder="Masukkan Instalasi anda" />
+              </div>
               <div class="mb-3 form-password-toggle">
-                <label class="form-label" for="password">Password</label>
+                <label class="form-label" for="password">Password <span class="text-danger">*</span></label>
                 <div class="input-group input-group-merge">
                   <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                   <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
