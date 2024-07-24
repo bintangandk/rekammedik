@@ -158,7 +158,7 @@
                     </a>
                 </div>
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
+                  <a href="../admin/dashboard/index.php" class="btn btn-primary d-grid w-100" type="submit">Login</a>
                 </div>
               </form>
 
