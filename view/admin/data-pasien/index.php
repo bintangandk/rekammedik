@@ -684,8 +684,8 @@
 
                   <!-- Modal Footer -->
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Simpan</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                   </div>
 
                 </div>
