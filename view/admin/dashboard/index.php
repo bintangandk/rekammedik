@@ -50,7 +50,7 @@
             <!-- Sidebar -->
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="index.html" class="app-brand-link">
+                    <a href="../dashboard/index.php" class="app-brand-link">
                         <span class="app-brand-logo demo">
                             <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <defs>
@@ -114,7 +114,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="../data-pegawai/index.php" class="menu-link">
                             <i class="menu-icon bi-person-badge"></i>
                             <div data-i18n="Account Settings">Data Pegawai</div>
                         </a>
@@ -253,19 +253,6 @@
                     </div>
                     <!-- / Content -->
 
-                    <!-- Footer -->
-                    <!-- <footer class="content-footer footer bg-footer-theme">
-                        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                            <div class="mb-2 mb-md-0">
-                                ©
-                                <script>
-                                    document.write(new Date().getFullYear());
-                                </script>
-                                , made with ❤️ by
-                            </div>
-                        </div>
-                    </footer> -->
-                    <!-- / Footer -->
 
                     <div class="content-backdrop fade"></div>
                 </div>

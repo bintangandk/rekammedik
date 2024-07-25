@@ -59,7 +59,7 @@
 
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
-          <a href="index.html" class="app-brand-link">
+          <a href="../dashboard/index.php" class="app-brand-link">
             <span class="app-brand-logo demo">
               <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <defs>
@@ -122,7 +122,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="../data-pegawai/index.php" class="menu-link">
               <i class="menu-icon bi-person-badge"></i>
               <div data-i18n="Account Settings">Data Pegawai</div>
             </a>
@@ -184,25 +184,10 @@
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
-                      <i class="bx bx-cog me-2"></i>
-                      <span class="align-middle">Settings</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">Billing</span>
-                        <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
                     <div class="dropdown-divider"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="auth-login-basic.html">
+                    <a href="#" class="dropdown-item" id="logout-link">
                       <i class="bx bx-power-off me-2"></i>
                       <span class="align-middle">Log Out</span>
                     </a>
@@ -458,7 +443,7 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="age">TTL Pasien <span class="text-danger">*</span></label>
+                              <label for="age">Tanggal Lahir <span class="text-danger">*</span></label>
                               <input type="date" class="form-control" id="age" name="age" required>
                             </div>
                           </div>
@@ -599,7 +584,7 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="age">TTL Pasien <span class="text-danger">*</span></label>
+                              <label for="age">Tanggal Lahir Pasien <span class="text-danger">*</span></label>
                               <input type="date" class="form-control" id="age" name="age" required>
                             </div>
                           </div>
@@ -740,7 +725,7 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="age">TTL Pasien <span class="text-danger">*</span></label>
+                              <label for="age">Tanggal Lahir Pasien <span class="text-danger">*</span></label>
                               <input type="date" class="form-control" id="age" name="age" required>
                             </div>
                           </div>
@@ -846,14 +831,14 @@
 
           <!-- Footer -->
           <footer class="content-footer footer bg-footer-theme">
-            <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+            <!-- <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
               <div class="mb-2 mb-md-0">
                 ©
                 <script>
                   document.write(new Date().getFullYear());
                 </script>
               </div>
-            </div>
+            </div> -->
           </footer>
           <!-- / Footer -->
 
@@ -901,6 +886,28 @@
   <!-- modal -->
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!-- logout script -->
+  <script>
+    document.getElementById('logout-link').addEventListener('click', function(event) {
+      event.preventDefault(); // Mencegah tautan default
+
+      Swal.fire({
+        title: 'Konfirmasi Logout',
+        text: "Anda yakin ingin logout?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Logout',
+        cancelButtonText: 'Batal',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Jika pengguna mengonfirmasi, arahkan ke URL logout
+          window.location.href = "../../../controller/Auth.php?action=logout";
+        }
+      });
+    });
+  </script>
 
   <!-- Delete alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
