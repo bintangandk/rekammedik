@@ -684,8 +684,8 @@
 
                   <!-- Modal Footer -->
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Simpan</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                   </div>
 
                 </div>
@@ -699,7 +699,7 @@
 
                   <!-- Modal Header -->
                   <div class="modal-header">
-                    <h4 class="modal-title">Data Pasien</h4>
+                    <h4 class="modal-title">Detail Data Pasien</h4>
                     <a data-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
@@ -835,7 +835,7 @@
 
                   <!-- Modal Footer -->
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button>
+                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button> -->
                   </div>
 
                 </div>
