@@ -462,7 +462,7 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                              <img src="../../../assets/images/profile/picture.jpeg" class="rounded float-start" alt="...">
+                              <img src="../../../assets/images/profile/picture.jpeg" alt="user-avatar" class="d-block rounded" height="300" width="300" id="uploadedAvatar">
                             </div>
                           </div>
                           <div class="col-md-6">
