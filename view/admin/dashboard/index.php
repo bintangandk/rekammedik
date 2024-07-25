@@ -178,7 +178,7 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="../../auth/login.php">
+                                        <a href="#" class="dropdown-item" id="logout-link">
                                             <i class="bx bx-power-off me-2"></i>
                                             <span class="align-middle">Log Out</span>
                                         </a>
@@ -281,28 +281,17 @@
         <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer">
+        <!-- <div class="footer">
             <div class="copyright">
                 <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
                 <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
             </div>
-        </div>
+        </div> -->
         <!--**********************************
             Footer end
         ***********************************-->
 
-        <!--**********************************
-           Support ticket button start
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button end
-        ***********************************-->
-
-
     </div>
-    <!-- / Layout wrapper -->
-
 
     <!--**********************************
         Scripts
@@ -329,9 +318,20 @@
             });
         });
     </script>
+
     <script src="../../../assets/vendor/global/global.min.js"></script>
     <script src="../../../assets/js/quixnav-init.js"></script>
     <script src="../../../assets/js/custom.min.js"></script>
+
+     <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="../../../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../../../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../../../assets/vendor/js/bootstrap.js"></script>
+    <script src="../../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="../../../assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
 
 
     <!-- Vectormap -->
