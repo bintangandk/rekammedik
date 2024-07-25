@@ -22,7 +22,8 @@
   <!-- Icons. Uncomment required icon fonts -->
   <link rel="stylesheet" href="../../../assets/vendor/fonts/boxicons.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css">
+
 
   <!-- Modal -->
   <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
@@ -46,6 +47,8 @@
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../../../assets/js/config.js"></script>
+
+
 </head>
 
 <body>
@@ -224,7 +227,8 @@
             <div class="card shadow mb-3">
               <div class="card-header py-3 d-flex justify-content-end">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insertModal">
-                  <i class="fas fa-user-plus"></i>
+                  <i class="bi bi-person"></i>
+                  <i class="bi bi-plus"></i>
                 </button>
               </div>
               <div class="card-body">
@@ -232,80 +236,164 @@
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
-                        <th>No. Rm</th>
-                        <th>Nama</th>
-                        <th>NIK</th>
-                        <th>JK</th>
-                        <th>Alamat</th>
-                        <th>No. Telp</th>
-                        <th>Kepesertaan</th>
-                        <th>Unit Terakhir</th>
-                        <th>Tgl. Masuk</th>
-                        <th>Tgl. Keluar</th>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Nama</th>
+                        <th class="text-center">JK</th>
+                        <th class="text-center">Alamat</th>
+                        <th class="text-center">Kepesertaan</th>
+                        <th class="text-center">No RM</th>
+                        <th class="text-center">Unit</th>
+                        <th class="text-center">Tgl. Masuk</th>
+                        <th class="text-center">Tgl. Keluar</th>
+                        <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
-                        <th>No. Rm</th>
-                        <th>Nama</th>
-                        <th>NIK</th>
-                        <th>JK</th>
-                        <th>Alamat</th>
-                        <th>No. Telp</th>
-                        <th>Kepesertaan</th>
-                        <th>Unit Terakhir</th>
-                        <th>Tgl. Masuk</th>
-                        <th>Tgl. Keluar</th>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Nama</th>
+                        <th class="text-center">JK</th>
+                        <th class="text-center">Alamat</th>
+                        <th class="text-center">Kepesertaan</th>
+                        <th class="text-center">No RM</th>
+                        <th class="text-center">Unit</th>
+                        <th class="text-center">Tgl. Masuk</th>
+                        <th class="text-center">Tgl. Keluar</th>
+                        <th class="text-center">Aksi</th>
                       </tr>
                     </tfoot>
                     <tbody>
                       <tr>
-                        <td>123</td>
-                        <td>Yanto</td>
-                        <td>17401740791</td>
-                        <td>LK</td>
-                        <td>Jember</td>
-                        <td>086888</td>
-                        <td>BPJS</td>
-                        <td>ICU</td>
-                        <td>17/09/24</td>
-                        <td>27/09/24</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Yanto</td>
+                        <td class="text-center">LK</td>
+                        <td class="text-center">Jember</td>
+                        <td class="text-center">BPJS</td>
+                        <td class="text-center">I342</td>
+                        <td class="text-center">ICU</td>
+                        <td class="text-center">17/09/24</td>
+                        <td class="text-center">27/09/24</td>
+                        <td class="text-center">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button id="deleteButton" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
                       </tr>
                       <tr>
-                        <td>123</td>
-                        <td>Asep Naidi</td>
-                        <td>17401740791</td>
-                        <td>LK</td>
-                        <td>Jember</td>
-                        <td>086888</td>
-                        <td>BPJS</td>
-                        <td>ICU</td>
-                        <td>17/09/24</td>
-                        <td>27/09/24</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Yanto</td>
+                        <td class="text-center">LK</td>
+                        <td class="text-center">Jember</td>
+                        <td class="text-center">BPJS</td>
+                        <td class="text-center">I342</td>
+                        <td class="text-center">ICU</td>
+                        <td class="text-center">17/09/24</td>
+                        <td class="text-center">27/09/24</td>
+                        <td class="text-center">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button id="deleteButton" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
                       </tr>
                       <tr>
-                        <td>123</td>
-                        <td>Asep Naidi</td>
-                        <td>17401740791</td>
-                        <td>LK</td>
-                        <td>Jember</td>
-                        <td>086888</td>
-                        <td>BPJS</td>
-                        <td>ICU</td>
-                        <td>17/09/24</td>
-                        <td>27/09/24</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Yanto</td>
+                        <td class="text-center">LK</td>
+                        <td class="text-center">Jember</td>
+                        <td class="text-center">BPJS</td>
+                        <td class="text-center">I342</td>
+                        <td class="text-center">ICU</td>
+                        <td class="text-center">17/09/24</td>
+                        <td class="text-center">27/09/24</td>
+                        <td class="text-center">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button id="deleteButton" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
                       </tr>
                       <tr>
-                        <td>123</td>
-                        <td>Asep Naidi</td>
-                        <td>17401740791</td>
-                        <td>LK</td>
-                        <td>Jember</td>
-                        <td>086888</td>
-                        <td>BPJS</td>
-                        <td>ICU</td>
-                        <td>17/09/24</td>
-                        <td>27/09/24</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Yanto</td>
+                        <td class="text-center">LK</td>
+                        <td class="text-center">Jember</td>
+                        <td class="text-center">BPJS</td>
+                        <td class="text-center">I342</td>
+                        <td class="text-center">ICU</td>
+                        <td class="text-center">17/09/24</td>
+                        <td class="text-center">27/09/24</td>
+                        <td class="text-center">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button id="deleteButton" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Yanto</td>
+                        <td class="text-center">LK</td>
+                        <td class="text-center">Jember</td>
+                        <td class="text-center">BPJS</td>
+                        <td class="text-center">I342</td>
+                        <td class="text-center">ICU</td>
+                        <td class="text-center">17/09/24</td>
+                        <td class="text-center">27/09/24</td>
+                        <td class="text-center">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button id="deleteButton" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Yanto</td>
+                        <td class="text-center">LK</td>
+                        <td class="text-center">Jember</td>
+                        <td class="text-center">BPJS</td>
+                        <td class="text-center">I342</td>
+                        <td class="text-center">ICU</td>
+                        <td class="text-center">17/09/24</td>
+                        <td class="text-center">27/09/24</td>
+                        <td class="text-center">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button id="deleteButton" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -322,14 +410,14 @@
               }
             </style>
 
-            <!-- Modal Insert -->
+            <!-- Modal Insert data pasien-->
             <div class="modal fade" id="insertModal">
               <div class="modal-dialog">
                 <div class="modal-content">
 
                   <!-- Modal Header -->
                   <div class="modal-header">
-                    <h4 class="modal-title">Tambah Pasien</h4>
+                    <h4 class="modal-title">Tambah Data Pasien</h4>
                     <a data-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
@@ -462,6 +550,297 @@
                 </div>
               </div>
             </div>
+
+            <!-- Modal Edit data pasien -->
+            <div class="modal fade" id="editModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Edit Data Pasien</h4>
+                    <a data-dismiss="modal">
+                      <i class="bi bi-x"></i>
+                    </a>
+                  </div>
+
+                  <!-- Modal Body -->
+                  <div class="modal-body">
+                    <form id="editForm">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="nik">NIK <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukan NIK" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
+                              <select name="gender" class="form-control" id="gender" placeholder="Pilih" required>
+                                <option value="">Pilih</option>
+                                <option value="male">Laki-Laki</option>
+                                <option value="female">Perempuan</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="age">TTL Pasien <span class="text-danger">*</span></label>
+                              <input type="date" class="form-control" id="age" name="age" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="kepesertaan">Jenis Kepesertaan <span class="text-danger">*</span></label>
+                              <select name="kepesertaan" class="form-control" id="kepesertaan" placeholder="Pilih" required>
+                                <option value="">Pilih</option>
+                                <option value="bpjs">BPJS</option>
+                                <option value="umum">Umum</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="address">Alamat <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="address" name="address" required></textarea>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="vital">Vital Sign <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="vital" name="vital" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="tindakan" name="tindakan" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="diagnosis">Diagnosis <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="diagnosis" name="diagnosis" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="alergi">Alergi <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="alergi" name="alergi" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="obat">Obat <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="obat" name="obat" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="note">Note Dokter <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="note" name="note" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="date">Tanggal Masuk <span class="text-danger">*</span></label>
+                              <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="date">Tanggal Keluar <span class="text-danger">*</span></label>
+                              <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="formFile" class="form-label">Upload Rekam Medis <span class="text-danger">*</span></label>
+                            <input class="form-control" type="file" id="formFile">
+                          </div>
+                          <div class="form-group">
+                            <label for="formFile" class="form-label">Upload Hasil Rontgen <span class="text-danger">*</span></label>
+                            <input class="form-control" type="file" id="formFile">
+                          </div>
+                          <div class="form-group">
+                            <label for="formFile" class="form-label">Upload Hasil Laboratorium <span class="text-danger">*</span></label>
+                            <input class="form-control" type="file" id="formFile">
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- Modal Footer -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal show data pasien-->
+            <div class="modal fade" id="showModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Data Pasien</h4>
+                    <a data-dismiss="modal">
+                      <i class="bi bi-x"></i>
+                    </a>
+                  </div>
+
+                  <!-- Modal Body -->
+                  <div class="modal-body">
+                    <form id="showForm">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="nik">NIK <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukan NIK" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
+                              <select name="gender" class="form-control" id="gender" placeholder="Pilih" required>
+                                <option value="">Pilih</option>
+                                <option value="male">Laki-Laki</option>
+                                <option value="female">Perempuan</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="age">TTL Pasien <span class="text-danger">*</span></label>
+                              <input type="date" class="form-control" id="age" name="age" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="kepesertaan">Jenis Kepesertaan <span class="text-danger">*</span></label>
+                              <select name="kepesertaan" class="form-control" id="kepesertaan" placeholder="Pilih" required>
+                                <option value="">Pilih</option>
+                                <option value="bpjs">BPJS</option>
+                                <option value="umum">Umum</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="address">Alamat <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="address" name="address" required></textarea>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="vital">Vital Sign <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="vital" name="vital" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="tindakan" name="tindakan" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="diagnosis">Diagnosis <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="diagnosis" name="diagnosis" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="alergi">Alergi <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="alergi" name="alergi" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="obat">Obat <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="obat" name="obat" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="note">Note Dokter <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="note" name="note" required></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="date">Tanggal Masuk <span class="text-danger">*</span></label>
+                              <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="date">Tanggal Keluar <span class="text-danger">*</span></label>
+                              <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                          </div>
+                          <div class="container mt-5">
+                            <div class="d-flex justify-content-between">
+                              <div class="form-group">
+                                <h6>Hasil Rekam Medis</h6>
+                                <a href="path/to/your/rekam-medis.pdf" class="btn btn-pdf btn-primary" target="_blank">
+                                  <i class="bi bi-file-earmark-pdf"></i> Buka PDF
+                                </a>
+                              </div>
+                              <div class="form-group mx-2">
+                                <h6>Hasil Rontgen</h6>
+                                <a href="path/to/your/rontgen.pdf" class="btn btn-pdf btn-primary" target="_blank">
+                                  <i class="bi bi-file-earmark-pdf"></i> Buka PDF
+                                </a>
+                              </div>
+                              <div class="form-group">
+                                <h6>Hasil Laboratorium</h6>
+                                <a href="path/to/your/laboratorium.pdf" class="btn btn-pdf btn-primary" target="_blank">
+                                  <i class="bi bi-file-earmark-pdf"></i> Buka PDF
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- Modal Footer -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
           </div>
           <!-- / Content -->
 
@@ -523,6 +902,28 @@
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+  <!-- Delete alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.getElementById('deleteButton').addEventListener('click', function() {
+      const userId = this.getAttribute('data-id');
+      Swal.fire({
+        title: 'Apakah Anda Yakin?',
+        text: "Anda igin menghapus data ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Hapus!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = 'delete.php?id=' + userId;
+        }
+      });
+    });
+  </script>
+
+  <!-- modal insert -->
   <script>
     // Handle form submission
     document.getElementById('insertForm').addEventListener('submit', function(event) {
@@ -533,6 +934,32 @@
       $('#insertModal').modal('hide');
     });
   </script>
+
+  <!-- modal edit -->
+  <script>
+    // Handle form submission
+    document.getElementById('editForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      // Perform your insert operation here, e.g., send data to the server
+      alert('Form submitted!');
+      // Close the modal
+      $('#editModal').modal('hide');
+    });
+  </script>
+
+  <!-- modal show -->
+  <script>
+    // Handle form submission
+    document.getElementById('showForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      // Perform your insert operation here, e.g., send data to the server
+      alert('Form submitted!');
+      // Close the modal
+      $('#showModal').modal('hide');
+    });
+  </script>
+
+
 
 </body>
 
