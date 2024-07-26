@@ -146,6 +146,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+            const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;
             const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
 
             if (success) {
@@ -155,6 +156,14 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
                     text: success,
                 });
                 <?php unset($_SESSION['success']); ?>
+            }
+            if (success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses',
+                    text: logout,
+                });
+                <?php unset($_SESSION['logout']); ?>
             }
 
             if (error) {

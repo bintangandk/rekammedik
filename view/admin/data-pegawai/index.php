@@ -1,3 +1,20 @@
+<?php
+session_start();
+if (!isset($_SESSION['email'])) {
+  header('Location: ../../auth/login.php');
+  exit();
+}
+if (($_SESSION['role'] != 'admin')) {
+  header('Location: ../../admin/dashboard/index.php');
+  # code...
+}
+include '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+include '../../../controller/Pegawai.php';
+
+$pegawai = new Pegawai();
+$data_pegawai = $pegawai->index();
+// var_dump($data_pegawai);
+?>
 <!DOCTYPE html>
 
 
@@ -236,6 +253,7 @@
                       </tr>
                     </tfoot>
                     <tbody>
+
                       <tr>
                         <td class="text-center">1</td>
                         <td class="text-center">Budiono Siregar</td>
@@ -255,120 +273,7 @@
                           </button>
                         </td>
                       </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">Budiono Siregar</td>
-                        <td class="text-center">586914699649</td>
-                        <td class="text-center">Dokter</td>
-                        <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
-                        <td class="text-center">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
-                            <i class="bi bi-eye"></i>
-                          </button>
-                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button id="deleteButton" class="btn btn-danger">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">Budiono Siregar</td>
-                        <td class="text-center">586914699649</td>
-                        <td class="text-center">Dokter</td>
-                        <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
-                        <td class="text-center">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
-                            <i class="bi bi-eye"></i>
-                          </button>
-                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button id="deleteButton" class="btn btn-danger">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">Budiono Siregar</td>
-                        <td class="text-center">586914699649</td>
-                        <td class="text-center">Dokter</td>
-                        <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
-                        <td class="text-center">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
-                            <i class="bi bi-eye"></i>
-                          </button>
-                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button id="deleteButton" class="btn btn-danger">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">Budiono Siregar</td>
-                        <td class="text-center">586914699649</td>
-                        <td class="text-center">Dokter</td>
-                        <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
-                        <td class="text-center">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
-                            <i class="bi bi-eye"></i>
-                          </button>
-                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button id="deleteButton" class="btn btn-danger">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">Budiono Siregar</td>
-                        <td class="text-center">586914699649</td>
-                        <td class="text-center">Dokter</td>
-                        <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
-                        <td class="text-center">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
-                            <i class="bi bi-eye"></i>
-                          </button>
-                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button id="deleteButton" class="btn btn-danger">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">Budiono Siregar</td>
-                        <td class="text-center">586914699649</td>
-                        <td class="text-center">Dokter</td>
-                        <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
-                        <td class="text-center">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
-                            <i class="bi bi-eye"></i>
-                          </button>
-                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button id="deleteButton" class="btn btn-danger">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
+                     
                     </tbody>
                   </table>
                 </div>

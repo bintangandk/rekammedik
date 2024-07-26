@@ -100,13 +100,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $id_unit = $_POST['id_unit'];
         $password = $_POST['password'];
 
-        if (register($Nama, $email, $no_telfon, $nip, $role, $instalasi, $password)) {
+        if (register($Nama, $email, $no_telfon, $nip, $role, $id_unit, $password)) {
             unset($_SESSION['form_data']);
             $_SESSION['success'] = 'Registrasi berhasil!';
             header('Location: ../view/auth/login.php');
             exit();
         } else {
-            $_SESSION['error'] = 'Registrasi gagal!';
+            // $_SESSION['error'] = 'Registrasi gagal!';
             header("Location: ../view/auth/register.php");
             exit();
         }
@@ -134,7 +134,8 @@ function logout() {
 if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     logout();
     // Simpan pesan notifikasi di sesi
-    $_SESSION['success'] = 'Anda telah berhasil logout.';
+    $_SESSION['logout'] = 'Anda telah berhasil logout.';
+    // var_dump($_SESSION['success']);
     // Redirect ke halaman login setelah logout
     header("Location: ../view/auth/login.php");
     exit();

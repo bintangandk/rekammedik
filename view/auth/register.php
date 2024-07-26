@@ -133,7 +133,7 @@ $data_unit = $unit->index();
                   <option value="">Pilih Jabatan/Peranan</option>
                   <?php foreach ($data_unit as $key => $value) { ?>
                     <option value="<?= $value['id'] ?>" <?php echo isset($_SESSION['form_data']['id_unit']) && $_SESSION['form_data']['id_unit'] == $value['id'] ? 'selected' : ''; ?>>
-                      <?= $value['nama_unit']; ?>
+                      <?= $value['instalasi']; ?>
                     </option>
                   <?php } ?>
 
