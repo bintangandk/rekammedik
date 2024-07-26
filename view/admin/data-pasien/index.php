@@ -427,8 +427,8 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
+                              <label for="age">Tanggal Lahir <span class="text-danger">*</span></label>
+                              <input type="date" class="form-control" id="age" name="age" required>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -443,8 +443,14 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="age">Tanggal Lahir <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="age" name="age" required>
+                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="unit">Unit Terakhir <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="unit" name="unit" placeholder="Masukan Unit Terakhir" required>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -457,9 +463,11 @@
                               </select>
                             </div>
                           </div>
-                          <div class="form-group">
-                            <label for="address">Alamat <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="address" name="address" required></textarea>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="address">Alamat <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="address" name="address" required></textarea>
+                            </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
@@ -568,10 +576,16 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
+                              <label for="age">Tanggal Lahir Pasien <span class="text-danger">*</span></label>
+                              <input type="date" class="form-control" id="age" name="age" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
                               <label for="no_rm">No. RM <span class="text-danger">*</span></label>
                               <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
                             </div>
-                          </div>
+                          </div> 
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
@@ -584,8 +598,8 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="age">Tanggal Lahir Pasien <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="age" name="age" required>
+                              <label for="unit">Unit Terakhir <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="unit" name="unit" placeholder="Masukan Unit Terakhir" required>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -598,9 +612,11 @@
                               </select>
                             </div>
                           </div>
-                          <div class="form-group">
-                            <label for="address">Alamat <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="address" name="address" required></textarea>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="address">Alamat <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="address" name="address" required></textarea>
+                            </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
@@ -709,10 +725,17 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
+                              <label for="age">Tanggal Lahir Pasien <span class="text-danger">*</span></label>
+                              <input type="date" class="form-control" id="age" name="age" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
                               <label for="no_rm">No. RM <span class="text-danger">*</span></label>
                               <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
                             </div>
                           </div>
+                          
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
@@ -725,8 +748,8 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="age">Tanggal Lahir Pasien <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="age" name="age" required>
+                              <label for="unit">Unit Terakhir <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="unit" name="unit" placeholder="Masukan Unit Terakhir" required>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -739,9 +762,11 @@
                               </select>
                             </div>
                           </div>
-                          <div class="form-group">
-                            <label for="address">Alamat <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="address" name="address" required></textarea>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="address">Alamat <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="address" name="address" required></textarea>
+                            </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
