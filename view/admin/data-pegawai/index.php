@@ -220,7 +220,6 @@
                         <th class="text-center">NIP</th>
                         <th class="text-center">Peranan/Jabatan</th>
                         <th class="text-center">Instalasi</th>
-                        <th class="text-center">No. Telp</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -231,7 +230,6 @@
                         <th class="text-center">NIP</th>
                         <th class="text-center">Peranan/Jabatan</th>
                         <th class="text-center">Instalasi</th>
-                        <th class="text-center">No. Telp</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </tfoot>
@@ -242,7 +240,6 @@
                         <td class="text-center">586914699649</td>
                         <td class="text-center">Dokter</td>
                         <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
                         <td class="text-center">
                           <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
                             <i class="bi bi-eye"></i>
@@ -261,7 +258,6 @@
                         <td class="text-center">586914699649</td>
                         <td class="text-center">Dokter</td>
                         <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
                         <td class="text-center">
                           <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
                             <i class="bi bi-eye"></i>
@@ -280,7 +276,6 @@
                         <td class="text-center">586914699649</td>
                         <td class="text-center">Dokter</td>
                         <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
                         <td class="text-center">
                           <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
                             <i class="bi bi-eye"></i>
@@ -299,7 +294,6 @@
                         <td class="text-center">586914699649</td>
                         <td class="text-center">Dokter</td>
                         <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
                         <td class="text-center">
                           <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
                             <i class="bi bi-eye"></i>
@@ -318,7 +312,6 @@
                         <td class="text-center">586914699649</td>
                         <td class="text-center">Dokter</td>
                         <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
                         <td class="text-center">
                           <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
                             <i class="bi bi-eye"></i>
@@ -337,7 +330,7 @@
                         <td class="text-center">586914699649</td>
                         <td class="text-center">Dokter</td>
                         <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
+
                         <td class="text-center">
                           <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
                             <i class="bi bi-eye"></i>
@@ -356,7 +349,6 @@
                         <td class="text-center">586914699649</td>
                         <td class="text-center">Dokter</td>
                         <td class="text-center">IGD</td>
-                        <td class="text-center">08666666</td>
                         <td class="text-center">
                           <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
                             <i class="bi bi-eye"></i>
@@ -403,30 +395,33 @@
                     <form id="editForm">
                       <div class="container">
                         <div class="row">
-                          <div class="col-md-6">
                             <div class="form-group">
                               <label for="name">Nama Pegawai <span class="text-danger">*</span></label>
                               <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
                             </div>
-                          </div>
-                          <div class="col-md-6">
                             <div class="form-group">
                               <label for="nip">NIP <span class="text-danger">*</span></label>
                               <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukan NIP" required>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
+                            </div>  
                             <div class="form-group">
                               <label for="no_tlp">No. Telp <span class="text-danger">*</span></label>
                               <input type="text" class="form-control" id="no_tlp" name="no_tlp" placeholder="Masukan No. Telp" required>
                             </div>
-                          </div>
-                          <div class="col-md-6">
                             <div class="form-group">
                               <label for="jabatan">Peranan/Jabatan <span class="text-danger">*</span></label>
                               <input type="text" class="form-control" id="jabatan" name="jabatan" placeholder="Masukan Jabatan/Peranan" required>
                             </div>
-                          </div>
+                            <div class="form-group">
+                              <label for="instalasi">Instalasi <span class="text-danger">*</span></label>
+                              <select name="instalasi" class="form-control" id="instalasi" placeholder="Pilih Instalasi" required>
+                                <option value="">Pilih Unit/Instalasi</option>
+                                <option value="igd">IGD</option>
+                                <option value="icu">ICCU</option>
+                                <option value="nicu">NICU</option>
+                                <option value="bangsal">Rawat Inap (Bangsal)</option>
+                                <option value="poli">Rawat Jalan (Poli)</option>
+                              </select>
+                            </div>                          
                         </div>
                       </div>
                     </form>
@@ -481,6 +476,10 @@
                             <div class="form-group">
                               <label for="jabatan">Peranan/Jabatan <span class="text-danger">*</span></label>
                               <input type="text" class="form-control" id="jabatan" name="jabatan" placeholder="Masukan Jabatan/Peranan" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="instalasi">Instalasi <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="instalasi" name="instalasi" placeholder="Masukan Instalasi" required>
                             </div>
                           </div>
                         </div>
