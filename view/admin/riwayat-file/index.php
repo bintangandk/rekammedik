@@ -1,20 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['email'])) {
-  header('Location: ../../auth/login.php');
-  exit();
-}
-if (($_SESSION['role'] != 'admin')) {
-  header('Location: ../../admin/dashboard/index.php');
-  # code...
-}
-include '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
-include '../../../controller/Pegawai.php';
-
-$pegawai = new Pegawai();
-$data_pegawai = $pegawai->index();
-// var_dump($data_pegawai);
-?>
 <!DOCTYPE html>
 
 
@@ -24,7 +7,7 @@ $data_pegawai = $pegawai->index();
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Data Pegawai</title>
+  <title>Riwayat File</title>
 
   <meta name="description" content="" />
 
@@ -138,13 +121,13 @@ $data_pegawai = $pegawai->index();
               <div data-i18n="Account Settings">Data Pasien</div>
             </a>
           </li>
-          <li class="menu-item active">
+          <li class="menu-item">
             <a href="../data-pegawai/index.php" class="menu-link">
               <i class="menu-icon bi-person-badge"></i>
               <div data-i18n="Account Settings">Data Pegawai</div>
             </a>
           </li>
-          <li class="menu-item">
+          <li class="menu-item active">
             <a href="../riwayat-file/index.php" class="menu-link">
               <i class="menu-icon bi bi-clipboard"></i>
               <div data-i18n="Account Settings">Riwayat File</div>
@@ -223,54 +206,80 @@ $data_pegawai = $pegawai->index();
           <!-- Content -->
 
           <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Pegawai</h4>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Riwayat File</h4>
 
             <!-- Table Data Pasien -->
             <div class="card shadow mb-3">
+              <div class="card-header py-3 d-flex justify-content-end">
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#printModal">
+                  <i class="bi bi-printer"></i>
+                  Cetak
+                </button>
+              </div>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Nama Pegawai</th>
-                        <th class="text-center">NIP</th>
-                        <th class="text-center">Peranan/Jabatan</th>
-                        <th class="text-center">Instalasi</th>
-                        <th class="text-center">Aksi</th>
+                        <th class="text-center">Tanggal</th>
+                        <th class="text-center">Jam</th>
+                        <th class="text-center">File</th>
+                        <th class="text-center">User</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Nama Pegawai</th>
-                        <th class="text-center">NIP</th>
-                        <th class="text-center">Peranan/Jabatan</th>
-                        <th class="text-center">Instalasi</th>
-                        <th class="text-center">Aksi</th>
+                        <th class="text-center">Tanggal</th>
+                        <th class="text-center">Jam</th>
+                        <th class="text-center">File</th>
+                        <th class="text-center">User</th>
                       </tr>
                     </tfoot>
                     <tbody>
-
                       <tr>
                         <td class="text-center">1</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
                         <td class="text-center">Budiono Siregar</td>
-                        <td class="text-center">586914699649</td>
-                        <td class="text-center">Dokter</td>
-                        <td class="text-center">IGD</td>
-                        <td class="text-center">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal">
-                            <i class="bi bi-eye"></i>
-                          </button>
-                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button id="deleteButton" class="btn btn-danger">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </td>
                       </tr>
-                     
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -278,23 +287,15 @@ $data_pegawai = $pegawai->index();
             </div>
             <!--/ Responsive Table -->
 
-            <!-- style modal -->
-            <style>
-              .modal-dialog {
-                max-width: 50%;
 
-              }
-            </style>
-
-
-            <!-- Modal Edit data pegawai -->
-            <div class="modal fade" id="editModal">
+            <!-- Modal print riwayat file-->
+            <div class="modal fade" id="printModal">
               <div class="modal-dialog">
                 <div class="modal-content">
 
                   <!-- Modal Header -->
                   <div class="modal-header">
-                    <h4 class="modal-title">Edit Data Pegawai</h4>
+                    <h4 class="modal-title text-center w-100">Cetak Riwayat</h4>
                     <a data-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
@@ -302,95 +303,16 @@ $data_pegawai = $pegawai->index();
 
                   <!-- Modal Body -->
                   <div class="modal-body">
-                    <form id="editForm">
+                    <form id="printForm">
                       <div class="container">
                         <div class="row">
-                            <div class="form-group">
-                              <label for="name">Nama Pegawai <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="nip">NIP <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukan NIP" required>
-                            </div>  
-                            <div class="form-group">
-                              <label for="no_tlp">No. Telp <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_tlp" name="no_tlp" placeholder="Masukan No. Telp" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="jabatan">Peranan/Jabatan <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="jabatan" name="jabatan" placeholder="Masukan Jabatan/Peranan" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="instalasi">Instalasi <span class="text-danger">*</span></label>
-                              <select name="instalasi" class="form-control" id="instalasi" placeholder="Pilih Instalasi" required>
-                                <option value="">Pilih Unit/Instalasi</option>
-                                <option value="igd">IGD</option>
-                                <option value="icu">ICCU</option>
-                                <option value="nicu">NICU</option>
-                                <option value="bangsal">Rawat Inap (Bangsal)</option>
-                                <option value="poli">Rawat Jalan (Poli)</option>
-                              </select>
-                            </div>                          
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-
-                  <!-- Modal Footer -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-            <!-- Modal show data pegawai-->
-            <div class="modal fade" id="showModal">
-              <div class="modal-dialog">
-                <div class="modal-content">
-
-                  <!-- Modal Header -->
-                  <div class="modal-header">
-                    <h4 class="modal-title">Detail Data Pegawai</h4>
-                    <a data-dismiss="modal">
-                      <i class="bi bi-x"></i>
-                    </a>
-                  </div>
-
-                  <!-- Modal Body -->
-                  <div class="modal-body">
-                    <form id="showForm">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <img src="../../../assets/images/profile/picture.jpeg" alt="user-avatar" class="d-block rounded" height="300" width="300" id="uploadedAvatar">
-                            </div>
+                          <div class="form-group">
+                            <label for="name">Tanggal Awal <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
                           </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="name">Nama Pegawai <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="nip">NIP <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukan NIP" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="no_tlp">No. Telp <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_tlp" name="no_tlp" placeholder="Masukan No. Telp" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="jabatan">Peranan/Jabatan <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="jabatan" name="jabatan" placeholder="Masukan Jabatan/Peranan" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="instalasi">Instalasi <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="instalasi" name="instalasi" placeholder="Masukan Instalasi" required>
-                            </div>
+                          <div class="form-group">
+                            <label for="nip">Tanggal Akhir <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="nip" name="nip" placeholder="Masukan NIP" required>
                           </div>
                         </div>
                       </div>
@@ -398,8 +320,10 @@ $data_pegawai = $pegawai->index();
                   </div>
 
                   <!-- Modal Footer -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button>
+                  <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                      <i class="bi bi-printer"></i>
+                      Cetak</button>
                   </div>
 
                 </div>
@@ -509,27 +433,16 @@ $data_pegawai = $pegawai->index();
     });
   </script>
 
-  <!-- modal edit -->
-  <script>
-    // Handle form submission
-    document.getElementById('editForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      // Perform your insert operation here, e.g., send data to the server
-      alert('Form submitted!');
-      // Close the modal
-      $('#editModal').modal('hide');
-    });
-  </script>
 
-  <!-- modal show -->
+  <!-- modal print -->
   <script>
     // Handle form submission
-    document.getElementById('showForm').addEventListener('submit', function(event) {
+    document.getElementById('printForm').addEventListener('submit', function(event) {
       event.preventDefault();
       // Perform your insert operation here, e.g., send data to the server
       alert('Form submitted!');
       // Close the modal
-      $('#showModal').modal('hide');
+      $('#printModal').modal('hide');
     });
   </script>
 
