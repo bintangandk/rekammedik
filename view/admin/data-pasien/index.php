@@ -478,7 +478,7 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="vital">Vital Sign <span class="text-danger">*</span></label>
+                              <label for="vital">Vital Sign (note : berikan tanda koma setiap vital) <span class="text-danger">*</span></label>
                               <textarea class="form-control" id="vital" name="vital" required></textarea>
                             </div>
                           </div>
@@ -634,7 +634,7 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="vital">Vital Sign <span class="text-danger">*</span></label>
+                              <label for="vital">Vital Sign (note : berikan tanda koma setiap vital) <span class="text-danger">*</span></label>
                               <textarea class="form-control" id="vital" name="vital" required></textarea>
                             </div>
                           </div>
