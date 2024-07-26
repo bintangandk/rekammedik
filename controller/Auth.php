@@ -31,7 +31,7 @@ function login($email, $password)
     exit();
 }
 
-function register($Nama, $email, $no_telfon, $nip, $role, $instalasi, $password)
+function register($Nama, $email, $no_telfon, $nip, $role, $id_unit, $password)
 {
     $conn = new koneksi();
     $errors = [];
@@ -60,8 +60,8 @@ function register($Nama, $email, $no_telfon, $nip, $role, $instalasi, $password)
     if (empty($role)) {
         $errors[] = 'Jabatan/Peranan harus diisi.';
     }
-    if (empty($instalasi)) {
-        $errors[] = 'Instalasi harus diisi.';
+    if (empty($id_unit)) {
+        $errors[] = 'id_unit harus diisi.';
     }
     if (empty($password)) {
         $errors[] = 'Password harus diisi.';
@@ -77,7 +77,7 @@ function register($Nama, $email, $no_telfon, $nip, $role, $instalasi, $password)
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Masukkan data ke database
-    $query = "INSERT INTO users ( Nama,email, no_telfon, nip, role, instalasi, password) VALUES ('$Nama', '$email', '$no_telfon', '$nip', '$role', '$instalasi', '$hashed_password')";
+    $query = "INSERT INTO users ( Nama,email, no_telfon, nip, role, id_unit, password) VALUES ('$Nama', '$email', '$no_telfon', '$nip', '$role', '$id_unit', '$hashed_password')";
     return $conn->execute($query);
 }
 
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $no_telfon = $_POST['no_telfon'];
         $nip = $_POST['nip'];
         $role = $_POST['role'];
-        $instalasi = $_POST['instalasi'];
+        $id_unit = $_POST['id_unit'];
         $password = $_POST['password'];
 
         if (register($Nama, $email, $no_telfon, $nip, $role, $instalasi, $password)) {
