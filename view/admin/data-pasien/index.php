@@ -449,8 +449,15 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="unit">Unit Terakhir <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="unit" name="unit" placeholder="Masukan Unit Terakhir" required>
+                              <label for="instalasi">Unit Terakhir <span class="text-danger">*</span></label>
+                              <select name="instalasi" class="form-control" id="instalasi" placeholder="Pilih Instalasi" required>
+                                <option value="">Pilih Unit/Instalasi</option>
+                                <option value="igd">IGD</option>
+                                <option value="icu">ICCU</option>
+                                <option value="nicu">NICU</option>
+                                <option value="bangsal">Rawat Inap (Bangsal)</option>
+                                <option value="poli">Rawat Jalan (Poli)</option>
+                              </select>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -598,8 +605,15 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="unit">Unit Terakhir <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="unit" name="unit" placeholder="Masukan Unit Terakhir" required>
+                              <label for="instalasi">Unit Terakhir <span class="text-danger">*</span></label>
+                              <select name="instalasi" class="form-control" id="instalasi" placeholder="Pilih Instalasi" required>
+                                <option value="">Pilih Unit/Instalasi</option>
+                                <option value="igd">IGD</option>
+                                <option value="icu">ICCU</option>
+                                <option value="nicu">NICU</option>
+                                <option value="bangsal">Rawat Inap (Bangsal)</option>
+                                <option value="poli">Rawat Jalan (Poli)</option>
+                              </select>
                             </div>
                           </div>
                           <div class="col-md-6">
