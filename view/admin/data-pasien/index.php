@@ -788,7 +788,7 @@
 
                   <!-- Modal Header -->
                   <div class="modal-header">
-                    <h4 class="modal-title">Edit Data Pasien</h4>
+                    <h4 class="modal-title">Detail Data Pasien</h4>
                     <a data-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
