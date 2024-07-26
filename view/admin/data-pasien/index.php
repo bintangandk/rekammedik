@@ -478,14 +478,49 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="vital">Vital Sign (note : berikan tanda koma setiap vital) <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="vital" name="vital" required></textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="tindakan" name="tindakan" required></textarea>
+                              <label for="vital">Vital Sign<span class="text-danger">*</span></label>
+                              <div class="form-group row">
+                                <label for="td" class="col-sm-1 col-form-label">TD:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="td" name="td" placeholder="mmHg" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/mmHg</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="temperature" class="col-sm-1 col-form-label">T:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="temperatur" name="temperature" placeholder="°C" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">°C</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="hr" class="col-sm-1 col-form-label">HR:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="hr" name="hr" placeholder="Minute" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="rr" class="col-sm-1 col-form-label">RR:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="rr" name="rr" placeholder="Menit" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="tb" class="col-sm-1 col-form-label">TB:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="tb" name="tb" placeholder="Cm" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Cm</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="bb" class="col-sm-1 col-form-label">BB:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="bb" name="bb" placeholder="Kg" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Kg</label>
+                              </div>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -493,8 +528,10 @@
                               <label for="diagnosis">Diagnosis <span class="text-danger">*</span></label>
                               <textarea class="form-control" id="diagnosis" name="diagnosis" required></textarea>
                             </div>
-                          </div>
-                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="tindakan" name="tindakan" required></textarea>
+                            </div>
                             <div class="form-group">
                               <label for="alergi">Alergi <span class="text-danger">*</span></label>
                               <textarea class="form-control" id="alergi" name="alergi" required></textarea>
@@ -583,16 +620,10 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="age">Tanggal Lahir Pasien <span class="text-danger">*</span></label>
+                              <label for="age">Tanggal Lahir <span class="text-danger">*</span></label>
                               <input type="date" class="form-control" id="age" name="age" required>
                             </div>
                           </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
-                            </div>
-                          </div> 
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
@@ -601,6 +632,12 @@
                                 <option value="male">Laki-Laki</option>
                                 <option value="female">Perempuan</option>
                               </select>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -634,14 +671,49 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="vital">Vital Sign (note : berikan tanda koma setiap vital) <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="vital" name="vital" required></textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="tindakan" name="tindakan" required></textarea>
+                              <label for="vital">Vital Sign<span class="text-danger">*</span></label>
+                              <div class="form-group row">
+                                <label for="td" class="col-sm-1 col-form-label">TD:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="td" name="td" placeholder="mmHg" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/mmHg</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="temperature" class="col-sm-1 col-form-label">T:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="temperatur" name="temperature" placeholder="°C" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">°C</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="hr" class="col-sm-1 col-form-label">HR:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="hr" name="hr" placeholder="Minute" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="rr" class="col-sm-1 col-form-label">RR:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="rr" name="rr" placeholder="Menit" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="tb" class="col-sm-1 col-form-label">TB:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="tb" name="tb" placeholder="Cm" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Cm</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="bb" class="col-sm-1 col-form-label">BB:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="bb" name="bb" placeholder="Kg" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Kg</label>
+                              </div>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -649,8 +721,10 @@
                               <label for="diagnosis">Diagnosis <span class="text-danger">*</span></label>
                               <textarea class="form-control" id="diagnosis" name="diagnosis" required></textarea>
                             </div>
-                          </div>
-                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="tindakan" name="tindakan" required></textarea>
+                            </div>
                             <div class="form-group">
                               <label for="alergi">Alergi <span class="text-danger">*</span></label>
                               <textarea class="form-control" id="alergi" name="alergi" required></textarea>
@@ -699,7 +773,7 @@
 
                   <!-- Modal Footer -->
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Simpan</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                   </div>
 
@@ -714,7 +788,7 @@
 
                   <!-- Modal Header -->
                   <div class="modal-header">
-                    <h4 class="modal-title">Detail Data Pasien</h4>
+                    <h4 class="modal-title">Edit Data Pasien</h4>
                     <a data-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
@@ -739,17 +813,10 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="age">Tanggal Lahir Pasien <span class="text-danger">*</span></label>
+                              <label for="age">Tanggal Lahir <span class="text-danger">*</span></label>
                               <input type="date" class="form-control" id="age" name="age" required>
                             </div>
                           </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
-                            </div>
-                          </div>
-                          
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
@@ -762,8 +829,21 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="unit">Unit Terakhir <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="unit" name="unit" placeholder="Masukan Unit Terakhir" required>
+                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="instalasi">Unit Terakhir <span class="text-danger">*</span></label>
+                              <select name="instalasi" class="form-control" id="instalasi" placeholder="Pilih Instalasi" required>
+                                <option value="">Pilih Unit/Instalasi</option>
+                                <option value="igd">IGD</option>
+                                <option value="icu">ICCU</option>
+                                <option value="nicu">NICU</option>
+                                <option value="bangsal">Rawat Inap (Bangsal)</option>
+                                <option value="poli">Rawat Jalan (Poli)</option>
+                              </select>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -784,14 +864,49 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="vital">Vital Sign <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="vital" name="vital" required></textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="tindakan" name="tindakan" required></textarea>
+                              <label for="vital">Vital Sign<span class="text-danger">*</span></label>
+                              <div class="form-group row">
+                                <label for="td" class="col-sm-1 col-form-label">TD:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="td" name="td" placeholder="mmHg" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/mmHg</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="temperature" class="col-sm-1 col-form-label">T:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="temperatur" name="temperature" placeholder="°C" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">°C</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="hr" class="col-sm-1 col-form-label">HR:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="hr" name="hr" placeholder="Minute" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="rr" class="col-sm-1 col-form-label">RR:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="rr" name="rr" placeholder="Menit" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="tb" class="col-sm-1 col-form-label">TB:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="tb" name="tb" placeholder="Cm" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Cm</label>
+                              </div>
+                              <div class="form-group row">
+                                <label for="bb" class="col-sm-1 col-form-label">BB:</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" id="bb" name="bb" placeholder="Kg" required>
+                                </div>
+                                <label for="td" class="col-sm-1 col-form-label ml-0">/Kg</label>
+                              </div>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -799,8 +914,10 @@
                               <label for="diagnosis">Diagnosis <span class="text-danger">*</span></label>
                               <textarea class="form-control" id="diagnosis" name="diagnosis" required></textarea>
                             </div>
-                          </div>
-                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="tindakan" name="tindakan" required></textarea>
+                            </div>
                             <div class="form-group">
                               <label for="alergi">Alergi <span class="text-danger">*</span></label>
                               <textarea class="form-control" id="alergi" name="alergi" required></textarea>
