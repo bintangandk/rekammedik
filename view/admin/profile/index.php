@@ -139,21 +139,8 @@
           </div>
 
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-            <!-- Search -->
-            <div class="navbar-nav align-items-center">
-              <div class="nav-item d-flex align-items-center">
-                <i class="bx bx-search fs-4 lh-0"></i>
-                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search..." />
-              </div>
-            </div>
-            <!-- /Search -->
-
             <ul class="navbar-nav flex-row align-items-center ms-auto">
-              <!-- Place this tag where you want the button to render. -->
-              <li class="nav-item lh-1 me-3">
-                <a class="github-button" href="https://github.com/themeselection/sneat-html-admin-template-free" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
-              </li>
-
+            
               <!-- User -->
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -181,7 +168,7 @@
                     <div class="dropdown-divider"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="../profile/index.php">
                       <i class="bx bx-user me-2"></i>
                       <span class="align-middle">My Profile</span>
                     </a>
@@ -235,16 +222,12 @@
                     <img src="../../../assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
                     <div class="button-wrapper">
                       <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                        <span class="d-none d-sm-block">Upload new photo</span>
+                        <span class="d-none d-sm-block">Edit Foto</span>
                         <i class="bx bx-upload d-block d-sm-none"></i>
                         <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
                       </label>
-                      <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
-                        <i class="bx bx-reset d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Reset</span>
-                      </button>
 
-                      <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                      <p class="text-muted mb-0">Allowed JPG, PNG, JPEG. Max size 100mb</p>
                     </div>
                   </div>
                 </div>
@@ -253,118 +236,43 @@
                   <form id="formAccountSettings" method="POST" onsubmit="return false">
                     <div class="row">
                       <div class="mb-3 col-md-6">
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input class="form-control" type="text" id="firstName" name="firstName" value="John" autofocus />
+                        <label for="name" class="form-label">Nama Lengkap</label>
+                        <input class="form-control" type="text" id="name" name="name" value="John Mujahidin" autofocus />
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input class="form-control" type="text" name="lastName" id="lastName" value="Doe" />
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="email" class="form-label">E-mail</label>
+                        <label for="nip" class="form-label">NIP</label>
                         <input class="form-control" type="text" id="email" name="email" value="john.doe@example.com" placeholder="john.doe@example.com" />
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label for="organization" class="form-label">Organization</label>
-                        <input type="text" class="form-control" id="organization" name="organization" value="ThemeSelection" />
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="john@gmail.com" />
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label class="form-label" for="phoneNumber">Phone Number</label>
+                        <label class="form-label" for="no_telfon">Phone Number</label>
                         <div class="input-group input-group-merge">
-                          <span class="input-group-text">US (+1)</span>
-                          <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="202 555 0111" />
+                          <span class="input-group-text">(+62)</span>
+                          <input type="text" id="no_telfon" name="no_telfon" class="form-control" value="82 555 0111" />
                         </div>
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
+                        <label for="role" class="form-label">Jabatan/Peranan</label>
+                        <input type="text" class="form-control" id="role" name="role" value="Admin" />
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label for="state" class="form-label">State</label>
-                        <input class="form-control" type="text" id="state" name="state" placeholder="California" />
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="zipCode" class="form-label">Zip Code</label>
-                        <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="231465" maxlength="6" />
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label class="form-label" for="country">Country</label>
+                        <label class="form-label" for="country">Instalasi</label>
                         <select id="country" class="select2 form-select">
-                          <option value="">Select</option>
-                          <option value="Australia">Australia</option>
-                          <option value="Bangladesh">Bangladesh</option>
-                          <option value="Belarus">Belarus</option>
-                          <option value="Brazil">Brazil</option>
-                          <option value="Canada">Canada</option>
-                          <option value="China">China</option>
-                          <option value="France">France</option>
-                          <option value="Germany">Germany</option>
-                          <option value="India">India</option>
-                          <option value="Indonesia">Indonesia</option>
-                          <option value="Israel">Israel</option>
-                          <option value="Italy">Italy</option>
-                          <option value="Japan">Japan</option>
-                          <option value="Korea">Korea, Republic of</option>
-                          <option value="Mexico">Mexico</option>
-                          <option value="Philippines">Philippines</option>
-                          <option value="Russia">Russian Federation</option>
-                          <option value="South Africa">South Africa</option>
-                          <option value="Thailand">Thailand</option>
-                          <option value="Turkey">Turkey</option>
-                          <option value="Ukraine">Ukraine</option>
-                          <option value="United Arab Emirates">United Arab Emirates</option>
-                          <option value="United Kingdom">United Kingdom</option>
-                          <option value="United States">United States</option>
-                        </select>
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="language" class="form-label">Language</label>
-                        <select id="language" class="select2 form-select">
-                          <option value="">Select Language</option>
-                          <option value="en">English</option>
-                          <option value="fr">French</option>
-                          <option value="de">German</option>
-                          <option value="pt">Portuguese</option>
-                        </select>
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="timeZones" class="form-label">Timezone</label>
-                        <select id="timeZones" class="select2 form-select">
-                          <option value="">Select Timezone</option>
-                          <option value="-12">(GMT-12:00) International Date Line West</option>
-                          <option value="-11">(GMT-11:00) Midway Island, Samoa</option>
-                          <option value="-10">(GMT-10:00) Hawaii</option>
-                          <option value="-9">(GMT-09:00) Alaska</option>
-                          <option value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
-                          <option value="-8">(GMT-08:00) Tijuana, Baja California</option>
-                          <option value="-7">(GMT-07:00) Arizona</option>
-                          <option value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
-                          <option value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
-                          <option value="-6">(GMT-06:00) Central America</option>
-                          <option value="-6">(GMT-06:00) Central Time (US & Canada)</option>
-                          <option value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
-                          <option value="-6">(GMT-06:00) Saskatchewan</option>
-                          <option value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
-                          <option value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>
-                          <option value="-5">(GMT-05:00) Indiana (East)</option>
-                          <option value="-4">(GMT-04:00) Atlantic Time (Canada)</option>
-                          <option value="-4">(GMT-04:00) Caracas, La Paz</option>
-                        </select>
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="currency" class="form-label">Currency</label>
-                        <select id="currency" class="select2 form-select">
-                          <option value="">Select Currency</option>
-                          <option value="usd">USD</option>
-                          <option value="euro">Euro</option>
-                          <option value="pound">Pound</option>
-                          <option value="bitcoin">Bitcoin</option>
+                          <option value="">Pilih</option>
+                          <option value="igd">IGD</option>
+                          <option value="iccu">ICCU</option>
+                          <option value="niccu">NICCU</option>
+                          <option value="bangsal">Rawat Inap (Bangsal)</option>
+                          <option value="poli">Rawat Jalan (Poli)</option>
                         </select>
                       </div>
                     </div>
                     <div class="mt-2">
-                      <button type="submit" class="btn btn-primary me-2">Save changes</button>
-                      <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                      <button type="submit" class="btn btn-primary me-2" id="saveButton">Simpan Perubahan</button>
+                      <a href="../dashboard/index.php" type="reset" class="btn btn-outline-secondary">Kembali</a>
                     </div>
                   </form>
                 </div>
@@ -423,6 +331,28 @@
 
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+  <!-- Delete alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.getElementById('saveButton').addEventListener('click', function() {
+      const userId = this.getAttribute('data-id');
+      Swal.fire({
+        title: 'Apakah Anda Yakin?',
+        text: "Anda igin menyimpan perubahan ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Simpan!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = 'save.php?id=' + userId;
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>
