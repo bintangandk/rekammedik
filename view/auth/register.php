@@ -1,6 +1,12 @@
-
 <?php
 session_start();
+
+
+require '../../koneksi.php';
+require '../../controller/Pegawai.php';
+
+$unit = new Pegawai();
+$data_unit = $unit->instalasi();
 ?>
 
 <!DOCTYPE html>
@@ -122,8 +128,16 @@ session_start();
                 </select>
               </div>
               <div class="mb-3">
-                <label for="instalasi" class="form-label">Instalasi <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="instalasi" name="instalasi" placeholder="Masukkan Instalasi anda" value="<?php echo isset($_SESSION['form_data']['instalasi']) ? htmlspecialchars($_SESSION['form_data']['instalasi']) : ''; ?>" />
+                <label for="id_unit" class="form-label">Instalasi/Unit <span class="text-danger">*</span></label>
+                <select name="id_unit" class="form-control" id="id_unit" required>
+                  <option value="">Pilih Jabatan/Peranan</option>
+                  <?php foreach ($data_unit as $key => $value) { ?>
+                    <option value="<?= $value['id'] ?>" <?php echo isset($_SESSION['form_data']['id_unit']) && $_SESSION['form_data']['id_unit'] == $value['id'] ? 'selected' : ''; ?>>
+                      <?= $value['instalasi']; ?>
+                    </option>
+                  <?php } ?>
+
+                </select>
               </div>
               <div class="mb-3 form-password-toggle">
                 <label class="form-label" for="password">Password <span class="text-danger">*</span></label>
@@ -153,42 +167,42 @@ session_start();
 
   <!-- / Content -->
 
-<!-- SweetAlert JS -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Ambil pesan error dari sesi
-    const errors = <?php echo json_encode(isset($_SESSION['errors']) ? $_SESSION['errors'] : []); ?>;
-    // Ambil pesan sukses dari sesi
-    const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+  <!-- SweetAlert JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ambil pesan error dari sesi
+      const errors = <?php echo json_encode(isset($_SESSION['errors']) ? $_SESSION['errors'] : []); ?>;
+      // Ambil pesan sukses dari sesi
+      const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
 
-    // Jika ada pesan error, tampilkan notifikasi error
-    if (errors.length > 0) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        html: errors.join('<br>'),
-        confirmButtonText: 'OK'
-      }).then(() => {
-        // Kosongkan pesan error setelah ditampilkan
-        <?php unset($_SESSION['errors']); ?>
-      });
-    }
+      // Jika ada pesan error, tampilkan notifikasi error
+      if (errors.length > 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          html: errors.join('<br>'),
+          confirmButtonText: 'OK'
+        }).then(() => {
+          // Kosongkan pesan error setelah ditampilkan
+          <?php unset($_SESSION['errors']); ?>
+        });
+      }
 
-    // Jika ada pesan sukses, tampilkan notifikasi sukses
-    if (success) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Sukses',
-        text: success,
-        confirmButtonText: 'OK'
-      }).then(() => {
-        // Kosongkan pesan sukses setelah ditampilkan
-        <?php unset($_SESSION['success']); ?>
-      });
-    }
-  });
-</script>
+      // Jika ada pesan sukses, tampilkan notifikasi sukses
+      if (success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Sukses',
+          text: success,
+          confirmButtonText: 'OK'
+        }).then(() => {
+          // Kosongkan pesan sukses setelah ditampilkan
+          <?php unset($_SESSION['success']); ?>
+        });
+      }
+    });
+  </script>
 
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->
