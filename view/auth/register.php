@@ -3,10 +3,10 @@ session_start();
 
 
 require '../../koneksi.php';
-require '../../controller/Unit.php';
+require '../../controller/Pegawai.php';
 
-$unit = new Unit();
-$data_unit = $unit->index();
+$unit = new Pegawai();
+$data_unit = $unit->instalasi();
 ?>
 
 <!DOCTYPE html>

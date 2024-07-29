@@ -81,6 +81,47 @@ function register($Nama, $email, $no_telfon, $nip, $role, $id_unit, $password)
     return $conn->execute($query);
 }
 
+function update($id_user, $name, $nip, $no_tlp, $role, $id_unit)
+    {
+        $conn = new koneksi();
+        $errors = [];
+        if (empty($id_user)) {
+            $errors[] = 'Nama Pegawai harus diisi.';
+        }
+        if (empty($name)) {
+            $errors[] = 'Nama Pegawai harus diisi.';
+        }
+       
+        if (empty($no_tlp) || !preg_match('/^[0-9]+$/', $no_tlp)) {
+            $errors[] = 'Nomor Telepon harus berupa angka.';
+        }
+        if (empty($nip) || !preg_match('/^[0-9]+$/', $nip)) {
+            $errors[] = 'NIP harus berupa angka.';
+        }
+        if (empty($role)) {
+            $errors[] = 'Jabatan/Peranan harus diisi.';
+        }
+        if (empty($id_unit)) {
+            $errors[] = 'id_unit harus diisi.';
+        }
+       
+    
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            // $_SESSION['form_data'] = $_POST;
+            return false;
+        }
+
+        $query = "UPDATE users SET Nama = '$name', nip = '$nip', no_telfon = '$no_tlp', role = '$role', id_unit = '$id_unit' WHERE id_user = '$id_user'";
+        $result = $conn->execute($query);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 // Handling form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['action']) && $_POST['action'] == 'login') {
@@ -88,6 +129,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_POST['password'];
 
         login($email, $password);
+    }
+
+    if (isset($_POST['action']) && $_POST['action'] === 'edit') {
+        // var_dump("dfdfdfd");
+        $Nama = htmlspecialchars($_POST['name']);
+        $id_user = $_POST['id'];
+        $no_telfon =  htmlspecialchars($_POST['no_tlp']);
+        $nip = htmlspecialchars($_POST['nip']);
+        $role = htmlspecialchars($_POST['role']);
+        $id_unit =htmlspecialchars($_POST['id_unit']);
+        // $password = $_POST['password'];
+    // var_dump(update($id_user,$Nama, $nip, $no_telfon, $role, $id_unit));
+        if (update($id_user,$Nama, $nip, $no_telfon, $role, $id_unit)) {
+            // unset($_SESSION['form_data']);
+            $_SESSION['success'] = 'update berhasil!';
+            header("Location: ../view/admin/data-pegawai/index.php");
+            exit();
+        } else {
+            $_SESSION['error'] = 'update gagal!';
+            header("Location: ../view/admin/data-pegawai/index.php");
+            exit();
+        }
     }
 
 

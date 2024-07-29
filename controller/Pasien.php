@@ -1,12 +1,16 @@
 <?php
-class Pasien extends koneksi {
 
-    public function index(){
+session_start();
+include '../koneksi.php';
+
+
+     function index(){
+        $conn=new koneksi();
         $query = "SELECT * FROM pasien";
-        return $this->showData($query);
+        return $conn->showData($query);
     }
 
-    public function tambah_data(){
+     function tambah_data(){
 
 
 
@@ -18,4 +22,3 @@ class Pasien extends koneksi {
             return false;
         }
     }
-}
