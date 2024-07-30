@@ -114,15 +114,9 @@ session_start();
                         <span class="menu-header-text">menu</span>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="../data-pasien/index.php" class="menu-link">
                             <i class="menu-icon bi-heart-pulse "></i>
                             <div data-i18n="Account Settings">Data Pasien</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <i class="menu-icon bi-person-badge"></i>
-                            <div data-i18n="Account Settings">Data Pegawai</div>
                         </a>
                     </li>
                     <li class="menu-item">
@@ -176,7 +170,7 @@ session_start();
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="../profile/index.php">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">My Profile</span>
                                         </a>
@@ -305,7 +299,7 @@ session_start();
     <script src="../../../assets/js/quixnav-init.js"></script>
     <script src="../../../assets/js/custom.min.js"></script>
 
-     <!-- Core JS -->
+    <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../../../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../../../assets/vendor/libs/popper/popper.js"></script>
