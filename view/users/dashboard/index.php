@@ -12,7 +12,7 @@ session_start();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Dashboard</title>
+    <title>Dashboard Pegawai</title>
 
     <meta name="description" content="" />
 
@@ -120,13 +120,7 @@ session_start();
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="../data-pegawai/index.php" class="menu-link">
-                            <i class="menu-icon bi-person-badge"></i>
-                            <div data-i18n="Account Settings">Data Pegawai</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="../riwayat-file/index.php" class="menu-link">
+                        <a href="#" class="menu-link">
                             <i class="menu-icon bi bi-clipboard"></i>
                             <div data-i18n="Account Settings">Riwayat File</div>
                         </a>
@@ -165,8 +159,9 @@ session_start();
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <span class="fw-semibold d-block">Budiono Siregar</span>
+                                                    <!-- sesuai role -->
+                                                    <small class="text-muted">Dokter</small>
                                                 </div>
                                             </div>
                                         </a>
@@ -211,7 +206,7 @@ session_start();
                                             <div class="card-body">
                                                 <h3 class="card-title text-primary">Welcome to SiRekam! 🎉</h3>
                                                 <!-- nama user -->
-                                                <h5 class="card-title text-primary">John Doe</h5>
+                                                <h5 class="card-title text-primary">Budiono Siregar</h5>
                                                 <p class="mb-4">
                                                     Selamat datang di tim kami! Kami sangat bangga dan berterima kasih atas dedikasi Anda dalam memberikan pelayanan kesehatan terbaik.
                                                 </p>
@@ -232,24 +227,10 @@ session_start();
                                             <div class="card-body">
                                                 <div class="card-title d-flex align-items-start justify-content-between">
                                                     <div class="avatar flex-shrink-0">
-                                                        <img src="../../../assets/img/icons/unicons/chart-success.png" alt="chart success" class="rounded" />
-                                                    </div>
-                                                </div>
-                                                <span class="fw-semibold d-block mb-1">Pengguna Hari ini</span>
-                                                <h3 class="card-title mb-2">56</h3>
-                                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-12 col-6 mb-4">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="card-title d-flex align-items-start justify-content-between">
-                                                    <div class="avatar flex-shrink-0">
                                                         <img src="../../../assets/img/icons/unicons/chart.png" alt="chart success" class="rounded" />
                                                     </div>
                                                 </div>
-                                                <span class="fw-semibold d-block mb-1">File Hari ini</span>
+                                                <span class="fw-semibold d-block mb-1">File yang dikunjungi</span>
                                                 <h3 class="card-title mb-2">56</h3>
                                                 <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small>
                                             </div>
@@ -318,7 +299,7 @@ session_start();
     <script src="../../../assets/js/quixnav-init.js"></script>
     <script src="../../../assets/js/custom.min.js"></script>
 
-     <!-- Core JS -->
+    <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../../../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../../../assets/vendor/libs/popper/popper.js"></script>

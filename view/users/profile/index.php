@@ -112,12 +112,6 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="../data-pegawai/index.php" class="menu-link">
-              <i class="menu-icon bi-person-badge"></i>
-              <div data-i18n="Account Settings">Data Pegawai</div>
-            </a>
-          </li>
-          <li class="menu-item">
             <a href="../riwayat-file/index.php" class="menu-link">
               <i class="menu-icon bi bi-clipboard"></i>
               <div data-i18n="Account Settings">Riwayat File</div>
@@ -159,7 +153,8 @@
                         </div>
                         <div class="flex-grow-1">
                           <span class="fw-semibold d-block">John Doe</span>
-                          <small class="text-muted">Admin</small>
+                          <!-- sesuai role (admin, dokter, perawat) -->
+                          <small class="text-muted">Dokter</small>
                         </div>
                       </div>
                     </a>
@@ -241,7 +236,7 @@
                       </div>
                       <div class="mb-3 col-md-6">
                         <label for="role" class="form-label">Jabatan/Peranan</label>
-                        <input type="text" class="form-control" id="role" name="role" value="Admin" />
+                        <input type="text" class="form-control" id="role" name="role" value="Dokter" />
                       </div>
                       <div class="mb-3 col-md-6">
                         <label class="form-label" for="country">Instalasi</label>
@@ -316,6 +311,28 @@
 
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        document.getElementById('logout-link').addEventListener('click', function(event) {
+            event.preventDefault(); // Mencegah tautan default
+
+            Swal.fire({
+                title: 'Konfirmasi Logout',
+                text: "Anda yakin ingin logout?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Logout',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika pengguna mengonfirmasi, arahkan ke URL logout
+                    window.location.href = "../../../controller/Auth.php?action=logout";
+                }
+            });
+        });
+    </script>
 
 
   <!-- Delete alert -->

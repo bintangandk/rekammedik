@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 
+
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../../../assets/" data-template="vertical-menu-template-free">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>My Profile</title>
+  <title>Riwayat File</title>
 
   <meta name="description" content="" />
 
@@ -23,6 +24,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css">
 
+
+  <!-- Modal -->
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+
   <!-- Core CSS -->
   <link rel="stylesheet" href="../../../assets/vendor/css/core.css" class="template-customizer-core-css" />
   <link rel="stylesheet" href="../../../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
@@ -30,6 +35,9 @@
 
   <!-- Vendors CSS -->
   <link rel="stylesheet" href="../../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+  <!-- Custom styles for this page -->
+  <link href="../../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
   <!-- Page CSS -->
 
@@ -39,6 +47,8 @@
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../../../assets/js/config.js"></script>
+
+
 </head>
 
 <body>
@@ -111,13 +121,7 @@
               <div data-i18n="Account Settings">Data Pasien</div>
             </a>
           </li>
-          <li class="menu-item">
-            <a href="../data-pegawai/index.php" class="menu-link">
-              <i class="menu-icon bi-person-badge"></i>
-              <div data-i18n="Account Settings">Data Pegawai</div>
-            </a>
-          </li>
-          <li class="menu-item">
+          <li class="menu-item active">
             <a href="../riwayat-file/index.php" class="menu-link">
               <i class="menu-icon bi bi-clipboard"></i>
               <div data-i18n="Account Settings">Riwayat File</div>
@@ -196,101 +200,148 @@
           <!-- Content -->
 
           <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"> My Profile</h4>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Riwayat File</h4>
 
-            <div class="row">
-              <div class="card mb-4">
-                <h5 class="card-header">Profile Details</h5>
-                <!-- Account -->
-                <div class="card-body">
-                  <div class="d-flex align-items-start align-items-sm-center gap-4">
-                    <img src="../../../assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
-                    <div class="button-wrapper">
-                      <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                        <span class="d-none d-sm-block">Edit Foto</span>
-                        <i class="bx bx-upload d-block d-sm-none"></i>
-                        <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
-                      </label>
-
-                      <p class="text-muted mb-0">Allowed JPG, PNG, JPEG. Max size 100mb</p>
-                    </div>
-                  </div>
+            <!-- Table Data Pasien -->
+            <div class="card shadow mb-3">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th class="text-center">No</th>
+                        <th class="text-center">File</th>
+                        <th class="text-center">Jam</th>
+                        <th class="text-center">Tanggal</th>
+                        <th class="text-center">User</th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <th class="text-center">No</th>
+                        <th class="text-center">File</th>
+                        <th class="text-center">Jam</th>
+                        <th class="text-center">Tanggal</th>
+                        <th class="text-center">User</th>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Lab_udin_2037.pdf</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">04/03/2037</td>
+                        <td class="text-center">Budiono Siregar</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <hr class="my-0" />
-                <div class="card-body">
-                  <form id="formAccountSettings" method="POST" onsubmit="return false">
-                    <div class="row">
-                      <div class="mb-3 col-md-6">
-                        <label for="name" class="form-label">Nama Lengkap</label>
-                        <input class="form-control" type="text" id="name" name="name" value="John Mujahidin" autofocus />
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="nip" class="form-label">NIP</label>
-                        <input class="form-control" type="text" id="email" name="email" value="john.doe@example.com" placeholder="john.doe@example.com" />
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="john@gmail.com" />
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label class="form-label" for="no_telfon">Phone Number</label>
-                        <div class="input-group input-group-merge">
-                          <span class="input-group-text">(+62)</span>
-                          <input type="text" id="no_telfon" name="no_telfon" class="form-control" value="82 555 0111" />
+              </div>
+            </div>
+            <!--/ Responsive Table -->
+
+
+            <!-- Modal print riwayat file-->
+            <div class="modal fade" id="printModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title text-center w-100">Cetak Riwayat</h4>
+                    <a data-dismiss="modal">
+                      <i class="bi bi-x"></i>
+                    </a>
+                  </div>
+
+                  <!-- Modal Body -->
+                  <div class="modal-body">
+                    <form id="printForm">
+                      <div class="container">
+                        <div class="row">
+                          <div class="form-group">
+                            <label for="name">Tanggal Awal <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="nip">Tanggal Akhir <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="nip" name="nip" placeholder="Masukan NIP" required>
+                          </div>
                         </div>
                       </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="role" class="form-label">Jabatan/Peranan</label>
-                        <input type="text" class="form-control" id="role" name="role" value="Admin" />
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label class="form-label" for="country">Instalasi</label>
-                        <select id="country" class="select2 form-select">
-                          <option value="">Pilih</option>
-                          <option value="igd">IGD</option>
-                          <option value="iccu">ICCU</option>
-                          <option value="niccu">NICCU</option>
-                          <option value="bangsal">Rawat Inap (Bangsal)</option>
-                          <option value="poli">Rawat Jalan (Poli)</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="mt-2">
-                      <button type="submit" class="btn btn-primary me-2" id="saveButton">Simpan Perubahan</button>
-                      <a href="../dashboard/index.php" type="reset" class="btn btn-outline-secondary">Kembali</a>
-                    </div>
-                  </form>
+                    </form>
+                  </div>
+
+                  <!-- Modal Footer -->
+                  <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                      <i class="bi bi-printer"></i>
+                      Cetak</button>
+                  </div>
+
                 </div>
-                <!-- /Account -->
               </div>
             </div>
           </div>
+          <!-- / Content -->
+
+          <!-- Footer -->
+          <footer class="content-footer footer bg-footer-theme">
+            <!-- <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+              <div class="mb-2 mb-md-0">
+                ©
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+              </div>
+            </div> -->
+          </footer>
+          <!-- / Footer -->
+
+          <div class="content-backdrop fade"></div>
         </div>
-        <!-- / Content -->
-
-        <!-- Footer -->
-        <footer class="content-footer footer bg-footer-theme">
-          <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-            <!-- <div class="mb-2 mb-md-0">
-                  ©
-                  <script>
-                    document.write(new Date().getFullYear());
-                  </script>
-                  , made with ❤️ by
-                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-              </div> -->
-        </footer>
-        <!-- / Footer -->
-
-        <div class="content-backdrop fade"></div>
+        <!-- Content wrapper -->
       </div>
-      <!-- Content wrapper -->
+      <!-- / Layout page -->
     </div>
-    <!-- / Layout page -->
-  </div>
 
-  <!-- Overlay -->
-  <div class="layout-overlay layout-menu-toggle"></div>
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
   </div>
   <!-- / Layout wrapper -->
 
@@ -312,32 +363,79 @@
   <script src="../../../assets/js/main.js"></script>
 
   <!-- Page JS -->
-  <script src="../../../assets/js/pages-account-settings-account.js"></script>
 
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 
+  <!-- Page level plugins -->
+  <script src="../../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="../../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-  <!-- Delete alert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Page level custom scripts -->
+  <script src="../../../assets/js/demo/datatables-demo.js"></script>
+
+  <!-- modal -->
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!-- logout script -->
   <script>
-    document.getElementById('saveButton').addEventListener('click', function() {
-      const userId = this.getAttribute('data-id');
+    document.getElementById('logout-link').addEventListener('click', function(event) {
+      event.preventDefault(); // Mencegah tautan default
+
       Swal.fire({
-        title: 'Apakah Anda Yakin?',
-        text: "Anda igin menyimpan perubahan ini!",
+        title: 'Konfirmasi Logout',
+        text: "Anda yakin ingin logout?",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, Simpan!'
+        confirmButtonText: 'Logout',
+        cancelButtonText: 'Batal',
+        reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.href = 'save.php?id=' + userId;
+          // Jika pengguna mengonfirmasi, arahkan ke URL logout
+          window.location.href = "../../../controller/Auth.php?action=logout";
         }
       });
     });
   </script>
+
+  <!-- Delete alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.getElementById('deleteButton').addEventListener('click', function() {
+      const userId = this.getAttribute('data-id');
+      Swal.fire({
+        title: 'Apakah Anda Yakin?',
+        text: "Anda igin menghapus data ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Hapus!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = 'delete.php?id=' + userId;
+        }
+      });
+    });
+  </script>
+
+
+  <!-- modal print -->
+  <script>
+    // Handle form submission
+    document.getElementById('printForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      // Perform your insert operation here, e.g., send data to the server
+      alert('Form submitted!');
+      // Close the modal
+      $('#printModal').modal('hide');
+    });
+  </script>
+
+
+
 </body>
 
 </html>
