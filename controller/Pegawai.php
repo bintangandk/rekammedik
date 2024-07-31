@@ -20,7 +20,12 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         return $this->showData($query);
     }
      
-
+    function pasien()
+    {
+        // $conn = new koneksi();
+        $query = "SELECT * FROM pasien JOIN unit ON pasien.id_unit = unit.id";
+        return $this->showData($query);
+    }
 //    public  function delete($id){
         // $this=new koneksi();
 // var_dump($id);
