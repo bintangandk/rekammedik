@@ -1085,13 +1085,13 @@ $unit = $pasien->instalasi();
 
       // Update the href attribute for PDF links with the correct paths
       document.getElementById('rekam_medis_link').href = '../../../controller/uploads/rekammedis/' + data.file_rekammedis;
-      document.getElementById('rekam_medis_link').download = 'rekam_medis' + data.nama;
+      // document.getElementById('rekam_medis_link').download = 'rekam_medis' + data.nama;
 
       document.getElementById('rontgen_link').href = '../../../controller/uploads/rontgen/' + data.file_hasilrontgen;
-      document.getElementById('rontgen_link').download = 'hasil_rontgen' + data.nama;
+      // document.getElementById('rontgen_link').download = 'hasil_rontgen' + data.nama;
 
       document.getElementById('laboratorium_link').href = '../../../controller/uploads/laboratorium/' + data.hasil_laboratorium;
-      document.getElementById('laboratorium_link').download = 'hasil_laboratorium' + data.nama;
+      // document.getElementById('laboratorium_link').download = 'hasil_laboratorium' + data.nama;
     }
 
     function editData(data) {

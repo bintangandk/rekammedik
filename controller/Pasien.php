@@ -144,6 +144,54 @@ function tambah_data(
 
     return $conn->execute($query);
 }
+
+
+function users_pasien($data){
+    $conn = new koneksi();
+    $errors=[];
+    $td = htmlspecialchars($data['td'], ENT_QUOTES, 'UTF-8');
+    $t = htmlspecialchars($data['t'], ENT_QUOTES, 'UTF-8');
+    $hr = htmlspecialchars($data['hr'], ENT_QUOTES, 'UTF-8');
+    $rr = htmlspecialchars($data['rr'], ENT_QUOTES, 'UTF-8');
+    $tb = htmlspecialchars($data['tb'], ENT_QUOTES, 'UTF-8');
+    $bb = htmlspecialchars($data['bb'], ENT_QUOTES, 'UTF-8');
+    $diagnosis = htmlspecialchars($data['diagnosis'], ENT_QUOTES, 'UTF-8');
+    $riwayat_tindakan = htmlspecialchars($data['tindakan'], ENT_QUOTES, 'UTF-8');
+    $alergi = htmlspecialchars($data['alergi'], ENT_QUOTES, 'UTF-8');
+    $obat = htmlspecialchars($data['obat'], ENT_QUOTES, 'UTF-8');
+    $note_dokter = htmlspecialchars($data['note_dokter'], ENT_QUOTES, 'UTF-8');
+    $id_pasien = htmlspecialchars($data['id_pasien'], ENT_QUOTES, 'UTF-8');
+
+
+    if (empty($riwayat_tindakan)) $errors[] = 'Riwayat Tindakan Harus diisi';
+    if (empty($diagnosis)) $errors[] = 'Diagnosis Harus diisi';
+    if (empty($alergi)) $errors[] = 'Alergi Harus diisi';
+    if (empty($obat)) $errors[] = 'Obat Harus diisi';
+    if (empty($td)) $errors[] = 'Tensi Darah Harus diisi';
+    if (empty($t)) $errors[] = 'Tekanan Jantung Harus diisi';
+    if (empty($hr)) $errors[] = 'Harapan Harus diisi';
+    if (empty($rr)) $errors[] = 'Respirasi Harus diisi';
+    if (empty($tb)) $errors[] = 'Tinggi Badan Harus diisi';
+    if (empty($bb)) $errors[] = 'Berat Badan Harus diisi';
+    if (empty($note_dokter)) $errors[] = 'Note Dokter Harus diisi';
+
+    // Periksa apakah ada error
+    if (!empty($errors)) {
+        $_SESSION['errors'] = $errors;
+        return false;
+    }
+
+
+    $query="UPDATE pasien SET td = '$td',t ='$t',hr = '$hr',rr = '$rr',tb = '$tb',bb = '$bb', diagnosis = '$diagnosis', riwayat_tindakan = '$riwayat_tindakan', alergi = '$alergi', obat = '$obat', note_dokter = '$note_dokter' WHERE id_pasien = '$id_pasien'";
+return $conn->execute($query);
+
+// ( $conn->execute($query));
+
+
+
+
+}
+
 function update($data)
 {
     // var_dump($data);
@@ -285,7 +333,7 @@ function update($data)
 
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
-        var_dump($errors); // Tambahkan ini untuk melihat pesan kesalahan
+        // var_dump($errors); // Tambahkan ini untuk melihat pesan kesalahan
         return false;
     }
     // Memperbarui data di database
@@ -391,10 +439,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     }
+   // Menangani pengiriman form
+if (isset($_POST['action']) && $_POST['action'] == 'userpasien') {
+    // var_dump(users_pasien($_POST));
+    if (users_pasien($_POST)) {
+        $_SESSION['success'] = 'Data berhasil diubah.';
+    } else {
+        if (!isset($_SESSION['errors'])) {
+            $_SESSION['errors'] = 'Data gagal diubah.';
+        }
+    }
+    header("Location: ../view/users/data-pasien/index.php");
+    exit(); // Pastikan untuk keluar setelah redirect
+}
+
+    
 
 
     // <<<<<<<<<<<<<<  ✨ Codeium Command ⭐ >>>>>>>>>>>>>>>>
-    function hapus($id)
+    
+
+    if (isset($_POST['action']) && $_POST['action'] == 'delete') {
+        $id = htmlspecialchars($_POST['id_pasien']);
+        if (hapus($id)) {
+            $_SESSION['success'] = 'Berhasil hapus data!';
+        } else {
+            $_SESSION['errors'][] = 'Gagal menghapus data. Silakan periksa kembali inputan Anda.';
+        }
+    
+        header("Location: ../view/admin/data-pasien/index.php");
+        exit; // Ensure the script stops executing after the redirect
+    } else {
+        $_SESSION['errors'] = 'Invalid request.';
+        header("Location: ../view/admin/data-pasien/index.php");
+        exit; // Ensure the script stops executing after the redirect
+    }
+
+
+    // <<<<<<<  32bfd995-187f-4efa-8510-223f9c6b93e3  >>>>>>>
+}
+
+function hapus($id)
     {
         $conn = new koneksi();
         $row = $conn->execute("SELECT * FROM pasien WHERE id_pasien = '$id'")->fetch_assoc();
@@ -411,23 +496,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // header("Location: ../view/admin/data-pasien/index.php");
         // exit;
     }
-
-    if (isset($_POST['action']) && $_POST['action'] == 'delete') {
-        $id = htmlspecialchars($_POST['id_pasien']);
-        if (hapus($id)) {
-            $_SESSION['success'] = 'Berhasil hapus data!';
-        } else {
-            $_SESSION['errors'][] = 'Gagal menghapus data. Silakan periksa kembali inputan Anda.';
-        }
-    
-        header("Location: ../view/admin/data-pasien/index.php");
-        exit; // Ensure the script stops executing after the redirect
-    } else {
-        $_SESSION['errors'][] = 'Invalid request.';
-        header("Location: ../view/admin/data-pasien/index.php");
-        exit; // Ensure the script stops executing after the redirect
-    }
-
-
-    // <<<<<<<  32bfd995-187f-4efa-8510-223f9c6b93e3  >>>>>>>
-}

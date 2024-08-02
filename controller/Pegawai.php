@@ -26,6 +26,16 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         $query = "SELECT * FROM pasien JOIN unit ON pasien.id_unit = unit.id";
         return $this->showData($query);
     }
+
+    function profile() {
+        $query = "SELECT * FROM users WHERE id_user = '$_SESSION[id_user]'";
+        $existingData = $this->execute($query);
+        
+        // if ($existingData && $existingData->num_rows > 0) {
+            return $existingData->fetch_assoc();
+
+        // }
+    }
 //    public  function delete($id){
         // $this=new koneksi();
 // var_dump($id);

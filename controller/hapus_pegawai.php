@@ -3,6 +3,9 @@
 session_start() ;
 require_once '../koneksi.php';
 $conn = mysqli_connect("localhost", "root", "", "rekammedik");
+// if (!is_dir('uploads/laboratorium')) {
+//     mkdir('uploads/laboratorium', 0777, true);
+// }
 require_once '../controller/Pegawai.php';
 $kon = new koneksi();
 $pegawai = new Pegawai();
