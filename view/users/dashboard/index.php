@@ -2,6 +2,16 @@
 
 session_start();
 
+if (!isset($_SESSION['email'])) {
+    header('Location: ../../auth/login.php');
+    exit();
+}
+
+require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+require '../../../controller/Pegawai.php';
+
+$pegawai = new Pegawai();
+$profile = $pegawai->profile();
 ?>
 
 <!DOCTYPE html>
@@ -146,7 +156,13 @@ session_start();
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+
+                                        <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                                            <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                        <?php } else { ?> 
+                                            <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                                        <?php } ?>
+                                        
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -155,13 +171,19 @@ session_start();
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+
+                                                        <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                                                            <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                                        <?php } else { ?> 
+                                                            <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                                                        <?php } ?>
+
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">Budiono Siregar</span>
+                                                    <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
                                                     <!-- sesuai role -->
-                                                    <small class="text-muted">Dokter</small>
+                                                    <small class="text-muted"><?= $profile['role'] ?></small>
                                                 </div>
                                             </div>
                                         </a>
@@ -206,7 +228,7 @@ session_start();
                                             <div class="card-body">
                                                 <h3 class="card-title text-primary">Welcome to SiRekam! 🎉</h3>
                                                 <!-- nama user -->
-                                                <h5 class="card-title text-primary">Budiono Siregar</h5>
+                                                <h5 class="card-title text-primary"><?= $profile['Nama'] ?></h5>
                                                 <p class="mb-4">
                                                     Selamat datang di tim kami! Kami sangat bangga dan berterima kasih atas dedikasi Anda dalam memberikan pelayanan kesehatan terbaik.
                                                 </p>

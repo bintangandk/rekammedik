@@ -1,7 +1,9 @@
 <?php
 session_start();
 include '../koneksi.php'; // Menyertakan file koneksi dari folder luar
-
+if (!is_dir('uploads/profile')) {
+    mkdir('uploads/profile', 0777, true);
+}
 function login($email, $password)
 {
     $conn = new koneksi();
@@ -17,9 +19,21 @@ function login($email, $password)
         if (password_verify($password, $user['password'])) {
             $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];
+            $_SESSION['nip'] = $user['nip'];
+            $_SESSION['nama'] = $user['Nama'];
+            $_SESSION['no_telfon'] = $user['no_telfon'];
+            $_SESSION['id_unit'] = $user['id_unit'];
+            $_SESSION['id_user'] = $user['id_user'];
+            $_SESSION['gambar'] = $user['gambar'];
             $_SESSION['login'] = 'Login berhasil!';
-            header("Location: ../view/admin/dashboard/index.php");
-            exit();
+            if ($user['role'] == 'admin') {
+                header("Location: ../view/admin/dashboard/index.php");
+                exit();
+            }else {
+                header("Location: ../view/users/dashboard/index.php");
+                exit();
+            }
+         
         }
     }
 
@@ -30,6 +44,114 @@ function login($email, $password)
     
     exit();
 }
+
+function update_profile($data) {
+
+    $conn = new koneksi();
+    $email = htmlspecialchars($data['email']);
+    $Nama = htmlspecialchars($data['name']);
+    $nip = htmlspecialchars($data['nip']);
+    $no_telfon = htmlspecialchars($data['no_telfon']);
+    $id_unit = htmlspecialchars($data['id_unit']);
+    $id_user = $_SESSION['id_user'];
+    $password = htmlspecialchars($data['password']);
+    
+    
+    $errors = [];
+
+    // Validasi input
+    if (empty($Nama)) {
+        $errors[] = 'Nama Pegawai harus diisi.';
+    }
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Email tidak valid.';
+    }
+    if (empty($no_telfon) || !preg_match('/^[0-9]+$/', $no_telfon)) {
+        $errors[] = 'Nomor Telepon harus berupa angka.';
+    }
+    if (empty($nip) || !preg_match('/^[0-9]+$/', $nip)) {
+        $errors[] = 'NIP harus berupa angka.';
+    }
+    
+    if (empty($id_unit)) {
+        $errors[] = 'id_unit harus diisi.';
+    }
+   
+
+    if (!empty($errors)) {
+        $_SESSION['errors'] = $errors;
+        $_SESSION['form_data'] = $_POST;
+        return false;
+    }
+
+
+    // Tambahan untuk menangani password
+
+    // Mengecek apakah email sudah ada di database, kecuali email milik user itu sendiri
+    $query = "SELECT id_user FROM users WHERE email = '$email' AND id_user != '$id_user'";
+    $existingEmail = $conn->execute($query);
+    
+    if ($existingEmail->num_rows > 0) {
+        // Email sudah digunakan oleh user lain
+        $_SESSION['errors'][] = 'Email sudah digunakan oleh user lain.';
+        return false;
+    }
+
+    // Memeriksa apakah ada file gambar yang diunggah
+    $query = "SELECT gambar FROM users WHERE id_user = '$id_user'";
+    $existingData = $conn->execute($query);
+    
+    if ($existingData && $existingData->num_rows > 0) {
+        $existingFiles = $existingData->fetch_assoc();
+        $gambar_name = $existingFiles['gambar'];
+        
+        if (!empty($_FILES['gambar']['name'])) {
+            // Menghapus file lama
+            if (file_exists('uploads/profile/' . $gambar_name)) {
+                unlink('uploads/profile/' . $gambar_name);
+            }
+            // Mengunggah file baru
+            $gambar_name = uploadFile('gambar', 'uploads/profile');
+        }
+    } else {
+        // Menangani kasus ketika tidak ada data yang ditemukan atau query gagal
+        $_SESSION['errors'][] = 'Gagal mendapatkan data pengguna.';
+        return false;
+    }
+
+    // Menyusun query update
+    $updateQuery = "UPDATE users SET email = '$email', Nama = '$Nama', nip = '$nip', id_unit = '$id_unit', gambar = '$gambar_name'";
+
+    // Jika ada password baru, tambahkan ke query update
+    if (!empty($password)) {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $updateQuery .= ", password = '$hashedPassword'";
+    }
+
+    $updateQuery .= " WHERE id_user = '$id_user'";
+
+    // Eksekusi query update
+    if ($conn->execute($updateQuery)) {
+        $_SESSION['success'] = 'Profil berhasil diperbarui!';
+        return true;
+    } else {
+        $_SESSION['errors'][] = 'Gagal memperbarui profil.';
+        return false;
+    }
+}
+
+function uploadFile($file, $directory)
+{
+    $fileName = $_FILES[$file]['name'];
+    $tmpName = $_FILES[$file]['tmp_name'];
+    $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+    $newFileName = uniqid() . '_' . $fileName;
+    $targetPath = $directory . '/' . $newFileName;
+    move_uploaded_file($tmpName, $targetPath);
+    return $newFileName;
+}
+
+
 
 function register($Nama, $email, $no_telfon, $nip, $role, $id_unit, $password)
 {
@@ -153,6 +275,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
+    
+    if (isset($_POST['action']) && $_POST['action'] == 'update_profile') {
+        // var_dump(update_profile($_POST));
+        if (update_profile($_POST)) {
+            $_SESSION['success'] = 'Data profile berhasil diubah.';
+        } else {
+            $_SESSION['errors'] = 'Data profile gagal di ubah.';
+            // var_dump($_POST);
+            // var_dump(update($_POST));
+        }
+        if ($_SESSION['role'] == 'admin') {
+            # code...
+            header("Location: ../view/admin/profile/index.php");
+        }else {
+            # code...
+            header("Location: ../view/users/profile/index.php");
+        }
+     
+    }
 
     if (isset($_POST['action']) && $_POST['action'] == 'register') {
         $Nama = $_POST['Nama'];

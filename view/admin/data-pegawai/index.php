@@ -13,6 +13,7 @@ require '../../../controller/Pegawai.php';
 
 $pegawai = new Pegawai();
 $data_pegawai = $pegawai->index();
+$profile = $pegawai->profile();
 // var_dump($data_pegawai);
 $data_instalasi = $pegawai->instalasi();
 
@@ -350,95 +351,95 @@ $data_instalasi = $pegawai->instalasi();
                             <select name="id_unit" class="form-control" id="instalasi_edit" placeholder="Pilih Instalasi" required>
                               <option value="">Pilih Unit/Instalasi</option>
                               <?php foreach ($data_instalasi as $data) { ?>
-                                <option value="<?= $data['id'] ?>""><?= $data['instalasi'] ?></option>
+                                <option value="<?= $data['id'] ?>"><?= $data['instalasi'] ?></option>
                               <?php } ?>
-                             
+
                             </select>
                           </div>
                         </div>
                       </div>
-                    
+
                   </div>
 
                   <!-- Modal Footer -->
                   <div class=" modal-footer">
-                                  <button type="submit" class="btn btn-primary">Simpan</button>
-                                  <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                          </div>
-                    </form>
-                    <!-- <button type="submit">Simpan</button> -->
-                    <!-- </form> -->
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                   </div>
-                </div>
-              </div>
-
-              <!-- Modal show data pegawai-->
-              <div class="modal fade" id="showModal">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                      <h4 class="modal-title">Detail Data Pegawai</h4>
-                      <a data-dismiss="modal">
-                        <i class="bi bi-x"></i>
-                      </a>
-                    </div>
-
-                    <!-- Modal Body -->
-                    <div class="modal-body">
-                      <form id="showForm">
-                        <div class="container">
-                          <div class="row">
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <img src="../../../assets/images/profile/picture.jpeg" alt="user-avatar" class="d-block rounded" height="300" width="300" id="uploadedAvatar">
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label for="name">Nama Pegawai <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nama_detail" name="Nama" placeholder="Masukan Nama Lengkap" readonly>
-                              </div>
-                              <div class="form-group">
-                                <label for="nip">NIP <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nip_detail" name="nip" placeholder="Masukan NIP" readonly>
-                              </div>
-                              <div class="form-group">
-                                <label for="no_tlp">No. Telp <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="no_tlp_detail" name="no_tlp" placeholder="Masukan No. Telp" readonly>
-                              </div>
-                              <div class="form-group">
-                                <label for="jabatan">Peranan/Jabatan <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="jabatan_detail" name="jabatan" placeholder="Masukan Jabatan/Peranan" readonly>
-                              </div>
-                              <div class="form-group">
-                                <label for="instalasi">Instalasi <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="instalasi_detail" name="instalasi" placeholder="Masukan Instalasi" readonly>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-
-                    <!-- Modal Footer -->
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button>
-                    </div>
-
-                  </div>
+                  </form>
+                  <!-- <button type="submit">Simpan</button> -->
+                  <!-- </form> -->
                 </div>
               </div>
             </div>
-            <!-- / Content -->
-            <form action="<?= $_SERVER['PHP_SELF']; ?>?page=data-pegawai" id="formDelete" method="POST">
-              <input type="hidden" name="id" id="idDelete">
-              <input type="hidden" name="action" value="delete">
-            </form>
-            <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
-              <!-- <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+
+            <!-- Modal show data pegawai-->
+            <div class="modal fade" id="showModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Detail Data Pegawai</h4>
+                    <a data-dismiss="modal">
+                      <i class="bi bi-x"></i>
+                    </a>
+                  </div>
+
+                  <!-- Modal Body -->
+                  <div class="modal-body">
+                    <form id="showForm">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <img src="../../../assets/images/profile/picture.jpeg" alt="user-avatar" class="d-block rounded" height="300" width="300" id="uploadedAvatar">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="name">Nama Pegawai <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="nama_detail" name="Nama" placeholder="Masukan Nama Lengkap" readonly>
+                            </div>
+                            <div class="form-group">
+                              <label for="nip">NIP <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="nip_detail" name="nip" placeholder="Masukan NIP" readonly>
+                            </div>
+                            <div class="form-group">
+                              <label for="no_tlp">No. Telp <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="no_tlp_detail" name="no_tlp" placeholder="Masukan No. Telp" readonly>
+                            </div>
+                            <div class="form-group">
+                              <label for="jabatan">Peranan/Jabatan <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="jabatan_detail" name="jabatan" placeholder="Masukan Jabatan/Peranan" readonly>
+                            </div>
+                            <div class="form-group">
+                              <label for="instalasi">Instalasi <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="instalasi_detail" name="instalasi" placeholder="Masukan Instalasi" readonly>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- Modal Footer -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- / Content -->
+          <form action="<?= $_SERVER['PHP_SELF']; ?>?page=data-pegawai" id="formDelete" method="POST">
+            <input type="hidden" name="id" id="idDelete">
+            <input type="hidden" name="action" value="delete">
+          </form>
+          <!-- Footer -->
+          <footer class="content-footer footer bg-footer-theme">
+            <!-- <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
               <div class="mb-2 mb-md-0">
                 ©
                 <script>
@@ -446,185 +447,186 @@ $data_instalasi = $pegawai->instalasi();
                 </script>
               </div>
             </div> -->
-            </footer>
-            <!-- / Footer -->
+          </footer>
+          <!-- / Footer -->
 
-            <div class="content-backdrop fade"></div>
-          </div>
-          <!-- Content wrapper -->
+          <div class="content-backdrop fade"></div>
         </div>
-        <!-- / Layout page -->
+        <!-- Content wrapper -->
       </div>
-
-      <!-- Overlay -->
-      <div class="layout-overlay layout-menu-toggle"></div>
+      <!-- / Layout page -->
     </div>
-    <!-- / Layout wrapper -->
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+  </div>
+  <!-- / Layout wrapper -->
 
 
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="../../../assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../../../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../../../assets/vendor/js/bootstrap.js"></script>
-    <script src="../../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+  <script src="../../../assets/vendor/libs/jquery/jquery.js"></script>
+  <script src="../../../assets/vendor/libs/popper/popper.js"></script>
+  <script src="../../../assets/vendor/js/bootstrap.js"></script>
+  <script src="../../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-    <script src="../../../assets/vendor/js/menu.js"></script>
-    <!-- endbuild -->
+  <script src="../../../assets/vendor/js/menu.js"></script>
+  <!-- endbuild -->
 
-    <!-- Vendors JS -->
+  <!-- Vendors JS -->
 
-    <!-- Main JS -->
-    <script src="../../../assets/js/main.js"></script>
+  <!-- Main JS -->
+  <script src="../../../assets/js/main.js"></script>
 
-    <!-- Page JS -->
+  <!-- Page JS -->
 
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="../../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <!-- Page level plugins -->
+  <script src="../../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="../../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="../../../assets/js/demo/datatables-demo.js"></script>
+  <!-- Page level custom scripts -->
+  <script src="../../../assets/js/demo/datatables-demo.js"></script>
 
-    <!-- modal -->
+  <!-- modal -->
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <!-- logout script -->
-    <script>
-      document.getElementById('logout-link').addEventListener('click', function(event) {
-        event.preventDefault(); // Mencegah tautan default
+  <!-- logout script -->
+  <script>
+    document.getElementById('logout-link').addEventListener('click', function(event) {
+      event.preventDefault(); // Mencegah tautan default
 
-        Swal.fire({
-          title: 'Konfirmasi Logout',
-          text: "Anda yakin ingin logout?",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Logout',
-          cancelButtonText: 'Batal',
-          reverseButtons: true
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Jika pengguna mengonfirmasi, arahkan ke URL logout
-            window.location.href = "../../../controller/Auth.php?action=logout";
-          }
-        });
-      });
-    </script>
-
-    <!-- Delete alert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-      function deleteData(data) {
-        console.log(data);
-        const userId = data.id_user;
-        console.log(userId);
-        Swal.fire({
-          title: 'Apakah Anda Yakin?',
-          text: "Anda igin menghapus data ini!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Ya, Hapus!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = '../../../controller/hapus_pegawai.php?action=delete&id=' + userId;
-            // window.location.href = 'index.php?action=delete&id=' 
-          }
-        });
-      }
-
-
-
-
-      document.addEventListener('DOMContentLoaded', function() {
-        const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
-        const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;
-        const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
-
-        if (success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Sukses',
-            text: success,
-          });
-          <?php unset($_SESSION['success']); ?>
-        }
-
-        if (error) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: error,
-          });
-          <?php unset($_SESSION['error']); ?>
+      Swal.fire({
+        title: 'Konfirmasi Logout',
+        text: "Anda yakin ingin logout?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Logout',
+        cancelButtonText: 'Batal',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Jika pengguna mengonfirmasi, arahkan ke URL logout
+          window.location.href = "../../../controller/Auth.php?action=logout";
         }
       });
-    </script>
+    });
+  </script>
 
-    <!-- modal edit -->
-    <script>
-      // Handle form submission
-      // document.getElementById('editForm').addEventListener('submit', function(event) {
-      //   event.preventDefault();
-      //   // Perform your insert operation here, e.g., send data to the server
-      //   alert('Form submitted!');
-      //   // Close the modal
-      //   $('#editModal').modal('hide');
-      // });
-
-
-
-      function detail(data) {
-        // console.log(data.id_user)
-        document.getElementById('nama_detail').value = data.Nama
-        document.getElementById('nip_detail').value = data.nip
-        document.getElementById('no_tlp_detail').value = data.no_telfon
-
-        document.getElementById('jabatan_detail').value = data.role
-        document.getElementById('instalasi_detail').value = data.instalasi
-
-
-      }
-      // function detail(data) {
-      //   console.log(data)
-      //   document.getElementById('nama_detail').value = data.Nama
-      //   document.getElementById('nip_detail').value = data.nip
-      //   document.getElementById('no_tlp_detail').value = data.no_telfon
-
-      //   document.getElementById('jabatan_detail').value = data.role
-      //   document.getElementById('instalasi_edit').value = data.instalasi
-
-
-      // }
-      function edit(data) {
-
-        document.getElementById('id_edit').value = data.id_user
-        document.getElementById('name_edit').value = data.Nama
-        document.getElementById('nip_edit').value = data.nip
-        document.getElementById('no_tlp_edit').value = data.no_telfon
-
-        document.getElementById('role_edit').value = data.role
-        document.getElementById('instalasi_edit').value = data.id_unit
-      }
-    </script>
-
-    <!-- modal show -->
-    <script>
-      // Handle form submission
-      document.getElementById('showForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        // Perform your insert operation here, e.g., send data to the server
-        alert('Form submitted!');
-        // Close the modal
-        $('#showModal').modal('hide');
+  <!-- Delete alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    function deleteData(data) {
+      console.log(data);
+      const userId = data.id_user;
+      console.log(userId);
+      Swal.fire({
+        title: 'Apakah Anda Yakin?',
+        text: "Anda igin menghapus data ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Hapus!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '../../../controller/hapus_pegawai.php?action=delete&id=' + userId;
+          // window.location.href = 'index.php?action=delete&id=' 
+        }
       });
-    </script>
+    }
+  </script>
+
+  <!-- modal edit -->
+  <script>
+    // Handle form submission
+    // document.getElementById('editForm').addEventListener('submit', function(event) {
+    //   event.preventDefault();
+    //   // Perform your insert operation here, e.g., send data to the server
+    //   alert('Form submitted!');
+    //   // Close the modal
+    //   $('#editModal').modal('hide');
+    // });
+
+
+
+    function detail(data) {
+      // console.log(data.id_user)
+      document.getElementById('nama_detail').value = data.Nama
+      document.getElementById('nip_detail').value = data.nip
+      document.getElementById('no_tlp_detail').value = data.no_telfon
+
+      document.getElementById('jabatan_detail').value = data.role
+      document.getElementById('instalasi_detail').value = data.instalasi
+
+
+    }
+
+
+
+
+    // function detail(data) {
+    //   console.log(data)
+    //   document.getElementById('nama_detail').value = data.Nama
+    //   document.getElementById('nip_detail').value = data.nip
+    //   document.getElementById('no_tlp_detail').value = data.no_telfon
+
+    //   document.getElementById('jabatan_detail').value = data.role
+    //   document.getElementById('instalasi_edit').value = data.instalasi
+
+
+    // }
+    document.addEventListener('DOMContentLoaded', function() {
+      const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+      const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;
+      const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+
+      if (success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Sukses',
+          text: success,
+        });
+        <?php unset($_SESSION['success']); ?>
+      }
+
+      if (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error,
+        });
+        <?php unset($_SESSION['error']); ?>
+      }
+    });
+
+    function edit(data) {
+
+      document.getElementById('id_edit').value = data.id_user
+      document.getElementById('name_edit').value = data.Nama
+      document.getElementById('nip_edit').value = data.nip
+      document.getElementById('no_tlp_edit').value = data.no_telfon
+
+      document.getElementById('role_edit').value = data.role
+      document.getElementById('instalasi_edit').value = data.id_unit
+    }
+  </script>
+
+  <!-- modal show -->
+  <script>
+    // Handle form submission
+    document.getElementById('showForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      // Perform your insert operation here, e.g., send data to the server
+      alert('Form submitted!');
+      // Close the modal
+      $('#showModal').modal('hide');
+    });
+  </script>
 
 
 

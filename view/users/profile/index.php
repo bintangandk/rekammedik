@@ -1,3 +1,21 @@
+<?php
+session_start();
+if (!isset($_SESSION['email'])) {
+  header('Location: ../../auth/login.php');
+  exit();
+}
+
+require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+require '../../../controller/Pegawai.php';
+
+$pegawai = new Pegawai();
+$data_pegawai = $pegawai->profile();
+// var_dump($data_pegawai);
+$data_instalasi = $pegawai->instalasi();
+?>
+
+
+
 <!DOCTYPE html>
 
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../../../assets/" data-template="vertical-menu-template-free">
@@ -152,7 +170,7 @@
                           </div>
                         </div>
                         <div class="flex-grow-1">
-                          <span class="fw-semibold d-block">John Doe</span>
+                          <span class="fw-semibold d-block"><?php echo $_SESSION['nama']; ?></span>
                           <!-- sesuai role (admin, dokter, perawat) -->
                           <small class="text-muted">Dokter</small>
                         </div>
@@ -198,75 +216,89 @@
                 <h5 class="card-header">Profile Details</h5>
                 <!-- Account -->
                 <div class="card-body">
-                  <div class="d-flex align-items-start align-items-sm-center gap-4">
-                    <img src="../../../assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
-                    <div class="button-wrapper">
-                      <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                        <span class="d-none d-sm-block">Edit Foto</span>
-                        <i class="bx bx-upload d-block d-sm-none"></i>
-                        <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
-                      </label>
+                  <form action="../../../controller/Auth.php" method="POST" enctype="multipart/form-data">
+                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+                      <?php if ($data_pegawai['gambar'] == 'profile.jpg') {
+                        # code...
+                      ?>
+                        <img src="../../../assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
+                      <?php } else { ?>
+                        <img src="../../../controller/uploads/profile/<?= $data_pegawai['gambar']; ?>" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
+                      <?php } ?>
 
-                      <p class="text-muted mb-0">Allowed JPG, PNG, JPEG. Max size 100mb</p>
+                      <div class="button-wrapper">
+                        <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                          <span class="d-none d-sm-block">Edit Foto</span>
+                          <i class="bx bx-upload d-block d-sm-none"></i>
+                          <input type="file" id="upload" class="account-file-input" name="gambar" hidden accept="image/png, image/jpeg" />
+                        </label>
+
+                        <p class="text-muted mb-0">Allowed JPG, PNG, JPEG. Max size 100mb</p>
+                      </div>
                     </div>
-                  </div>
                 </div>
                 <hr class="my-0" />
                 <div class="card-body">
-                  <form id="formAccountSettings" method="POST" onsubmit="return false">
-                    <div class="row">
-                      <div class="mb-3 col-md-6">
-                        <label for="name" class="form-label">Nama Lengkap</label>
-                        <input class="form-control" type="text" id="name" name="name" value="John Mujahidin" autofocus />
+                  <input type="hidden" name="action" value="update_profile">
+                  <div class="row">
+                    <div class="mb-3 col-md-6">
+                      <label for="name" class="form-label">Nama Lengkap</label>
+                      <input class="form-control" type="text" id="name" name="name" value="<?= $data_pegawai['Nama']; ?>" autofocus />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="nip" class="form-label">NIP</label>
+                      <input class="form-control" type="text" id="nip" name="nip" value="<?= $data_pegawai['nip']; ?>" placeholder="john.doe@example.com" />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="email" name="email" value="<?= $data_pegawai['email']; ?>" />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label class="form-label" for="no_telfon">Phone Number</label>
+                      <div class="input-group input-group-merge">
+                        <!-- <span class="input-group-text">(+62)</span> -->
+                        <input type="text" id="no_telfon" name="no_telfon" class="form-control" value="<?= $data_pegawai['no_telfon']; ?>" />
                       </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="nip" class="form-label">NIP</label>
-                        <input class="form-control" type="text" id="email" name="email" value="john.doe@example.com" placeholder="john.doe@example.com" />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label class="form-label" for="password">Password baru</label>
+                      <div class="input-group input-group-merge">
+                        <!-- <span class="input-group-text">(+62)</span> -->
+                        <input type="text" id="password" name="password" class="form-control" />
                       </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="john@gmail.com" />
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label class="form-label" for="no_telfon">Phone Number</label>
-                        <div class="input-group input-group-merge">
-                          <span class="input-group-text">(+62)</span>
-                          <input type="text" id="no_telfon" name="no_telfon" class="form-control" value="82 555 0111" />
-                        </div>
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="role" class="form-label">Jabatan/Peranan</label>
-                        <input type="text" class="form-control" id="role" name="role" value="Dokter" />
-                      </div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+
                       <div class="mb-3 col-md-6">
                         <label class="form-label" for="country">Instalasi</label>
-                        <select id="country" class="select2 form-select">
-                          <option value="">Pilih</option>
-                          <option value="igd">IGD</option>
-                          <option value="iccu">ICCU</option>
-                          <option value="niccu">NICCU</option>
-                          <option value="bangsal">Rawat Inap (Bangsal)</option>
-                          <option value="poli">Rawat Jalan (Poli)</option>
+                        <select id="id_unit" name="id_unit" class="select2 form-select">
+                          <option value="">Pilih Instalasi</option>
+                          <?php foreach ($data_instalasi as $data) {
+                            $selected = ($data['id'] == $data_pegawai['id_unit']) ? 'selected' : '';
+                          ?>
+                            <option value="<?= $data['id'] ?>" <?= $selected ?>><?= $data['instalasi'] ?></option>
+                          <?php } ?>
                         </select>
                       </div>
+
                     </div>
                     <div class="mt-2">
-                      <button type="submit" class="btn btn-primary me-2" id="saveButton">Simpan Perubahan</button>
+                      <button type="submit" class="btn btn-primary me-2">Simpan Perubahan</button>
                       <a href="../dashboard/index.php" type="reset" class="btn btn-outline-secondary">Kembali</a>
                     </div>
-                  </form>
+                    </form>
+                  </div>
+                  <!-- /Account -->
                 </div>
-                <!-- /Account -->
               </div>
             </div>
           </div>
-        </div>
-        <!-- / Content -->
+          <!-- / Content -->
 
-        <!-- Footer -->
-        <footer class="content-footer footer bg-footer-theme">
-          <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-            <!-- <div class="mb-2 mb-md-0">
+          <!-- Footer -->
+          <footer class="content-footer footer bg-footer-theme">
+            <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+              <!-- <div class="mb-2 mb-md-0">
                   ©
                   <script>
                     document.write(new Date().getFullYear());
@@ -274,18 +306,18 @@
                   , made with ❤️ by
                   <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
               </div> -->
-        </footer>
-        <!-- / Footer -->
+          </footer>
+          <!-- / Footer -->
 
-        <div class="content-backdrop fade"></div>
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
       </div>
-      <!-- Content wrapper -->
+      <!-- / Layout page -->
     </div>
-    <!-- / Layout page -->
-  </div>
 
-  <!-- Overlay -->
-  <div class="layout-overlay layout-menu-toggle"></div>
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
   </div>
   <!-- / Layout wrapper -->
 
@@ -313,48 +345,56 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <script>
-        document.getElementById('logout-link').addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah tautan default
+  <script>
+    document.getElementById('logout-link').addEventListener('click', function(event) {
+      event.preventDefault(); // Mencegah tautan default
 
-            Swal.fire({
-                title: 'Konfirmasi Logout',
-                text: "Anda yakin ingin logout?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Logout',
-                cancelButtonText: 'Batal',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Jika pengguna mengonfirmasi, arahkan ke URL logout
-                    window.location.href = "../../../controller/Auth.php?action=logout";
-                }
-            });
+      Swal.fire({
+        title: 'Konfirmasi Logout',
+        text: "Anda yakin ingin logout?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Logout',
+        cancelButtonText: 'Batal',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Jika pengguna mengonfirmasi, arahkan ke URL logout
+          window.location.href = "../../../controller/Auth.php?action=logout";
+        }
+      });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+      const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;
+      const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+
+      if (success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Sukses',
+          text: success,
         });
-    </script>
+        <?php unset($_SESSION['success']); ?>
+      }
+
+      if (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error,
+        });
+        <?php unset($_SESSION['error']); ?>
+      }
+    });
+  </script>
 
 
   <!-- Delete alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-    document.getElementById('saveButton').addEventListener('click', function() {
-      const userId = this.getAttribute('data-id');
-      Swal.fire({
-        title: 'Apakah Anda Yakin?',
-        text: "Anda igin menyimpan perubahan ini!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, Simpan!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = 'save.php?id=' + userId;
-        }
-      });
-    });
-  </script>
+
 </body>
 
 </html>
