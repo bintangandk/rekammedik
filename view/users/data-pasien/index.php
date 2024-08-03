@@ -170,7 +170,12 @@ $unit = $pasien->instalasi();
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-                    <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                    <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                      <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                    <?php } else { ?> 
+                      <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                    <?php } ?>
+                   
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -179,12 +184,19 @@ $unit = $pasien->instalasi();
                       <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
-                            <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+
+                            <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                              <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                            <?php } else { ?> 
+                              <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                            <?php } ?>
+
                           </div>
                         </div>
                         <div class="flex-grow-1">
-                          <span class="fw-semibold d-block">John Doe</span>
-                          <small class="text-muted"></small>
+                          <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
+                          <!-- sesuai role -->
+                          <small class="text-muted"><?= $profile['role'] ?></small>
                         </div>
                       </div>
                     </a>
@@ -394,7 +406,7 @@ $unit = $pasien->instalasi();
                           </div>
                         </div>
                       </div>
-                 
+
                   </div>
 
                   <!-- Modal Footer -->
@@ -718,6 +730,7 @@ $unit = $pasien->instalasi();
       document.getElementById('laboratorium_link').href = '../../../controller/uploads/laboratorium/' + data.hasil_laboratorium;
       // document.getElementById('laboratorium_link').download = 'hasil_laboratorium' + data.nama;
     }
+
     function editData(data) {
 
       // document.getElementById('name_detail').value = data.nama;
@@ -740,9 +753,9 @@ $unit = $pasien->instalasi();
       document.getElementById('tindakan_edit').value = data.riwayat_tindakan;
       document.getElementById('alergi_edit').value = data.alergi;
       document.getElementById('obat_edit').value = data.obat;
-    
 
-    
+
+
       // document.getElementById('laboratorium_link').download = 'hasil_laboratorium' + data.nama;
     }
   </script>
