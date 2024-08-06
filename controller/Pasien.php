@@ -12,6 +12,8 @@ if (!is_dir('uploads/laboratorium')) {
     mkdir('uploads/laboratorium', 0777, true);
 }
 
+date_default_timezone_set('Asia/Jakarta');
+
 function tambah_data(
     $nama,
     $nik,
@@ -146,9 +148,10 @@ function tambah_data(
 }
 
 
-function users_pasien($data){
+function users_pasien($data)
+{
     $conn = new koneksi();
-    $errors=[];
+    $errors = [];
     $td = htmlspecialchars($data['td'], ENT_QUOTES, 'UTF-8');
     $t = htmlspecialchars($data['t'], ENT_QUOTES, 'UTF-8');
     $hr = htmlspecialchars($data['hr'], ENT_QUOTES, 'UTF-8');
@@ -182,10 +185,10 @@ function users_pasien($data){
     }
 
 
-    $query="UPDATE pasien SET td = '$td',t ='$t',hr = '$hr',rr = '$rr',tb = '$tb',bb = '$bb', diagnosis = '$diagnosis', riwayat_tindakan = '$riwayat_tindakan', alergi = '$alergi', obat = '$obat', note_dokter = '$note_dokter' WHERE id_pasien = '$id_pasien'";
-return $conn->execute($query);
+    $query = "UPDATE pasien SET td = '$td',t ='$t',hr = '$hr',rr = '$rr',tb = '$tb',bb = '$bb', diagnosis = '$diagnosis', riwayat_tindakan = '$riwayat_tindakan', alergi = '$alergi', obat = '$obat', note_dokter = '$note_dokter' WHERE id_pasien = '$id_pasien'";
+    return $conn->execute($query);
 
-// ( $conn->execute($query));
+    // ( $conn->execute($query));
 
 
 
@@ -375,13 +378,131 @@ function uploadFile($file, $directory)
     $fileName = $_FILES[$file]['name'];
     $tmpName = $_FILES[$file]['tmp_name'];
     $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-    $newFileName = uniqid() . '_' . $fileName;
+    $currentYear = date('Y'); // Get the current year
+    $newFileName = $currentYear . '_' . uniqid() . '_' . $fileName; // Include the year in the new file name
     $targetPath = $directory . '/' . $newFileName;
     move_uploaded_file($tmpName, $targetPath);
     return $newFileName;
 }
 
+function simpan_file($data)
+{
+    $conn = new koneksi();
+    $tanggal = date('Y-m-d'); // Format YYYY-MM-DD
+    $waktu = date('H:i:s');
+    $fileName = $_POST['file'];
+
+    $id_user = $_SESSION['id_user'];
+
+    $stmt = "INSERT INTO riwayat_file (tanggal, waktu, file, id_user) VALUES ('$tanggal', '$waktu', '$fileName', '$id_user')";
+
+    // Log query for debugging
+    // error_log("Query: $stmt");
+
+    return $conn->execute($stmt);
+}
+
+
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    if (isset($_POST['action']) && $_POST['action'] == 'lihat_file') {
+        $file = $_POST['file'];
+        $file_rekammedis = 'uploads/rekammedis/' . $file;
+        $file_rontgen = 'uploads/rontgen/' . $file;
+        $file_laboratorium = 'uploads/laboratorium/' . $file;
+        $file_jenis = $_POST['file_jenis'];
+        simpan_file($_POST);
+        // Debugging
+        error_log("File jenis: " . $file_jenis);
+        error_log("File rekammedis path: " . realpath($file_rekammedis));
+        error_log("File rontgen path: " . realpath($file_rontgen));
+        error_log("File laboratorium path: " . realpath($file_laboratorium));
+
+
+        if ($_SESSION['role'] == 'admin') {
+            if ($file_jenis == "rekam_medis") {
+                if (file_exists($file_rekammedis)) {
+                    $_SESSION['success'] = 'berhasil rekam data..';
+                    header("Location: ../controller/$file_rekammedis");
+                    exit();
+                } else {
+                    error_log("File rekammedis tidak ditemukan: " . realpath($file_rekammedis)); // Debugging
+                    $_SESSION['error'] = 'File tidak ditemukan.';
+                    header("Location: ../view/admin/data-pasien/index.php");
+                    exit();
+                }
+            } elseif ($file_jenis == "rontgen") {
+                if (file_exists($file_rontgen)) {
+                    $_SESSION['success'] = 'berhasil rekam data.';
+                    header("Location: ../controller/$file_rontgen");
+                    exit();
+                } else {
+                    error_log("File rontgen tidak ditemukan: " . realpath($file_rontgen)); // Debugging
+                    $_SESSION['error'] = 'File tidak ditemukan.';
+                    header("Location: ../view/admin/data-pasien/index.php");
+                    exit();
+                }
+            } else {
+                if (file_exists($file_laboratorium)) {
+                    $_SESSION['success'] = 'Data berhasil diubah.';
+                    header("Location: ../controller/$file_laboratorium");
+                    exit();
+                } else {
+                    error_log("File laboratorium tidak ditemukan: " . realpath($file_laboratorium)); // Debugging
+                    $_SESSION['error'] = 'File tidak ditemukan.';
+                    header("Location: ../view/admin/data-pasien/index.php");
+                    exit();
+                }
+            }
+        } else {
+            if ($file_jenis == "rekam_medis") {
+                if (file_exists($file_rekammedis)) {
+                    $_SESSION['success'] = 'berhasil rekam data..';
+                    header("Location: ../controller/$file_rekammedis");
+                    exit();
+                } else {
+                    error_log("File rekammedis tidak ditemukan: " . realpath($file_rekammedis)); // Debugging
+                    $_SESSION['error'] = 'File tidak ditemukan.';
+                    header("Location: ../view/users/data-pasien/index.php");
+                    exit();
+                }
+            } elseif ($file_jenis == "rontgen") {
+                if (file_exists($file_rontgen)) {
+                    $_SESSION['success'] = 'berhasil rekam data.';
+                    header("Location: ../controller/$file_rontgen");
+                    exit();
+                } else {
+                    error_log("File rontgen tidak ditemukan: " . realpath($file_rontgen)); // Debugging
+                    $_SESSION['error'] = 'File tidak ditemukan.';
+                    header("Location: ../view/users/data-pasien/index.php");
+                    exit();
+                }
+            } else {
+                if (file_exists($file_laboratorium)) {
+                    $_SESSION['success'] = 'Data berhasil diubah.';
+                    header("Location: ../controller/$file_laboratorium");
+                    exit();
+                } else {
+                    error_log("File laboratorium tidak ditemukan: " . realpath($file_laboratorium)); // Debugging
+                    $_SESSION['error'] = 'File tidak ditemukan.';
+                    header("Location: ../view/users/data-pasien/index.php");
+                    exit();
+                }
+            }
+        }
+    }
+
+
+    // var_dump($_POST);
+    // var_dump("hdhshdhusdushdus");
+
+
+
+
+
+
     if (isset($_POST['action']) && $_POST['action'] == 'insert') {
         $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
         $nik = htmlspecialchars($_POST['nik'], ENT_QUOTES, 'UTF-8');
@@ -439,25 +560,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     }
-   // Menangani pengiriman form
-if (isset($_POST['action']) && $_POST['action'] == 'userpasien') {
-    // var_dump(users_pasien($_POST));
-    if (users_pasien($_POST)) {
-        $_SESSION['success'] = 'Data berhasil diubah.';
-    } else {
-        if (!isset($_SESSION['errors'])) {
-            $_SESSION['errors'] = 'Data gagal diubah.';
-        }
-    }
-    header("Location: ../view/users/data-pasien/index.php");
-    exit(); // Pastikan untuk keluar setelah redirect
-}
 
-    
+
+
+    // Menangani pengiriman form
+    if (isset($_POST['action']) && $_POST['action'] == 'userpasien') {
+        // var_dump(users_pasien($_POST));
+        if (users_pasien($_POST)) {
+            $_SESSION['success'] = 'Data berhasil diubah.';
+        } else {
+            if (!isset($_SESSION['errors'])) {
+                $_SESSION['errors'] = 'Data gagal diubah.';
+            }
+        }
+        header("Location: ../view/users/data-pasien/index.php");
+        exit(); // Pastikan untuk keluar setelah redirect
+    }
+
+
 
 
     // <<<<<<<<<<<<<<  ✨ Codeium Command ⭐ >>>>>>>>>>>>>>>>
-    
+
 
     if (isset($_POST['action']) && $_POST['action'] == 'delete') {
         $id = htmlspecialchars($_POST['id_pasien']);
@@ -466,7 +590,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'userpasien') {
         } else {
             $_SESSION['errors'][] = 'Gagal menghapus data. Silakan periksa kembali inputan Anda.';
         }
-    
+
         header("Location: ../view/admin/data-pasien/index.php");
         exit; // Ensure the script stops executing after the redirect
     } else {
@@ -474,25 +598,26 @@ if (isset($_POST['action']) && $_POST['action'] == 'userpasien') {
         header("Location: ../view/admin/data-pasien/index.php");
         exit; // Ensure the script stops executing after the redirect
     }
-
-
-    // <<<<<<<  32bfd995-187f-4efa-8510-223f9c6b93e3  >>>>>>>
 }
 
+
+// <<<<<<<  32bfd995-187f-4efa-8510-223f9c6b93e3  >>>>>>>
+
+
 function hapus($id)
-    {
-        $conn = new koneksi();
-        $row = $conn->execute("SELECT * FROM pasien WHERE id_pasien = '$id'")->fetch_assoc();
-        // <<<<<<<<<<<<<<  ✨ Codeium Command 🌟 >>>>>>>>>>>>>>>>
-        unlink("uploads/rekammedis/" . $row['file_rekammedis']);
-        unlink("uploads/rontgen/" . $row['file_hasilrontgen']);
-        unlink("uploads/laboratorium/" . $row['hasil_laboratorium']);
-        // unlink($row['file_rekammedis']);
-        // unlink($row['file_hasilrontgen']);
-        // unlink($row['hasil_laboratorium']);
-        // <<<<<<<  b7969aa4-6011-4e6a-bf72-679f6453c9de  >>>>>>>
-       return $conn->execute("DELETE FROM pasien WHERE id_pasien = '$id'");
-        // $_SESSION['success'] = 'Berhasil hapus data!';
-        // header("Location: ../view/admin/data-pasien/index.php");
-        // exit;
-    }
+{
+    $conn = new koneksi();
+    $row = $conn->execute("SELECT * FROM pasien WHERE id_pasien = '$id'")->fetch_assoc();
+    // <<<<<<<<<<<<<<  ✨ Codeium Command 🌟 >>>>>>>>>>>>>>>>
+    unlink("uploads/rekammedis/" . $row['file_rekammedis']);
+    unlink("uploads/rontgen/" . $row['file_hasilrontgen']);
+    unlink("uploads/laboratorium/" . $row['hasil_laboratorium']);
+    // unlink($row['file_rekammedis']);
+    // unlink($row['file_hasilrontgen']);
+    // unlink($row['hasil_laboratorium']);
+    // <<<<<<<  b7969aa4-6011-4e6a-bf72-679f6453c9de  >>>>>>>
+    return $conn->execute("DELETE FROM pasien WHERE id_pasien = '$id'");
+    // $_SESSION['success'] = 'Berhasil hapus data!';
+    // header("Location: ../view/admin/data-pasien/index.php");
+    // exit;
+}

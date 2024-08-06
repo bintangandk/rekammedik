@@ -145,11 +145,13 @@ function uploadFile($file, $directory)
     $fileName = $_FILES[$file]['name'];
     $tmpName = $_FILES[$file]['tmp_name'];
     $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-    $newFileName = uniqid() . '_' . $fileName;
+    $currentYear = date('Y'); // Get the current year
+    $newFileName = $currentYear . '_' . uniqid() . '_' . $fileName; // Include the year in the new file name
     $targetPath = $directory . '/' . $newFileName;
     move_uploaded_file($tmpName, $targetPath);
     return $newFileName;
 }
+
 
 
 
