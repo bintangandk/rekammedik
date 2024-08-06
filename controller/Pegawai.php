@@ -36,6 +36,20 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
 
         // }
     }
+    function riwayat_peruser() {
+        $query = "SELECT * FROM riwayat_file  join users on riwayat_file.id_user = users.id_user  WHERE id_user = '$_SESSION[id_user]'";
+   
+        
+        // if ($existingData && $existingData->num_rows > 0) {
+            return $this->showData($query);
+
+        // }
+    }
+    function riwayat() {
+        $query = "SELECT * FROM riwayat_file  join users on riwayat_file.id_user = users.id_user";
+        return $this->showData($query);
+        // }
+    }
 //    public  function delete($id){
         // $this=new koneksi();
 // var_dump($id);

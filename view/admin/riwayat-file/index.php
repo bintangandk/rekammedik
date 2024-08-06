@@ -1,3 +1,26 @@
+<?php
+session_start();
+if (!isset($_SESSION['email'])) {
+  header('Location: ../../auth/login.php');
+  exit();
+}
+if (($_SESSION['role'] != 'admin')) {
+  header('Location: ../../admin/dashboard/index.php');
+  # code...
+}
+require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+require '../../../controller/Pegawai.php';
+
+$pegawai = new Pegawai();
+$data_pegawai = $pegawai->index();
+$profile = $pegawai->profile();
+// var_dump($data_pegawai);
+$riwayat = $pegawai->riwayat();
+
+?>
+
+
+
 <!DOCTYPE html>
 
 
@@ -153,23 +176,34 @@
 
               <!-- User -->
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                  <div class="avatar avatar-online">
-                    <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                  </div>
-                </a>
+              <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                    <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                                        <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                    <?php } else { ?>
+                                        <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                                    <?php } ?>
+                                    </div>
+                                </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                   <li>
                     <a class="dropdown-item" href="#">
                       <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
-                            <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+
+                            <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                              <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                            <?php } else { ?>
+                              <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                            <?php } ?>
+
                           </div>
                         </div>
                         <div class="flex-grow-1">
-                          <span class="fw-semibold d-block">John Doe</span>
-                          <small class="text-muted">Admin</small>
+                          <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
+                          <!-- sesuai role -->
+                          <small class="text-muted"><?= $profile['role'] ?></small>
                         </div>
                       </div>
                     </a>
@@ -231,55 +265,26 @@
                     <tfoot>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Tanggal</th>
                         <th class="text-center">Jam</th>
+                        <th class="text-center">Tanggal</th>
                         <th class="text-center">File</th>
                         <th class="text-center">User</th>
                       </tr>
                     </tfoot>
                     <tbody>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">04/03/2037</td>
-                        <td class="text-center">13:00</td>
-                        <td class="text-center">Lab_udin_2037.pdf</td>
-                        <td class="text-center">Budiono Siregar</td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">04/03/2037</td>
-                        <td class="text-center">13:00</td>
-                        <td class="text-center">Lab_udin_2037.pdf</td>
-                        <td class="text-center">Budiono Siregar</td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">04/03/2037</td>
-                        <td class="text-center">13:00</td>
-                        <td class="text-center">Lab_udin_2037.pdf</td>
-                        <td class="text-center">Budiono Siregar</td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">04/03/2037</td>
-                        <td class="text-center">13:00</td>
-                        <td class="text-center">Lab_udin_2037.pdf</td>
-                        <td class="text-center">Budiono Siregar</td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">04/03/2037</td>
-                        <td class="text-center">13:00</td>
-                        <td class="text-center">Lab_udin_2037.pdf</td>
-                        <td class="text-center">Budiono Siregar</td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">04/03/2037</td>
-                        <td class="text-center">13:00</td>
-                        <td class="text-center">Lab_udin_2037.pdf</td>
-                        <td class="text-center">Budiono Siregar</td>
-                      </tr>
+                      <?php $i = 1;
+                      foreach ($riwayat as $key) {
+
+                      ?>
+                        <tr>
+                          <td class="text-center"><?= $i++ ?></td>
+                          <td class="text-center"><?= $key['waktu'] ?></td>
+                          <td class="text-center"><?= $key['tanggal'] ?></td>
+                          <td class="text-center"><?= $key['file'] ?></td>
+                          <td class="text-center"><?= $key['Nama'] ?></td>
+                        </tr>
+                      <?php } ?>
+
                     </tbody>
                   </table>
                 </div>

@@ -9,8 +9,8 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
 
 $pegawai = new Pegawai();
-$data_pegawai = $pegawai->profile();
-// var_dump($data_pegawai);
+$profile = $pegawai->profile();
+// var_dump($profile);
 $data_instalasi = $pegawai->instalasi();
 ?>
 
@@ -157,22 +157,32 @@ $data_instalasi = $pegawai->instalasi();
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
+                    <?php if ($profile['gambar'] == 'profile.jpg') { ?>
                     <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                    <?php } else { ?> 
+                      <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                    <?php } ?>
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                   <li>
                     <a class="dropdown-item" href="#">
-                      <div class="d-flex">
+                    <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
-                            <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+
+                            <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                              <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                            <?php } else { ?> 
+                              <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                            <?php } ?>
+
                           </div>
                         </div>
                         <div class="flex-grow-1">
-                          <span class="fw-semibold d-block"><?php echo $_SESSION['nama']; ?></span>
-                          <!-- sesuai role (admin, dokter, perawat) -->
-                          <small class="text-muted">Dokter</small>
+                          <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
+                          <!-- sesuai role -->
+                          <small class="text-muted"><?= $profile['role'] ?></small>
                         </div>
                       </div>
                     </a>
@@ -218,12 +228,12 @@ $data_instalasi = $pegawai->instalasi();
                 <div class="card-body">
                   <form action="../../../controller/Auth.php" method="POST" enctype="multipart/form-data">
                     <div class="d-flex align-items-start align-items-sm-center gap-4">
-                      <?php if ($data_pegawai['gambar'] == 'profile.jpg') {
+                      <?php if ($profile['gambar'] == 'profile.jpg') {
                         # code...
                       ?>
                         <img src="../../../assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
                       <?php } else { ?>
-                        <img src="../../../controller/uploads/profile/<?= $data_pegawai['gambar']; ?>" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
+                        <img src="../../../controller/uploads/profile/<?= $profile['gambar']; ?>" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
                       <?php } ?>
 
                       <div class="button-wrapper">
@@ -243,21 +253,21 @@ $data_instalasi = $pegawai->instalasi();
                   <div class="row">
                     <div class="mb-3 col-md-6">
                       <label for="name" class="form-label">Nama Lengkap</label>
-                      <input class="form-control" type="text" id="name" name="name" value="<?= $data_pegawai['Nama']; ?>" autofocus />
+                      <input class="form-control" type="text" id="name" name="name" value="<?= $profile['Nama']; ?>" autofocus />
                     </div>
                     <div class="mb-3 col-md-6">
                       <label for="nip" class="form-label">NIP</label>
-                      <input class="form-control" type="text" id="nip" name="nip" value="<?= $data_pegawai['nip']; ?>" placeholder="john.doe@example.com" />
+                      <input class="form-control" type="text" id="nip" name="nip" value="<?= $profile['nip']; ?>" placeholder="john.doe@example.com" />
                     </div>
                     <div class="mb-3 col-md-6">
                       <label for="email" class="form-label">Email</label>
-                      <input type="email" class="form-control" id="email" name="email" value="<?= $data_pegawai['email']; ?>" />
+                      <input type="email" class="form-control" id="email" name="email" value="<?= $profile['email']; ?>" />
                     </div>
                     <div class="mb-3 col-md-6">
                       <label class="form-label" for="no_telfon">Phone Number</label>
                       <div class="input-group input-group-merge">
                         <!-- <span class="input-group-text">(+62)</span> -->
-                        <input type="text" id="no_telfon" name="no_telfon" class="form-control" value="<?= $data_pegawai['no_telfon']; ?>" />
+                        <input type="text" id="no_telfon" name="no_telfon" class="form-control" value="<?= $profile['no_telfon']; ?>" />
                       </div>
                     </div>
                     <div class="mb-3 col-md-6">
@@ -274,7 +284,7 @@ $data_instalasi = $pegawai->instalasi();
                         <select id="id_unit" name="id_unit" class="select2 form-select">
                           <option value="">Pilih Instalasi</option>
                           <?php foreach ($data_instalasi as $data) {
-                            $selected = ($data['id'] == $data_pegawai['id_unit']) ? 'selected' : '';
+                            $selected = ($data['id'] == $profile['id_unit']) ? 'selected' : '';
                           ?>
                             <option value="<?= $data['id'] ?>" <?= $selected ?>><?= $data['instalasi'] ?></option>
                           <?php } ?>

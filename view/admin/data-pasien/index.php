@@ -14,6 +14,7 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
 $pasien = new Pegawai();
 $data_pasien = $pasien->pasien();
+$profile = $pasien->profile();
 $unit = $pasien->instalasi();
 // var_dump($data_pasien);
 
@@ -144,7 +145,7 @@ $unit = $pasien->instalasi();
             </a>
           </li>
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="../data-pegawai/index.php" class="menu-link">
               <i class="menu-icon bi-person-badge"></i>
               <div data-i18n="Account Settings">Data Pegawai</div>
             </a>
@@ -177,7 +178,11 @@ $unit = $pasien->instalasi();
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-                    <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                    <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                      <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                    <?php } else { ?>
+                      <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                    <?php } ?>
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -186,12 +191,19 @@ $unit = $pasien->instalasi();
                       <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
-                            <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+
+                            <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                              <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                            <?php } else { ?>
+                              <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                            <?php } ?>
+
                           </div>
                         </div>
                         <div class="flex-grow-1">
-                          <span class="fw-semibold d-block">John Doe</span>
-                          <small class="text-muted">Admin</small>
+                          <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
+                          <!-- sesuai role -->
+                          <small class="text-muted"><?= $profile['role'] ?></small>
                         </div>
                       </div>
                     </a>
@@ -858,70 +870,88 @@ $unit = $pasien->instalasi();
                               <input type="date" class="form-control" id="tgl_keluar_detail" name="date" required readonly>
                             </div>
                           </div>
-                          <div class="container mt-5">
-                            <div class="d-flex justify-content-between">
-                              <div class="form-group">
-                                <h6>Hasil Rekam Medis</h6>
-                                <a id="rekam_medis_link" href="#" class="btn btn-pdf btn-primary" target="_blank">
-                                  <i class="bi bi-file-earmark-pdf"></i> Buka PDF
-                                </a>
-                              </div>
-                              <div class="form-group mx-2">
-                                <h6>Hasil Rontgen</h6>
-                                <a id="rontgen_link" href="#" class="btn btn-pdf btn-primary" target="_blank">
-                                  <i class="bi bi-file-earmark-pdf"></i> Buka PDF
-                                </a>
-                              </div>
-                              <div class="form-group">
-                                <h6>Hasil Laboratorium</h6>
-                                <a id="laboratorium_link" href="#" class="btn btn-pdf btn-primary" target="_blank">
-                                  <i class="bi bi-file-earmark-pdf"></i> Buka PDF
-                                </a>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </form>
-                  </div>
+                    <div class="container mt-5">
+                      <div class="d-flex justify-content-between">
+                        <form action="../../../controller/Pasien.php" method="POST">
+                          <div class="form-group">
 
-                  <!-- Modal Footer -->
-                  <div class="modal-footer">
-                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button> -->
-                  </div>
+                            <input type="hidden" name="file_jenis" value="rekam_medis">
+                            <input type="hidden" name="file" id="rekam_medis_file">
+                            <input type="hidden" name="action" value="lihat_file">
+                            <h6>Hasil Rekam Medis</h6>
+                            <button class="btn btn-pdf btn-primary" type="submit">
+                              <i class="bi bi-file-earmark-pdf"></i> Buka PDF
+                            </button>
+                          </div>
+                        </form>
+                        <form action="../../../controller/Pasien.php" method="POST">
 
+                          <input type="hidden" name="file_jenis" value="rontgen">
+                          <input type="hidden" name="file" id="rontgen_file">
+                          <input type="hidden" name="action" value="lihat_file">
+
+                          <div class="form-group mx-2">
+                            <h6>Hasil Rontgen</h6>
+                            <button type="submit" class="btn btn-pdf btn-primary">
+                              <i class="bi bi-file-earmark-pdf"></i> Buka PDF
+                            </button>
+                          </div>
+                        </form>
+                        <form action="../../../controller/Pasien.php" method="POST">
+                          <input type="hidden" name="file_jenis" value="laboratorium">
+                          <input type="hidden" name="file" id="laboratorium_file">
+                          <input type="hidden" name="action" value="lihat_file">
+                          <div class="form-group">
+                            <h6>Hasil Laboratorium</h6>
+                            <button class="btn btn-pdf btn-primary" type="submit">
+                              <i class="bi bi-file-earmark-pdf"></i> Buka PDF
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
               </div>
+
+              <!-- Modal Footer -->
+              <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button> -->
+              </div>
+
             </div>
           </div>
-          <!-- / Content -->
-          <form action="../../../controller/Pasien.php" method="POST" id="formDelete" method="POST">
-            <input type="hidden" name="id_pasien" id="idDelete">
-            <input type="hidden" name="action" value="delete">
-          </form>
-          <!-- Footer -->
-          <footer class="content-footer footer bg-footer-theme">
-            <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-              <div class="mb-2 mb-md-0">
-
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-              </div>
-            </div>
-          </footer>
-          <!-- / Footer -->
-
-          <div class="content-backdrop fade"></div>
         </div>
-        <!-- Content wrapper -->
       </div>
-      <!-- / Layout page -->
-    </div>
+      <!-- / Content -->
+      <form action="../../../controller/Pasien.php" id="formDelete" method="POST">
+        <input type="hidden" name="id_pasien" id="idDelete">
+        <input type="hidden" name="action" value="delete">
+      </form>
+      <!-- Footer -->
+      <footer class="content-footer footer bg-footer-theme">
+        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+          <div class="mb-2 mb-md-0">
 
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+          </div>
+        </div>
+      </footer>
+      <!-- / Footer -->
+
+      <div class="content-backdrop fade"></div>
+    </div>
+    <!-- Content wrapper -->
+  </div>
+  <!-- / Layout page -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
   </div>
   <!-- / Layout wrapper -->
 
@@ -1060,7 +1090,6 @@ $unit = $pasien->instalasi();
 
 
     function showData(data) {
-
       document.getElementById('name_detail').value = data.nama;
       document.getElementById('nik_detail').value = data.nik;
       document.getElementById('tanggal_lahirdetil').value = data.tanggal_lahir;
@@ -1082,17 +1111,19 @@ $unit = $pasien->instalasi();
       document.getElementById('obat_detail').value = data.obat;
       document.getElementById('tgl_masuk_detail').value = data.tgl_masuk;
       document.getElementById('tgl_keluar_detail').value = data.tgl_keluar;
+      document.getElementById('rekam_medis_file').value = data.file_rekammedis;
+      document.getElementById('laboratorium_file').value = data.hasil_laboratorium;
+      document.getElementById('rontgen_file').value = data.file_hasilrontgen;
 
       // Update the href attribute for PDF links with the correct paths
-      document.getElementById('rekam_medis_link').href = '../../../controller/uploads/rekammedis/' + data.file_rekammedis;
-      // document.getElementById('rekam_medis_link').download = 'rekam_medis' + data.nama;
+      // document.getElementById('rekam_medis_link').href = '../../../controller/uploads/rekammedis/' + data.file_rekammedis;
+      // document.getElementById('rontgen_link').href = '../../../controller/uploads/rontgen/' + data.file_hasilrontgen;
+      // document.getElementById('laboratorium_link').href = '../../../controller/uploads/laboratorium/' + data.hasil_laboratorium;
 
-      document.getElementById('rontgen_link').href = '../../../controller/uploads/rontgen/' + data.file_hasilrontgen;
-      // document.getElementById('rontgen_link').download = 'hasil_rontgen' + data.nama;
 
-      document.getElementById('laboratorium_link').href = '../../../controller/uploads/laboratorium/' + data.hasil_laboratorium;
-      // document.getElementById('laboratorium_link').download = 'hasil_laboratorium' + data.nama;
     }
+
+
 
     function editData(data) {
       console.log(data);
