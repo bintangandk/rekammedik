@@ -45,11 +45,9 @@ if ($data) {
     }
 } else {
     $excelData .= "No Data Found\n";
-$_SESSION['error'] = 'DATA tidak ditemukan.';
-header("Location: ../view/admin/riwayat_file/index.php");
-exit();
-
-
+    $_SESSION['error'] = 'DATA tidak ditemukan.';
+    header("Location: ../view/admin/riwayat-file/index.php");
+    exit();
 }
 
 

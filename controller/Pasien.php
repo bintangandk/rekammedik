@@ -398,7 +398,7 @@ function simpan_file($data)
     $row = $result->fetch_assoc();
     $nama = $row['Nama'];
 
-    $stmt = "INSERT INTO riwayat_file (tanggal, waktu, file, nama) VALUES ('$tanggal', '$waktu', '$fileName', '$nama')";
+    $stmt = "INSERT INTO riwayat_file (tanggal, waktu, file, nama,id_user) VALUES ('$tanggal', '$waktu', '$fileName', '$nama','$id_user')";
 
     // Log query for debugging
     // error_log("Query: $stmt");
