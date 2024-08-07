@@ -22,6 +22,24 @@ public function jumlah_riwayatlogin(){
         // if ($existingData && $existingData->num_rows > 0) {
             return $existingData->fetch_assoc();
 }
+public function jumlah_riwayatfile(){
+    $tanggal=date('Y-m-d');
+    $query="SELECT COUNT(*) AS total FROM riwayat_file WHERE tanggal = '$tanggal'";
+    $existingData = $this->execute($query);
+        
+        // if ($existingData && $existingData->num_rows > 0) {
+            return $existingData->fetch_assoc();
+}
+
+public function fileperuser(){
+    // $tanggal=date('Y-m-d');
+    $id_user=$_SESSION['id_user'];
+    $query="SELECT COUNT(*) AS total FROM riwayat_file WHERE id_user='$id_user'";
+    $existingData = $this->execute($query);
+        
+        // if ($existingData && $existingData->num_rows > 0) {
+            return $existingData->fetch_assoc();
+}
 
 
 

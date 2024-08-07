@@ -16,6 +16,7 @@ $pasien = new Pegawai();
 $data_pasien = $pasien->pasien();
 $profile = $pasien->profile();
 $jumlah_login=$pasien->jumlah_riwayatlogin();
+$jumlah_liatfile=$pasien->jumlah_riwayatfile();
 // var_dump($jumlah_login['total']);
 $unit = $pasien->instalasi();
 // var_dump($data_pasien);
@@ -266,7 +267,7 @@ $unit = $pasien->instalasi();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Pengguna Hari ini</span>
-                                                <h3 class="card-title mb-2"><?= $jumlah_login['total'] ?></h3>
+                                                <h3 class="card-title mb-2"><?= $jumlah_login['total']; ?></h3>
                                                 <!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> -->
                                             </div>
                                         </div>
@@ -280,8 +281,8 @@ $unit = $pasien->instalasi();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">File Hari ini</span>
-                                                <h3 class="card-title mb-2">56</h3>
-                                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small>
+                                                <h3 class="card-title mb-2"><?= $jumlah_liatfile["total"];?></h3>
+                                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i></small>
                                             </div>
                                         </div>
                                     </div>
