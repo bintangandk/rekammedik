@@ -66,7 +66,7 @@ public function fileperuser(){
         // }
     }
     function riwayat_peruser() {
-        $query = "SELECT * FROM riwayat_file  join users on riwayat_file.id_user = users.id_user  WHERE id_user = '$_SESSION[id_user]'";
+        $query = "SELECT * FROM riwayat_file   WHERE id_user = '$_SESSION[id_user]'";
    
         
         // if ($existingData && $existingData->num_rows > 0) {
