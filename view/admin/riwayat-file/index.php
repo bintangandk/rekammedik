@@ -265,8 +265,8 @@ $riwayat = $pegawai->riwayat();
                     <tfoot>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Jam</th>
                         <th class="text-center">Tanggal</th>
+                        <th class="text-center">Jam</th>
                         <th class="text-center">File</th>
                         <th class="text-center">User</th>
                       </tr>
@@ -278,10 +278,10 @@ $riwayat = $pegawai->riwayat();
                       ?>
                         <tr>
                           <td class="text-center"><?= $i++ ?></td>
-                          <td class="text-center"><?= $key['waktu'] ?></td>
                           <td class="text-center"><?= $key['tanggal'] ?></td>
+                          <td class="text-center"><?= $key['waktu'] ?></td>
                           <td class="text-center"><?= $key['file'] ?></td>
-                          <td class="text-center"><?= $key['Nama'] ?></td>
+                          <td class="text-center"><?= $key['nama'] ?></td>
                         </tr>
                       <?php } ?>
 
@@ -308,28 +308,29 @@ $riwayat = $pegawai->riwayat();
 
                   <!-- Modal Body -->
                   <div class="modal-body">
-                    <form id="printForm">
+                    <form action="../../../controller/expor_excel.php" method="POST">
                       <div class="container">
                         <div class="row">
                           <div class="form-group">
                             <label for="name">Tanggal Awal <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                            <input type="date" class="form-control" id="name" name="tanggal_awal" placeholder="Masukan Nama Lengkap" required>
                           </div>
                           <div class="form-group">
                             <label for="nip">Tanggal Akhir <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="nip" name="nip" placeholder="Masukan NIP" required>
+                            <input type="date" class="form-control" id="nip" name="tanggal_akhir" placeholder="Masukan NIP" required>
                           </div>
                         </div>
                       </div>
-                    </form>
+                   
                   </div>
 
                   <!-- Modal Footer -->
                   <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    <button type="submit" class="btn btn-primary">
                       <i class="bi bi-printer"></i>
                       Cetak</button>
                   </div>
+                  </form>
 
                 </div>
               </div>
@@ -435,6 +436,30 @@ $riwayat = $pegawai->riwayat();
           window.location.href = 'delete.php?id=' + userId;
         }
       });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+      const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;
+      const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+
+      if (success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Sukses',
+          text: success,
+        });
+        <?php unset($_SESSION['success']); ?>
+      }
+
+      if (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error,
+        });
+        <?php unset($_SESSION['error']); ?>
+      }
     });
   </script>
 
