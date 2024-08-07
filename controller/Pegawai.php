@@ -14,6 +14,17 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         return $this->showData($query);
     }
 
+public function jumlah_riwayatlogin(){
+    $tanggal=date('Y-m-d');
+    $query="SELECT COUNT(*) AS total FROM harian_login WHERE tanggal = '$tanggal'";
+    $existingData = $this->execute($query);
+        
+        // if ($existingData && $existingData->num_rows > 0) {
+            return $existingData->fetch_assoc();
+}
+
+
+
     public function instalasi(){
         // $this=new koneksi();
         $query = "SELECT * FROM unit";
@@ -46,7 +57,7 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         // }
     }
     function riwayat() {
-        $query = "SELECT * FROM riwayat_file  join users on riwayat_file.id_user = users.id_user";
+        $query = "SELECT * FROM riwayat_file";
         return $this->showData($query);
         // }
     }

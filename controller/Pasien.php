@@ -393,8 +393,12 @@ function simpan_file($data)
     $fileName = $_POST['file'];
 
     $id_user = $_SESSION['id_user'];
+    $query="SELECT * FROM users WHERE id_user = '$id_user'";
+    $result = $conn->execute($query);
+    $row = $result->fetch_assoc();
+    $nama = $row['Nama'];
 
-    $stmt = "INSERT INTO riwayat_file (tanggal, waktu, file, id_user) VALUES ('$tanggal', '$waktu', '$fileName', '$id_user')";
+    $stmt = "INSERT INTO riwayat_file (tanggal, waktu, file, nama) VALUES ('$tanggal', '$waktu', '$fileName', '$nama')";
 
     // Log query for debugging
     // error_log("Query: $stmt");
@@ -481,7 +485,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             } else {
                 if (file_exists($file_laboratorium)) {
-                    $_SESSION['success'] = 'Data berhasil diubah.';
+                    $_SESSION['success'] = 'berhasil rekam data.';
                     header("Location: ../controller/$file_laboratorium");
                     exit();
                 } else {

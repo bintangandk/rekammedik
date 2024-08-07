@@ -15,6 +15,8 @@ require '../../../controller/Pegawai.php';
 $pasien = new Pegawai();
 $data_pasien = $pasien->pasien();
 $profile = $pasien->profile();
+$jumlah_login=$pasien->jumlah_riwayatlogin();
+// var_dump($jumlah_login['total']);
 $unit = $pasien->instalasi();
 // var_dump($data_pasien);
 
@@ -239,7 +241,7 @@ $unit = $pasien->instalasi();
                                             <div class="card-body">
                                                 <h3 class="card-title text-primary">Welcome to SiRekam! 🎉</h3>
                                                 <!-- nama user -->
-                                                <h5 class="card-title text-primary">John Doe</h5>
+                                                <h5 class="card-title text-primary"><?= $profile['Nama'] ?></h5>
                                                 <p class="mb-4">
                                                     Selamat datang di tim kami! Kami sangat bangga dan berterima kasih atas dedikasi Anda dalam memberikan pelayanan kesehatan terbaik.
                                                 </p>
@@ -264,8 +266,8 @@ $unit = $pasien->instalasi();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Pengguna Hari ini</span>
-                                                <h3 class="card-title mb-2">56</h3>
-                                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small>
+                                                <h3 class="card-title mb-2"><?= $jumlah_login['total'] ?></h3>
+                                                <!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> -->
                                             </div>
                                         </div>
                                     </div>

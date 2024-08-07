@@ -17,6 +17,17 @@ function login($email, $password)
         $user = mysqli_fetch_assoc($result);
         // Verify the hashed password
         if (password_verify($password, $user['password'])) {
+            $tanggal = date('Y-m-d');
+            $cek = "SELECT * FROM harian_login WHERE id_users = '$user[id_user]' AND tanggal = '$tanggal'";
+            $result = $conn->execute($cek);
+
+            if (mysqli_num_rows($result) == 0) {
+                $stmt = "INSERT INTO harian_login (id_users, tanggal) VALUES ('$user[id_user]', '$tanggal')";
+                $conn->execute($stmt);
+            }
+
+
+
             $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['nip'] = $user['nip'];
@@ -29,11 +40,10 @@ function login($email, $password)
             if ($user['role'] == 'admin') {
                 header("Location: ../view/admin/dashboard/index.php");
                 exit();
-            }else {
+            } else {
                 header("Location: ../view/users/dashboard/index.php");
                 exit();
             }
-         
         }
     }
 
@@ -41,11 +51,12 @@ function login($email, $password)
 
     $_SESSION['error'] = 'Login gagal, email atau password salah!';
     header("Location: ../view/auth/login.php");
-    
+
     exit();
 }
 
-function update_profile($data) {
+function update_profile($data)
+{
 
     $conn = new koneksi();
     $email = htmlspecialchars($data['email']);
@@ -55,8 +66,8 @@ function update_profile($data) {
     $id_unit = htmlspecialchars($data['id_unit']);
     $id_user = $_SESSION['id_user'];
     $password = htmlspecialchars($data['password']);
-    
-    
+
+
     $errors = [];
 
     // Validasi input
@@ -72,11 +83,11 @@ function update_profile($data) {
     if (empty($nip) || !preg_match('/^[0-9]+$/', $nip)) {
         $errors[] = 'NIP harus berupa angka.';
     }
-    
+
     if (empty($id_unit)) {
         $errors[] = 'id_unit harus diisi.';
     }
-   
+
 
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
@@ -90,7 +101,7 @@ function update_profile($data) {
     // Mengecek apakah email sudah ada di database, kecuali email milik user itu sendiri
     $query = "SELECT id_user FROM users WHERE email = '$email' AND id_user != '$id_user'";
     $existingEmail = $conn->execute($query);
-    
+
     if ($existingEmail->num_rows > 0) {
         // Email sudah digunakan oleh user lain
         $_SESSION['errors'][] = 'Email sudah digunakan oleh user lain.';
@@ -100,11 +111,11 @@ function update_profile($data) {
     // Memeriksa apakah ada file gambar yang diunggah
     $query = "SELECT gambar FROM users WHERE id_user = '$id_user'";
     $existingData = $conn->execute($query);
-    
+
     if ($existingData && $existingData->num_rows > 0) {
         $existingFiles = $existingData->fetch_assoc();
         $gambar_name = $existingFiles['gambar'];
-        
+
         if (!empty($_FILES['gambar']['name'])) {
             // Menghapus file lama
             if (file_exists('uploads/profile/' . $gambar_name)) {
@@ -206,44 +217,44 @@ function register($Nama, $email, $no_telfon, $nip, $role, $id_unit, $password)
 }
 
 function update($id_user, $name, $nip, $no_tlp, $role, $id_unit)
-    {
-        $conn = new koneksi();
-        $errors = [];
-        if (empty($id_user)) {
-            $errors[] = 'Nama Pegawai harus diisi.';
-        }
-        if (empty($name)) {
-            $errors[] = 'Nama Pegawai harus diisi.';
-        }
-       
-        if (empty($no_tlp) || !preg_match('/^[0-9]+$/', $no_tlp)) {
-            $errors[] = 'Nomor Telepon harus berupa angka.';
-        }
-        if (empty($nip) || !preg_match('/^[0-9]+$/', $nip)) {
-            $errors[] = 'NIP harus berupa angka.';
-        }
-        if (empty($role)) {
-            $errors[] = 'Jabatan/Peranan harus diisi.';
-        }
-        if (empty($id_unit)) {
-            $errors[] = 'id_unit harus diisi.';
-        }
-       
-    
-        if (!empty($errors)) {
-            $_SESSION['errors'] = $errors;
-            // $_SESSION['form_data'] = $_POST;
-            return false;
-        }
-
-        $query = "UPDATE users SET Nama = '$name', nip = '$nip', no_telfon = '$no_tlp', role = '$role', id_unit = '$id_unit' WHERE id_user = '$id_user'";
-        $result = $conn->execute($query);
-        if ($result) {
-            return true;
-        } else {
-            return false;
-        }
+{
+    $conn = new koneksi();
+    $errors = [];
+    if (empty($id_user)) {
+        $errors[] = 'Nama Pegawai harus diisi.';
     }
+    if (empty($name)) {
+        $errors[] = 'Nama Pegawai harus diisi.';
+    }
+
+    if (empty($no_tlp) || !preg_match('/^[0-9]+$/', $no_tlp)) {
+        $errors[] = 'Nomor Telepon harus berupa angka.';
+    }
+    if (empty($nip) || !preg_match('/^[0-9]+$/', $nip)) {
+        $errors[] = 'NIP harus berupa angka.';
+    }
+    if (empty($role)) {
+        $errors[] = 'Jabatan/Peranan harus diisi.';
+    }
+    if (empty($id_unit)) {
+        $errors[] = 'id_unit harus diisi.';
+    }
+
+
+    if (!empty($errors)) {
+        $_SESSION['errors'] = $errors;
+        // $_SESSION['form_data'] = $_POST;
+        return false;
+    }
+
+    $query = "UPDATE users SET Nama = '$name', nip = '$nip', no_telfon = '$no_tlp', role = '$role', id_unit = '$id_unit' WHERE id_user = '$id_user'";
+    $result = $conn->execute($query);
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 
 // Handling form submission
@@ -262,10 +273,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $no_telfon =  htmlspecialchars($_POST['no_tlp']);
         $nip = htmlspecialchars($_POST['nip']);
         $role = htmlspecialchars($_POST['role']);
-        $id_unit =htmlspecialchars($_POST['id_unit']);
+        $id_unit = htmlspecialchars($_POST['id_unit']);
         // $password = $_POST['password'];
-    // var_dump(update($id_user,$Nama, $nip, $no_telfon, $role, $id_unit));
-        if (update($id_user,$Nama, $nip, $no_telfon, $role, $id_unit)) {
+        // var_dump(update($id_user,$Nama, $nip, $no_telfon, $role, $id_unit));
+        if (update($id_user, $Nama, $nip, $no_telfon, $role, $id_unit)) {
             // unset($_SESSION['form_data']);
             $_SESSION['success'] = 'update berhasil!';
             header("Location: ../view/admin/data-pegawai/index.php");
@@ -277,7 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    
+
     if (isset($_POST['action']) && $_POST['action'] == 'update_profile') {
         // var_dump(update_profile($_POST));
         if (update_profile($_POST)) {
@@ -290,11 +301,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($_SESSION['role'] == 'admin') {
             # code...
             header("Location: ../view/admin/profile/index.php");
-        }else {
+        } else {
             # code...
             header("Location: ../view/users/profile/index.php");
         }
-     
     }
 
     if (isset($_POST['action']) && $_POST['action'] == 'register') {
@@ -317,12 +327,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         }
     }
-
 }
 
 
 
-function logout() {
+function logout()
+{
     // Hapus semua variabel sesi
     $_SESSION = array();
 
@@ -346,4 +356,3 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     header("Location: ../view/auth/login.php");
     exit();
 }
-?>

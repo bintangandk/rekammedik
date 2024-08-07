@@ -263,7 +263,7 @@ $riwayat = $pegawai->riwayat();
                         <td class="text-center"><?= $key['file'] ?></td>
                         <td class="text-center"><?= $key['waktu'] ?></td>
                         <td class="text-center"><?= $key['tanggal'] ?></td>
-                        <td class="text-center"><?= $key['Nama'] ?></td>
+                        <td class="text-center"><?= $key['nama'] ?></td>
                       </tr>
                       <?php } ?>
                     </tbody>
