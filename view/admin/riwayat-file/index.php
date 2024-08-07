@@ -15,7 +15,7 @@ $pegawai = new Pegawai();
 $data_pegawai = $pegawai->index();
 $profile = $pegawai->profile();
 // var_dump($data_pegawai);
-$riwayat = $pegawai->riwayat();
+$riwayat = $pegawai->riwayat_peruser();
 
 ?>
 
