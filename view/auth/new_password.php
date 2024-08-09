@@ -1,9 +1,9 @@
 <?php
 session_start();
-if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
-  header("Location: ../admin/dashboard/index.php"); // Arahkan ke halaman dashboard atau halaman lain sesuai kebutuhan
-  exit();
-}
+// if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
+//   header("Location: ../admin/dashboard/index.php"); // Arahkan ke halaman dashboard atau halaman lain sesuai kebutuhan
+//   exit();
+// }
 
 ?>
 
@@ -15,7 +15,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Login</title>
+  <title>new Password</title>
 
   <meta name="description" content="" />
 
@@ -100,37 +100,41 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
             <!-- /Logo -->
             <h4 class="mb-2"></h4>
 
-            <form id="formAuthentication" class="mb-3" action="../../controller/Auth.php" method="POST">
-              <div class="mb-3">
+            <form id="newpassword" class="mb-3" action="../../controller/NewPassword.php" method="POST">
+              <!-- <div class="mb-3">
                 <input type="hidden" name="action" value="login">
                 <label for="email" class="form-label">Email atau Username</label>
                 <input type="text" class="form-control" id="email" name="email" placeholder="Masukan email atau username" autofocus />
+              </div> -->
+              <div class="mb-3 form-password-toggle">
+                <div class="d-flex justify-content-between">
+                  <label class="form-label" for="password">Password Baru</label>
+                </div>
+                <div class="input-group input-group-merge">
+                  <input type="password" id="password1" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                </div>
               </div>
               <div class="mb-3 form-password-toggle">
                 <div class="d-flex justify-content-between">
-                  <label class="form-label" for="password">Password</label>
+                  <label class="form-label" for="password">Konfirmasi Password</label>
                 </div>
                 <div class="input-group input-group-merge">
-                  <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                  <input type="password" id="password2" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                   <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                 </div>
               </div>
               <div class="mb-3 text-end">
-                <a href="forgot-password.php">
-                  <small>Lupa Password?</small>
+                <a href="login.php">
+                  <small>Kembali login</small>
                 </a>
               </div>
               <div class="mb-3">
-                <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
+                <button class="btn btn-primary d-grid w-100" type="button" onclick="cekkonfirm()">Ubah Password</button>
               </div>
             </form>
 
-            <p class="text-center">
-              <span>Belum Punya Akun?</span>
-              <a href="register.php">
-                <span>Register disini</span>
-              </a>
-            </p>
+
           </div>
         </div>
         <!-- /Register -->
@@ -143,39 +147,58 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
 
   <!-- SweetAlert JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
-            const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;
-            const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+      const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;
+      const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
 
-            if (success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sukses',
-                    text: success,
-                });
-                <?php unset($_SESSION['success']); ?>
-            }
-            if (logout) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sukses',
-                    text: logout,
-                });
-                <?php unset($_SESSION['logout']); ?>
-            }
-
-            if (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: error,
-                });
-                <?php unset($_SESSION['error']); ?>
-            }
+      if (success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Sukses',
+          text: success,
         });
-    </script>
+        <?php unset($_SESSION['success']); ?>
+      }
+      if (success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Sukses',
+          text: logout,
+        });
+        <?php unset($_SESSION['logout']); ?>
+      }
+
+      if (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error,
+        });
+        <?php unset($_SESSION['error']); ?>
+      }
+    });
+
+
+    function cekkonfirm() {
+      const password1 = document.getElementById('password1').value;
+      const password2 = document.getElementById('password2').value;
+      if (password1 == password2) {
+        document.getElementById('newpassword').submit();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Konfirmasi password salah",
+          // footer: '<a href="#">Why do I have this issue?</a>'
+        });
+      }
+    }
+  </script>
+
+
+
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->
   <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
