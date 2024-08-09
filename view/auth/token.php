@@ -1,11 +1,7 @@
 <?php
 session_start();
-if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
-  header("Location: ../admin/dashboard/index.php"); // Arahkan ke halaman dashboard atau halaman lain sesuai kebutuhan
-  exit();
-}
-
 ?>
+
 
 <!DOCTYPE html>
 
@@ -15,7 +11,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Login</title>
+  <title>Lupa Password</title>
 
   <meta name="description" content="" />
 
@@ -44,8 +40,9 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
   <!-- Helpers -->
   <script src="../../assets/vendor/js/helpers.js"></script>
 
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-  <script src="../../assets/js/config.js"></script>
+  <script src="../assets/js/config.js"></script>
 </head>
 
 <body>
@@ -53,8 +50,8 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
 
   <div class="container-xxl">
     <div class="authentication-wrapper authentication-basic container-p-y">
-      <div class="authentication-inner">
-        <!-- Register -->
+      <div class="authentication-inner py-4">
+        <!-- Forgot Password -->
         <div class="card">
           <div class="card-body">
             <!-- Logo -->
@@ -94,88 +91,65 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
                     </g>
                   </svg>
                 </span>
-                <span class="app-brand-text demo text-body fw-bolder">SiRekam</span>
+                <span class="app-brand-text demo text-body fw-bolder">sirekam</span>
               </a>
             </div>
             <!-- /Logo -->
-            <h4 class="mb-2"></h4>
-
-            <form id="formAuthentication" class="mb-3" action="../../controller/Auth.php" method="POST">
+            <h4 class="mb-2">Masukkan Token</h4>
+            <p class="mb-4">Masukan Token anda untuk mereset password</p>
+            <form id="formAuthentication" class="mb-3" action="../../controller/cektoken.php" method="POST">
               <div class="mb-3">
-                <input type="hidden" name="action" value="login">
-                <label for="email" class="form-label">Email atau Username</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Masukan email atau username" autofocus />
+                <label for="email" class="form-label">Token</label>
+                <input type="number" class="form-control" id="email" name="token" placeholder="Enter your email" autofocus />
               </div>
-              <div class="mb-3 form-password-toggle">
-                <div class="d-flex justify-content-between">
-                  <label class="form-label" for="password">Password</label>
-                </div>
-                <div class="input-group input-group-merge">
-                  <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                </div>
-              </div>
-              <div class="mb-3 text-end">
-                <a href="forgot-password.php">
-                  <small>Lupa Password?</small>
-                </a>
-              </div>
-              <div class="mb-3">
-                <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
-              </div>
+              <button class="btn btn-primary d-grid w-100" type="submit">Kirim</button>
             </form>
-
-            <p class="text-center">
-              <span>Belum Punya Akun?</span>
-              <a href="register.php">
-                <span>Register disini</span>
+            <div class="text-center">
+              <a href="login.php" class="d-flex align-items-center justify-content-center">
+                <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
+                Kembali login
               </a>
-            </p>
+            </div>
           </div>
         </div>
-        <!-- /Register -->
+        <!-- /Forgot Password -->
       </div>
     </div>
   </div>
-
-  <!-- / Content -->
-
-
-  <!-- SweetAlert JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
-            const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;
-            const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+      const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;
+      const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
 
-            if (success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sukses',
-                    text: success,
-                });
-                <?php unset($_SESSION['success']); ?>
-            }
-            if (logout) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sukses',
-                    text: logout,
-                });
-                <?php unset($_SESSION['logout']); ?>
-            }
-
-            if (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: error,
-                });
-                <?php unset($_SESSION['error']); ?>
-            }
+      if (success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Sukses',
+          text: success,
         });
-    </script>
+        <?php unset($_SESSION['success']); ?>
+      }
+      // if (success) {
+      //   Swal.fire({
+      //     icon: 'success',
+      //     title: 'Sukses',
+      //     text: logout,
+      //   });
+      //   <?php unset($_SESSION['logout']); ?>
+      // }
+
+      if (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error,
+        });
+        <?php unset($_SESSION['error']); ?>
+      }
+    });
+  </script>
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->
   <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
