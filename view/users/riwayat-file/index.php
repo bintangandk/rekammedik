@@ -10,7 +10,7 @@ require '../../../controller/Pegawai.php';
 
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
-$riwayat = $pegawai->riwayat();
+$riwayat = $pegawai->riwayat_peruser();
 // var_dump($profile);
 // $data_instalasi = $pegawai->instalasi();
 ?>

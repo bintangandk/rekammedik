@@ -2,6 +2,7 @@
 session_start();
 // include '../koneksi.php';
 // include '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+unset($_SESSION['file']);
 if (!isset($_SESSION['email'])) {
   header('Location: ../../auth/login.php');
   exit();

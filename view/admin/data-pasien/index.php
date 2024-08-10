@@ -6,8 +6,9 @@ if (!isset($_SESSION['email'])) {
   header('Location: ../../auth/login.php');
   exit();
 }
+unset($_SESSION['file']);
 if (($_SESSION['role'] != 'admin')) {
-  header('Location: ../../admin/dashboard/index.php');
+  header('Location: ../../users/dashboard/index.php');
   # code...
 }
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
