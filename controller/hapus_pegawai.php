@@ -36,15 +36,15 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
         // var_dump($th);
     }
 
-    $response = $pegawai->delete($_GET['id']);
-    // var_dump($response);
-    if ($response['status'] === 'success') {
-        // var_dump($response);
-        $_SESSION['success'] = "Data berhasil dihapus!";
-        header("Location: ../view/admin/data-pegawai/index.php");
-    } else {
-        header("Location: path/to/your/view/admin/data-pegawai/index.php?message=Gagal menghapus data");
-    }
+    // $response = $pegawai->delete($_GET['id']);
+    // // var_dump($response);
+    // if ($response['status'] === 'success') {
+    //     // var_dump($response);
+    //     $_SESSION['success'] = "Data berhasil dihapus!";
+    //     header("Location: ../view/admin/data-pegawai/index.php");
+    // } else {
+    //     header("Location: path/to/your/view/admin/data-pegawai/index.php?message=Gagal menghapus data");
+    // }
 } else {
     // Logika lain untuk controller utama
 }
