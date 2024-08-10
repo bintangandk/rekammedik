@@ -131,7 +131,7 @@ $file_peruser=$pegawai->fileperuser();
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="../riwayat-file/index.php" class="menu-link">
                             <i class="menu-icon bi bi-clipboard"></i>
                             <div data-i18n="Account Settings">Riwayat File</div>
                         </a>
