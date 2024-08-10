@@ -428,8 +428,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($_SESSION['role'] == 'admin') {
             if ($file_jenis == "rekam_medis") {
                 if (file_exists($file_rekammedis)) {
+                    $_SESSION["file"] = $file_rekammedis;
                     $_SESSION['success'] = 'berhasil rekam data..';
-                    header("Location: ../controller/$file_rekammedis");
+                    // header("Location: ../controller/$file_rekammedis");
+                    header("Location: ../view/admin/data-pasien/lihat_file.php");
                     exit();
                 } else {
                     error_log("File rekammedis tidak ditemukan: " . realpath($file_rekammedis)); // Debugging
@@ -439,8 +441,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             } elseif ($file_jenis == "rontgen") {
                 if (file_exists($file_rontgen)) {
+                    $_SESSION["file"] = $file_rontgen;
                     $_SESSION['success'] = 'berhasil rekam data.';
-                    header("Location: ../controller/$file_rontgen");
+                    header("Location: ../view/admin/data-pasien/lihat_file.php");
+                    // header("Location: ../controller/$file_rontgen");
                     exit();
                 } else {
                     error_log("File rontgen tidak ditemukan: " . realpath($file_rontgen)); // Debugging
@@ -450,8 +454,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             } else {
                 if (file_exists($file_laboratorium)) {
-                    $_SESSION['success'] = 'Data berhasil diubah.';
-                    header("Location: ../controller/$file_laboratorium");
+                    $_SESSION["file"] = $file_laboratorium;
+                    $_SESSION['success'] = 'berhasil rekam data.';
+                    header("Location: ../view/admin/data-pasien/lihat_file.php");
                     exit();
                 } else {
                     error_log("File laboratorium tidak ditemukan: " . realpath($file_laboratorium)); // Debugging
@@ -464,7 +469,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($file_jenis == "rekam_medis") {
                 if (file_exists($file_rekammedis)) {
                     $_SESSION['success'] = 'berhasil rekam data..';
-                    header("Location: ../controller/$file_rekammedis");
+                    
+                    $_SESSION["file"] = $file_rekammedis;
+                    // header("Location: ../controller/$file_rekammedis");
+                    header("Location: ../view/users/data-pasien/lihat_file.php");
+                    exit();
                     exit();
                 } else {
                     error_log("File rekammedis tidak ditemukan: " . realpath($file_rekammedis)); // Debugging
@@ -475,7 +484,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } elseif ($file_jenis == "rontgen") {
                 if (file_exists($file_rontgen)) {
                     $_SESSION['success'] = 'berhasil rekam data.';
-                    header("Location: ../controller/$file_rontgen");
+
+                    $_SESSION["file"] = $file_rontgen;
+                    // header("Location: ../controller/$file_rontgen");
+                    header("Location: ../view/users/data-pasien/lihat_file.php");
                     exit();
                 } else {
                     error_log("File rontgen tidak ditemukan: " . realpath($file_rontgen)); // Debugging
@@ -486,7 +498,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } else {
                 if (file_exists($file_laboratorium)) {
                     $_SESSION['success'] = 'berhasil rekam data.';
-                    header("Location: ../controller/$file_laboratorium");
+                    // header("Location: ../controller/$file_laboratorium");
+                    $_SESSION["file"] = $file_laboratorium;
+                    header("Location: ../view/users/data-pasien/lihat_file.php");
                     exit();
                 } else {
                     error_log("File laboratorium tidak ditemukan: " . realpath($file_laboratorium)); // Debugging

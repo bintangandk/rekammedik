@@ -573,6 +573,11 @@ $data_instalasi = $pegawai->instalasi();
 
       document.getElementById('jabatan_detail').value = data.role
       document.getElementById('instalasi_detail').value = data.instalasi
+      const basePath = '../../../controller/uploads/profile/';
+    const imagePath = basePath + data.gambar;
+
+    // Mengubah gambar sesuai dengan path yang telah digabungkan
+    document.getElementById('uploadedAvatar').src = imagePath;
 
 
     }

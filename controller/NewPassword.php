@@ -4,7 +4,7 @@ session_start();
 include '../koneksi.php';
 $conn = new koneksi();
 
-$email=$_SESSION["email"];
+$email=$_SESSION["email1"];
 $password=htmlspecialchars($_POST["password"]);
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
