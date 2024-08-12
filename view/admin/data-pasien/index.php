@@ -173,6 +173,9 @@ $unit = $pasien->instalasi();
           </div>
 
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <div class="navbar-nav align-items-center">
+              <span class="fw-semibold"><?php echo date('l, d F Y'); ?></span>
+            </div>
             <ul class="navbar-nav flex-row align-items-center ms-auto">
 
               <!-- User -->
@@ -222,7 +225,7 @@ $unit = $pasien->instalasi();
                     <div class="dropdown-divider"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="auth-login-basic.html">
+                    <a href="#" class="dropdown-item" id="logout-link">
                       <i class="bx bx-power-off me-2"></i>
                       <span class="align-middle">Log Out</span>
                     </a>
@@ -413,9 +416,9 @@ $unit = $pasien->instalasi();
                               <div class="form-group row">
                                 <label for="td" class="col-sm-1 col-form-label">TD:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="td" name="td" placeholder="mmHg" required>
+                                  <input type="text" class="form-control" id="td" name="td" placeholder="../.." required>
                                 </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/mmHg</label>
+                                <label for="td" class="col-sm-1 col-form-label ml-0" style="text-transform: none;">mmHg</label>
                               </div>
                               <div class="form-group row">
                                 <label for="temperature" class="col-sm-1 col-form-label">T:</label>
@@ -991,6 +994,27 @@ $unit = $pasien->instalasi();
 
   <!-- Delete alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+        document.getElementById('logout-link').addEventListener('click', function(event) {
+            event.preventDefault(); // Mencegah tautan default
+
+            Swal.fire({
+                title: 'Konfirmasi Logout',
+                text: "Anda yakin ingin logout?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Logout',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika pengguna mengonfirmasi, arahkan ke URL logout
+                    window.location.href = "../../../controller/Auth.php?action=logout";
+                }
+            });
+        });
+    </script>
   <script>
     // document.getElementById('deleteButton').addEventListener('click', function() {
     //   const userId = this.getAttribute('data-id');

@@ -159,6 +159,9 @@ $riwayat = $pegawai->riwayat_peruser();
           </div>
 
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <div class="navbar-nav align-items-center">
+              <span class="fw-semibold"><?php echo date('l, d F Y'); ?></span>
+            </div>
             <ul class="navbar-nav flex-row align-items-center ms-auto">
 
               <!-- User -->
@@ -253,18 +256,18 @@ $riwayat = $pegawai->riwayat_peruser();
                       </tr>
                     </tfoot>
                     <tbody>
-                      <?php $no = 1; 
-                      
+                      <?php $no = 1;
+
                       foreach ($riwayat as $key) {
-                    
+
                       ?>
-                      <tr>
-                        <td class="text-center"><?= $no++ ?></td>
-                        <td class="text-center"><?= $key['file'] ?></td>
-                        <td class="text-center"><?= $key['waktu'] ?></td>
-                        <td class="text-center"><?= $key['tanggal'] ?></td>
-                        <td class="text-center"><?= $key['nama'] ?></td>
-                      </tr>
+                        <tr>
+                          <td class="text-center"><?= $no++ ?></td>
+                          <td class="text-center"><?= $key['file'] ?></td>
+                          <td class="text-center"><?= $key['waktu'] ?></td>
+                          <td class="text-center"><?= $key['tanggal'] ?></td>
+                          <td class="text-center"><?= $key['nama'] ?></td>
+                        </tr>
                       <?php } ?>
                     </tbody>
                   </table>
