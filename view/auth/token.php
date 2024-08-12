@@ -95,12 +95,12 @@ session_start();
               </a>
             </div>
             <!-- /Logo -->
-            <h4 class="mb-2">Masukkan Token</h4>
-            <p class="mb-4">Masukan Token anda untuk mereset password</p>
+            <h4 class="mb-2">Masukkan Kode</h4>
+            <p class="mb-4">Masukan Kode anda untuk mereset password</p>
             <form id="formAuthentication" class="mb-3" action="../../controller/cektoken.php" method="POST">
               <div class="mb-3">
-                <label for="email" class="form-label">Token</label>
-                <input type="number" class="form-control" id="email" name="token" placeholder="Enter your email" autofocus />
+                <label for="email" class="form-label">Kode</label>
+                <input type="number" class="form-control" id="email" name="token" placeholder="Enter your kode" autofocus />
               </div>
               <button class="btn btn-primary d-grid w-100" type="submit">Kirim</button>
             </form>

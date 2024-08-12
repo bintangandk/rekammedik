@@ -55,7 +55,7 @@ $send=$mail->send();
 
 // if ($send) {
     $_SESSION["email1"]=$email;
-    $_SESSION["success"]="Berhasil Kirim kode di email anda , silahkan isi token sesuai dengan yang dikirim di email anda";
+    $_SESSION["success"]="Berhasil Kirim kode di email anda , silahkan isi kode sesuai dengan yang dikirim di email anda";
     header("Location: ../view/auth/token.php");
     exit();
 } catch (Exception $e) {

@@ -15,8 +15,8 @@ require '../../../controller/Pegawai.php';
 $pasien = new Pegawai();
 $data_pasien = $pasien->pasien();
 $profile = $pasien->profile();
-$jumlah_login=$pasien->jumlah_riwayatlogin();
-$jumlah_liatfile=$pasien->jumlah_riwayatfile();
+$jumlah_login = $pasien->jumlah_riwayatlogin();
+$jumlah_liatfile = $pasien->jumlah_riwayatfile();
 // var_dump($jumlah_login['total']);
 $unit = $pasien->instalasi();
 // var_dump($data_pasien);
@@ -166,17 +166,20 @@ $unit = $pasien->instalasi();
                         </a>
                     </div>
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <div class="navbar-nav align-items-center">
+                            <span class="fw-semibold"><?php echo date('l, d F Y'); ?></span>
+                        </div>
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
                             <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                    <?php if ($profile['gambar'] == 'profile.jpg') { ?>
-                                        <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                                    <?php } else { ?>
-                                        <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
-                                    <?php } ?>
+                                        <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                                            <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                        <?php } else { ?>
+                                            <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                                        <?php } ?>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -281,7 +284,7 @@ $unit = $pasien->instalasi();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">File Hari ini</span>
-                                                <h3 class="card-title mb-2"><?= $jumlah_liatfile["total"];?></h3>
+                                                <h3 class="card-title mb-2"><?= $jumlah_liatfile["total"]; ?></h3>
                                                 <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i></small>
                                             </div>
                                         </div>

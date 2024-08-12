@@ -12,7 +12,7 @@ require '../../../controller/Pegawai.php';
 
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
-$file_peruser=$pegawai->fileperuser();
+$file_peruser = $pegawai->fileperuser();
 ?>
 
 <!DOCTYPE html>
@@ -151,6 +151,9 @@ $file_peruser=$pegawai->fileperuser();
                         </a>
                     </div>
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <div class="navbar-nav align-items-center">
+                            <span class="fw-semibold"><?php echo date('l, d F Y'); ?></span>
+                        </div>
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
                             <!-- User -->
@@ -160,10 +163,10 @@ $file_peruser=$pegawai->fileperuser();
 
                                         <?php if ($profile['gambar'] == 'profile.jpg') { ?>
                                             <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                                        <?php } else { ?> 
+                                        <?php } else { ?>
                                             <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
                                         <?php } ?>
-                                        
+
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -175,7 +178,7 @@ $file_peruser=$pegawai->fileperuser();
 
                                                         <?php if ($profile['gambar'] == 'profile.jpg') { ?>
                                                             <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                                                        <?php } else { ?> 
+                                                        <?php } else { ?>
                                                             <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
                                                         <?php } ?>
 
@@ -254,7 +257,7 @@ $file_peruser=$pegawai->fileperuser();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">File yang dikunjungi</span>
-                                                <h3 class="card-title mb-2"><?= $file_peruser["total"] ;?></h3>
+                                                <h3 class="card-title mb-2"><?= $file_peruser["total"]; ?></h3>
                                                 <!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> -->
                                             </div>
                                         </div>
