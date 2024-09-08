@@ -79,7 +79,7 @@ $unit = $pasien->instalasi();
                     <span class="app-brand-logo demo">
                         <img src="../../../assets/img/favicon/logo-si.png" alt="Logo" width="90">
                     </span>
-                    <span class="app-brand-text demo menu-text fw-bolder ms-0">SiRekam</span>
+                    <span class="app-brand-text demo menu-text fw-bolder ms-0  text-capitalize">DiRec</span>
                 </div>
 
                 <div class="menu-inner-shadow"></div>
@@ -206,7 +206,7 @@ $unit = $pasien->instalasi();
                                     <div class="d-flex align-items-end row">
                                         <div class="col-sm-7">
                                             <div class="card-body">
-                                                <h3 class="card-title text-primary">Welcome to SiRekam! 🎉</h3>
+                                                <h3 class="card-title text-primary">Welcome to DiRec! 🎉</h3>
                                                 <!-- nama user -->
                                                 <h5 class="card-title text-primary"><?= $profile['Nama'] ?></h5>
                                                 <p class="mb-4">
