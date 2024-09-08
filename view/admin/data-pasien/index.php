@@ -86,7 +86,7 @@ $unit = $pasien->instalasi();
           <span class="app-brand-logo demo">
             <img src="../../../assets/img/favicon/logo-si.png" alt="Logo" width="90">
           </span>
-          <span class="app-brand-text demo menu-text fw-bolder ms-0">SiRekam</span>
+          <span class="app-brand-text demo menu-text fw-bolder ms-0  text-capitalize">DiRec</span>
         </div>
         <div class="menu-inner-shadow"></div>
 
