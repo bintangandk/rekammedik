@@ -119,6 +119,9 @@ $data_instalasi = $pegawai->instalasi();
           </div>
 
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <div class="navbar-nav align-items-center">
+              <span class="fw-semibold"><?php echo date('l, d F Y'); ?></span>
+            </div>
             <ul class="navbar-nav flex-row align-items-center ms-auto">
 
               <!-- User -->
