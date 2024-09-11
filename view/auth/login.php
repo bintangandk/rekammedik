@@ -48,6 +48,23 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
   <script src="../../assets/js/config.js"></script>
 </head>
 
+<style>
+  .app-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .app-brand-logo img {
+    margin-right: -15px;
+  }
+
+  .app-brand-text {
+    margin-left: 0;
+    padding-left: 0;
+  }
+</style>
+
 <body>
   <!-- Content -->
 
@@ -58,15 +75,15 @@ if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
         <div class="card">
           <div class="card-body">
             <!-- Logo -->
-            <div class="app-brand justify-content-center">
-              <a href="index.html" class="app-brand-link">
+            <div class="app-brand d-flex justify-content-center align-items-center">
+              <a href="index.html" class="app-brand-link d-flex align-items-center">
                 <span class="app-brand-logo demo">
                   <img src="../../assets/img/favicon/logo-si.png" alt="Logo" width="80">
                 </span>
-                <span class="app-brand-text demo menu-text fw-bolder ms-0 text-capitalize" style="margin-left: 0;">DiRec</span>
+                <span class="app-brand-text demo menu-text fw-bolder ms-0 text-capitalize" style="margin-left: 0; padding-left: 0;">DiRec</span>
               </a>
             </div>
-            
+
             <h4 class="mb-2"></h4>
 
             <form id="formAuthentication" class="mb-3" action="../../controller/Auth.php" method="POST">
