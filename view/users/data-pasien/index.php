@@ -86,7 +86,7 @@ $unit = $pasien->instalasi();
           </span>
           <span class="app-brand-text demo menu-text fw-bolder ms-0  text-capitalize">DiRec</span>
         </div>
-        
+
         <div class="menu-inner-shadow"></div>
 
         <ul class="menu-inner py-1">
@@ -387,7 +387,7 @@ $unit = $pasien->instalasi();
             </div>
 
             <!-- Modal show data pasien-->
-            <<div class="modal fade" id="showModal">
+            <div class="modal fade" id="showModal">
               <div class="modal-dialog">
                 <div class="modal-content">
 
@@ -596,32 +596,32 @@ $unit = $pasien->instalasi();
                 <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button> -->
               </div>
 
-          </div>
-        </div>
-        <!-- / Content -->
-
-        <!-- Footer -->
-        <footer class="content-footer footer bg-footer-theme">
-          <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-            <div class="mb-2 mb-md-0">
-              ©
-              <script>
-                document.write(new Date().getFullYear());
-              </script>
             </div>
           </div>
-        </footer>
-        <!-- / Footer -->
+          <!-- / Content -->
 
-        <div class="content-backdrop fade"></div>
+          <!-- Footer -->
+          <footer class="content-footer footer bg-footer-theme">
+            <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+              <div class="mb-2 mb-md-0">
+                ©
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+              </div>
+            </div>
+          </footer>
+          <!-- / Footer -->
+
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
       </div>
-      <!-- Content wrapper -->
+      <!-- / Layout page -->
     </div>
-    <!-- / Layout page -->
-  </div>
 
-  <!-- Overlay -->
-  <div class="layout-overlay layout-menu-toggle"></div>
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
   </div>
   <!-- / Layout wrapper -->
 

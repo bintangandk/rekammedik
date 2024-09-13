@@ -3,38 +3,56 @@ session_start();
 if (isset($_SESSION['file'])) {
     $file_path = '../../../controller/' . $_SESSION['file']; // Path relatif ke file
     error_log("File path: " . realpath($file_path)); // Debugging
-    
+
     if (file_exists($file_path)) {
         // Menentukan tipe file
         $file_extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
         $mime_type = mime_content_type($file_path);
-        ?>
+?>
         <!DOCTYPE html>
         <html lang="en">
+
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Lihat File</title>
             <style>
-                html, body {
+                html,
+                body {
                     margin: 0;
                     padding: 0;
                     height: 100%;
                     width: 100%;
-                    overflow: hidden; /* Hilangkan scrollbar */
+                    overflow: auto;
                     background-color: #f0f0f0;
                 }
-                embed, img, video, iframe {
+
+                /* PDF atau file lainnya akan tetap bisa di-scroll */
+                iframe {
                     height: 100%;
                     width: 100%;
                     border: none;
                 }
+
+                /* Memblokir toolbar dan tombol unduh PDF dengan menonaktifkan pointer */
+                .pdf-viewer-toolbar {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 50px; /* Atur sesuai tinggi toolbar PDF di browser Anda */
+                    background: transparent;
+                    z-index: 9999;
+                    pointer-events: none; /* Blokir semua interaksi */
+                }
+
                 .disable-select {
                     -webkit-user-select: none;
                     -moz-user-select: none;
                     -ms-user-select: none;
                     user-select: none;
                 }
+
                 .disable-context-menu {
                     -webkit-touch-callout: none;
                     -webkit-user-select: none;
@@ -43,24 +61,17 @@ if (isset($_SESSION['file'])) {
                     -ms-user-select: none;
                     user-select: none;
                 }
-                .overlay {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    z-index: 999;
-                    background: rgba(255, 255, 255, 0); /* Transparan */
-                }
             </style>
         </head>
+
         <body class="disable-select disable-context-menu">
-            <div class="overlay"></div>
+            <div class="pdf-viewer-toolbar"></div> <!-- Toolbar virtual untuk memblokir -->
             <?php
             // Tampilkan file berdasarkan tipenya
             switch ($file_extension) {
                 case 'pdf':
-                    echo '<iframe src="' . htmlspecialchars($file_path) . '" type="application/pdf"></iframe>';
+                    // Tambahkan #toolbar=0 untuk menghilangkan toolbar PDF default
+                    echo '<iframe src="' . htmlspecialchars($file_path) . '#toolbar=0" type="application/pdf"></iframe>';
                     break;
                 case 'jpg':
                 case 'jpeg':
@@ -89,12 +100,13 @@ if (isset($_SESSION['file'])) {
             setTimeout(function() {
                 window.location.href = 'index.php';
             }, 300000); // 300.000 milidetik = 5 menit
-            
+
             // Mencegah klik kanan untuk menonaktifkan menu konteks
             document.addEventListener('contextmenu', event => event.preventDefault());
         </script>
+
         </html>
-        <?php
+<?php
     } else {
         error_log("File tidak ditemukan: " . realpath($file_path)); // Debugging
         $_SESSION['error'] = 'File tidak ditemukan.';
