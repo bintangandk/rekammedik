@@ -272,7 +272,7 @@ $unit = $pasien->instalasi();
             <!-- style modal -->
             <style>
               .modal-dialog {
-                max-width: 50%;
+                max-width: auto;
 
               }
             </style>
@@ -302,7 +302,7 @@ $unit = $pasien->instalasi();
                               <div class="form-group row">
                                 <label for="td" class="col-sm-1 col-form-label">TD:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="td_edit" name="td" placeholder="mmHg" required>
+                                  <input type="text" class="form-control" id="td_edit" name="td" placeholder="../.." required>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/mmHg</label>
                               </div>
@@ -466,7 +466,7 @@ $unit = $pasien->instalasi();
                               <div class="form-group row">
                                 <label for="td" class="col-sm-1 col-form-label">TD:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="td_detail" name="td" placeholder="mmHg">
+                                  <input type="text" class="form-control" id="td_detail" name="td" placeholder="../..">
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/mmHg</label>
                               </div>
@@ -547,81 +547,85 @@ $unit = $pasien->instalasi();
                           </div>
                     </form>
                     <div class="container mt-5">
-                      <div class="d-flex justify-content-between">
-                        <form action="../../../controller/Pasien.php" method="POST">
-                          <div class="form-group">
-
-                            <input type="hidden" name="file_jenis" value="rekam_medis">
-                            <input type="hidden" name="file" id="rekam_medis_file">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12 mb-3">
+                          <form action="../../../controller/Pasien.php" method="POST">
+                              <input type="hidden" name="file_jenis" value="rekam_medis">
+                              <input type="hidden" name="file" id="rekam_medis_file">
+                              <input type="hidden" name="action" value="lihat_file">
+                            <div class="form-group mx-3">
+                              <h6>Hasil Rekam Medis</h6>
+                              <button class="btn btn-pdf btn-primary btn-block" type="submit">
+                                <i class="bi bi-file-earmark-pdf"></i> Buka PDF
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="col-md-4 col-sm-12 mb-3">
+                          <form action="../../../controller/Pasien.php" method="POST">
+                            <input type="hidden" name="file_jenis" value="rontgen">
+                            <input type="hidden" name="file" id="rontgen_file">
                             <input type="hidden" name="action" value="lihat_file">
-                            <h6>Hasil Rekam Medis</h6>
-                            <button class="btn btn-pdf btn-primary" type="submit">
-                              <i class="bi bi-file-earmark-pdf"></i> Buka PDF
-                            </button>
-                          </div>
-                        </form>
-                        <form action="../../../controller/Pasien.php" method="POST">
-
-                          <input type="hidden" name="file_jenis" value="rontgen">
-                          <input type="hidden" name="file" id="rontgen_file">
-                          <input type="hidden" name="action" value="lihat_file">
-
-                          <div class="form-group mx-2">
-                            <h6>Hasil Rontgen</h6>
-                            <button type="submit" class="btn btn-pdf btn-primary">
-                              <i class="bi bi-file-earmark-pdf"></i> Buka PDF
-                            </button>
-                          </div>
-                        </form>
-                        <form action="../../../controller/Pasien.php" method="POST">
-                          <input type="hidden" name="file_jenis" value="laboratorium">
-                          <input type="hidden" name="file" id="laboratorium_file">
-                          <input type="hidden" name="action" value="lihat_file">
-                          <div class="form-group">
-                            <h6>Hasil Laboratorium</h6>
-                            <button class="btn btn-pdf btn-primary" type="submit">
-                              <i class="bi bi-file-earmark-pdf"></i> Buka PDF
-                            </button>
-                          </div>
-                        </form>
+                            <div class="form-group mx-3">
+                              <h6>Hasil Rontgen</h6>
+                              <button type="submit" class="btn btn-pdf btn-primary btn-block">
+                                <i class="bi bi-file-earmark-pdf"></i> Buka PDF
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="col-md-4 col-sm-12 mb-3">
+                          <form action="../../../controller/Pasien.php" method="POST">
+                            <input type="hidden" name="file_jenis" value="laboratorium">
+                            <input type="hidden" name="file" id="laboratorium_file">
+                            <input type="hidden" name="action" value="lihat_file">
+                            <div class="form-group mx-3">
+                              <h6>Hasil Laboratorium</h6>
+                              <button class="btn btn-pdf btn-primary btn-block" type="submit">
+                                <i class="bi bi-file-earmark-pdf"></i> Buka PDF
+                              </button>
+                            </div>
+                          </form>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-
               </div>
 
-              <!-- Modal Footer -->
-              <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button> -->
-              </div>
+            </div>
 
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+              <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button> -->
+            </div>
+
+          </div>
+        </div>
+        <!-- / Content -->
+
+        <!-- Footer -->
+        <footer class="content-footer footer bg-footer-theme">
+          <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+            <div class="mb-2 mb-md-0">
+              ©
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
             </div>
           </div>
-          <!-- / Content -->
+        </footer>
+        <!-- / Footer -->
 
-          <!-- Footer -->
-          <footer class="content-footer footer bg-footer-theme">
-            <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-              <div class="mb-2 mb-md-0">
-                ©
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-              </div>
-            </div>
-          </footer>
-          <!-- / Footer -->
-
-          <div class="content-backdrop fade"></div>
-        </div>
-        <!-- Content wrapper -->
+        <div class="content-backdrop fade"></div>
       </div>
-      <!-- / Layout page -->
+      <!-- Content wrapper -->
     </div>
+    <!-- / Layout page -->
+  </div>
 
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
   </div>
   <!-- / Layout wrapper -->
 
