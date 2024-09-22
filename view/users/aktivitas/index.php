@@ -206,14 +206,23 @@ $file_peruser = $pegawai->fileperuser();
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Aktivitas</h4>
 
-                        <!-- Table Data Pasien -->
+                        <!-- Table Aktivitas -->
                         <div class="card shadow mb-3">
-                            <div class="card-header py-3 d-flex justify-content-end">
+                            <div class="card-header py-3 d-flex justify-content-end gap-2">
+                                <!-- Insert Button -->
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insertModal">
                                     <i class="bi bi-person"></i>
                                     <i class="bi bi-plus"></i>
                                 </button>
+
+                                <!-- Print Button -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printModal">
+                                    Cetak
+                                    <i class="bi bi-printer"></i>
+                                </button>
                             </div>
+
+                            <!--/ Print Button -->
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -260,15 +269,6 @@ $file_peruser = $pegawai->fileperuser();
                             </div>
                         </div>
                         <!--/ Responsive Table -->
-
-                        <!-- Print Button -->
-                        <div class="d-flex justify-content-end">
-                            <button class="btn btn-primary">
-                                Cetak
-                                <i class="bi bi-printer"></i>
-                            </button>
-                        </div>
-                        <!--/ Print Button -->
 
                         <!-- Modal Insert Aktivitas-->
                         <div class="modal fade" id="insertModal">
@@ -362,6 +362,49 @@ $file_peruser = $pegawai->fileperuser();
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal print riwayat file-->
+                        <div class="modal fade" id="printModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title text-center w-100">Cetak Aktivitas</h4>
+                                        <a data-dismiss="modal">
+                                            <i class="bi bi-x"></i>
+                                        </a>
+                                    </div>
+
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <form action="../../../controller/expor_excel.php" method="POST">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <label for="name">Tanggal Awal <span class="text-danger">*</span></label>
+                                                        <input type="date" class="form-control" id="name" name="tanggal_awal" placeholder="Masukan Nama Lengkap" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="nip">Tanggal Akhir <span class="text-danger">*</span></label>
+                                                        <input type="date" class="form-control" id="nip" name="tanggal_akhir" placeholder="Masukan NIP" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                    </div>
+
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-printer"></i>
+                                            Cetak</button>
+                                    </div>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -469,6 +512,18 @@ $file_peruser = $pegawai->fileperuser();
             alert('Form submitted!');
             // Close the modal
             $('#showModal').modal('hide');
+        });
+    </script>
+
+    <!-- modal print -->
+    <script>
+        // Handle form submission
+        document.getElementById('printForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Perform your insert operation here, e.g., send data to the server
+            alert('Form submitted!');
+            // Close the modal
+            $('#printModal').modal('hide');
         });
     </script>
 
