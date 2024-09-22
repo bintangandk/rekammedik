@@ -229,29 +229,29 @@ $file_peruser = $pegawai->fileperuser();
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">Kegiatan</th>
-                                                <th class="text-center">tempat</th>
                                                 <th class="text-center">Tanggal</th>
                                                 <th class="text-center">Jam</th>
+                                                <th class="text-center">tempat</th>
+                                                <th class="text-center">Kegiatan</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">Kegiatan</th>
-                                                <th class="text-center">tempat</th>
                                                 <th class="text-center">Tanggal</th>
                                                 <th class="text-center">Jam</th>
+                                                <th class="text-center">tempat</th>
+                                                <th class="text-center">Kegiatan</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
                                             <td class="text-center">1</td>
-                                            <td class="text-center">Penggantian Infus Pada Pasien</td>
-                                            <td class="text-center">Ruang Inap(Bangsal)</td>
                                             <td class="text-center">19/09/2024</td>
                                             <td class="text-center">19:00</td>
+                                            <td class="text-center">Ruang Inap(Bangsal)</td>
+                                            <td class="text-center">Penggantian Infus Pada Pasien</td>
                                             <td class="text-center">
                                                 <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
                                                     <i class="bi bi-pencil"></i>
@@ -296,8 +296,14 @@ $file_peruser = $pegawai->fileperuser();
                                                     </div>
                                                     <div class="col-md-10">
                                                         <div class="form-group">
-                                                            <label for="tempat">Tempat <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukan Tempat Aktivitas" required>
+                                                            <label for="id_unit" class="form-label">Tempat<span class="text-danger">*</span></label>
+                                                            <select name="id_unit" class="form-control" id="id_unit" required>
+                                                                <option value="">Pilih Instalasi</option>
+                                                                <option value="">ICU</option>
+                                                                <option value="">IGD</option>
+                                                                <option value="">NICCU</option>
+                                                                <option value="">Rawat Inap(Bangsal)</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-10">
@@ -344,8 +350,14 @@ $file_peruser = $pegawai->fileperuser();
                                                 </div>
                                                 <div class="col-md-10">
                                                     <div class="form-group">
-                                                        <label for="tempat">Tempat <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukan Tempat Aktivitas" required>
+                                                        <label for="id_unit" class="form-label">Tempat<span class="text-danger">*</span></label>
+                                                        <select name="id_unit" class="form-control" id="id_unit" required>
+                                                            <option value="">Pilih Instalasi</option>
+                                                            <option value="">ICU</option>
+                                                            <option value="">IGD</option>
+                                                            <option value="">NICCU</option>
+                                                            <option value="">Rawat Inap(Bangsal)</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-10">
