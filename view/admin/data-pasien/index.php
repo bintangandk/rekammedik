@@ -704,19 +704,19 @@ $unit = $pasien->instalasi();
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="nik">NIK <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="nik_detail" name="nik" placeholder="Masukan NIK">
+                              <input type="text" class="form-control" id="nik_detail" name="nik" placeholder="Masukan NIK" readonly> 
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="age">Tanggal Lahir <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="tanggal_lahirdetil" name="age">
+                              <input type="date" class="form-control" id="tanggal_lahirdetil" name="age" readonly>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
-                              <select name="gender" class="form-control" id="gender_detail" placeholder="Pilih">
+                              <select name="gender" class="form-control" id="gender_detail" placeholder="Pilih" readonly>
                                 <option value="">Pilih</option>
                                 <option value="laki-laki">Laki-Laki</option>
                                 <option value="perempuan">Perempuan</option>
@@ -726,19 +726,19 @@ $unit = $pasien->instalasi();
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="no_rm">No. RM <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_rm_detail" name="no_rm" placeholder="Masukan No. RM">
+                              <input type="text" class="form-control" id="no_rm_detail" name="no_rm" placeholder="Masukan No. RM" readonly>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="instalasi">Unit Terakhir </label>
-                              <input type="text" class="form-control" id="unit_detail">
+                              <input type="text" class="form-control" id="unit_detail" readonly>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="kepesertaan">Jenis Kepesertaan <span class="text-danger">*</span></label>
-                              <select name="kepesertaan" class="form-control" id="kepesertaan_detail" placeholder="Pilih">
+                              <select name="kepesertaan" class="form-control" id="kepesertaan_detail" placeholder="Pilih"  readonly disabled>
                                 <option value="">Pilih</option>
                                 <option value="BPJS">BPJS</option>
                                 <option value="Umum">Umum</option>
@@ -748,7 +748,7 @@ $unit = $pasien->instalasi();
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="alamat_edit">Alamat <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="address_detail" name="address"></textarea>
+                              <textarea class="form-control" id="address_detail" name="address" readonly></textarea>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -757,42 +757,42 @@ $unit = $pasien->instalasi();
                               <div class="form-group row">
                                 <label for="td" class="col-sm-1 col-form-label">TD:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="td_detail" name="td" placeholder="mmHg">
+                                  <input type="text" class="form-control" id="td_detail" name="td" placeholder="mmHg" readonly>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/mmHg</label>
                               </div>
                               <div class="form-group row">
                                 <label for="temperature" class="col-sm-1 col-form-label">T:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="temperatur_detail" name="temperature" placeholder="°C">
+                                  <input type="text" class="form-control" id="temperatur_detail" name="temperature" placeholder="°C" readonly>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">°C</label>
                               </div>
                               <div class="form-group row">
                                 <label for="hr" class="col-sm-1 col-form-label">HR:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="hr_detail" name="hr" placeholder="Minute" required>
+                                  <input type="text" class="form-control" id="hr_detail" name="hr" placeholder="Minute" readonly>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
                               </div>
                               <div class="form-group row">
                                 <label for="rr" class="col-sm-1 col-form-label">RR:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="rr_detail" name="rr" placeholder="Menit" required>
+                                  <input type="text" class="form-control" id="rr_detail" name="rr" placeholder="Menit" readonly>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
                               </div>
                               <div class="form-group row">
                                 <label for="tb" class="col-sm-1 col-form-label">TB:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="tb_detail" name="tb" placeholder="Cm" required>
+                                  <input type="text" class="form-control" id="tb_detail" name="tb" placeholder="Cm" readonly>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Cm</label>
                               </div>
                               <div class="form-group row">
                                 <label for="bb" class="col-sm-1 col-form-label">BB:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="bb_detail" name="bb" placeholder="Kg" required>
+                                  <input type="text" class="form-control" id="bb_detail" name="bb" placeholder="Kg" readonly>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Kg</label>
                               </div>
@@ -801,21 +801,21 @@ $unit = $pasien->instalasi();
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="diagnosis">Diagnosis <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="diagnosis_detail" name="diagnosis" required></textarea>
+                              <textarea class="form-control" id="diagnosis_detail" name="diagnosis" readonly></textarea>
                             </div>
                             <div class="form-group">
                               <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="tindakan_detail" name="tindakan" required></textarea>
+                              <textarea class="form-control" id="tindakan_detail" name="tindakan" readonly></textarea>
                             </div>
                             <div class="form-group">
                               <label for="alergi">Alergi <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="alergi_detail" name="alergi" required></textarea>
+                              <textarea class="form-control" id="alergi_detail" name="alergi" readonly> </textarea>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="obat">Obat <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="obat_detail" name="obat" required></textarea>
+                              <textarea class="form-control" id="obat_detail" name="obat" readonly></textarea>
                             </div>
                           </div>
                           <div class="col-md-6">
