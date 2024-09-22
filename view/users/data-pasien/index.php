@@ -112,6 +112,12 @@ $unit = $pasien->instalasi();
               <div data-i18n="Account Settings">Riwayat File</div>
             </a>
           </li>
+          <li class="menu-item">
+            <a href="../aktivitas/index.php" class="menu-link">
+              <i class="menu-icon bi bi-activity"></i>
+              <div data-i18n="Account Settings">Aktivitas</div>
+            </a>
+          </li>
         </ul>
       </aside>
       <!-- / Menu -->
@@ -318,7 +324,7 @@ $unit = $pasien->instalasi();
                               <div class="form-group row">
                                 <label for="hr" class="col-sm-1 col-form-label">HR:</label>
                                 <div class="col-sm-8">
-                                  <input type="number" class="form-control" id="hr_edit" name="hr" placeholder="Minute" required>
+                                  <input type="number" class="form-control" id="hr_edit" name="hr" placeholder="Menit" required>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
                               </div>
@@ -480,7 +486,7 @@ $unit = $pasien->instalasi();
                               <div class="form-group row">
                                 <label for="hr" class="col-sm-1 col-form-label">HR:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="hr_detail" name="hr" placeholder="Minute" required>
+                                  <input type="text" class="form-control" id="hr_detail" name="hr" placeholder="Menit" required>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
                               </div>
@@ -550,9 +556,9 @@ $unit = $pasien->instalasi();
                       <div class="row">
                         <div class="col-md-4 col-sm-12 mb-3">
                           <form action="../../../controller/Pasien.php" method="POST">
-                              <input type="hidden" name="file_jenis" value="rekam_medis">
-                              <input type="hidden" name="file" id="rekam_medis_file">
-                              <input type="hidden" name="action" value="lihat_file">
+                            <input type="hidden" name="file_jenis" value="rekam_medis">
+                            <input type="hidden" name="file" id="rekam_medis_file">
+                            <input type="hidden" name="action" value="lihat_file">
                             <div class="form-group mx-3">
                               <h6>Hasil Rekam Medis</h6>
                               <button class="btn btn-pdf btn-primary btn-block" type="submit">

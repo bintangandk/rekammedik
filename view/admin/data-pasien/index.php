@@ -582,7 +582,7 @@ $unit = $pasien->instalasi();
                               <div class="form-group row">
                                 <label for="hr" class="col-sm-1 col-form-label">HR:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="hr_edit" name="hr" placeholder="Minute" required>
+                                  <input type="text" class="form-control" id="hr_edit" name="hr" placeholder="Menit" required>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
                               </div>
@@ -770,7 +770,7 @@ $unit = $pasien->instalasi();
                               <div class="form-group row">
                                 <label for="hr" class="col-sm-1 col-form-label">HR:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="hr_detail" name="hr" placeholder="Minute" required>
+                                  <input type="text" class="form-control" id="hr_detail" name="hr" placeholder="Menit" required>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
                               </div>
