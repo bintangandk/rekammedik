@@ -98,6 +98,12 @@ $data_instalasi = $pegawai->instalasi();
               <div data-i18n="Account Settings">Riwayat File</div>
             </a>
           </li>
+          <li class="menu-item">
+            <a href="../aktivitas/index.php" class="menu-link">
+              <i class="menu-icon bi bi-activity"></i>
+              <div data-i18n="Account Settings">Aktivitas</div>
+            </a>
+          </li>
         </ul>
       </aside>
       <!-- / Menu -->
