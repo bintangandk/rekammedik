@@ -13,6 +13,9 @@ require '../../../controller/Pegawai.php';
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
 $file_peruser = $pegawai->fileperuser();
+$unit = $pegawai->instalasi();
+$aktivitas  = $pegawai->aktivitas();
+
 ?>
 
 <!DOCTYPE html>
@@ -247,20 +250,28 @@ $file_peruser = $pegawai->fileperuser();
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <td class="text-center">1</td>
-                                            <td class="text-center">Penggantian Infus Pada Pasien</td>
-                                            <td class="text-center">Ruang Inap(Bangsal)</td>
-                                            <td class="text-center">19/09/2024</td>
-                                            <td class="text-center">19:00</td>
-                                            <td class="text-center">
-                                                <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                            </td>
+                                            <?php $i = 1;
+                                            foreach ($aktivitas as $key) { ?>
+                                                <tr>
+                                                    <td class="text-center"><?= $i; ?></td>
+                                                    <td class="text-center"><?= $key["kegiatan"]; ?></td>
+                                                    <td class="text-center"><?= $key["instalasi"]; ?></td>
+                                                    <td class="text-center"><?= $key["tanggal"]; ?></td>
+                                                    <td class="text-center"><?= $key["jam"]; ?></td>
+                                                    <!-- <td class="text-center">Ruang Inap(Bangsal)</td> -->
+
+
+                                                    <td class="text-center">
+                                                        <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="editData(<?= htmlspecialchars(json_encode($key), ENT_QUOTES, 'UTF-8'); ?>)">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-danger" onclick="deleteData(<?= $key['id_aktivitas']; ?>)">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+
                                         </tbody>
                                     </table>
 
@@ -269,7 +280,10 @@ $file_peruser = $pegawai->fileperuser();
                             </div>
                         </div>
                         <!--/ Responsive Table -->
-
+                        <form action="../../../controller/Aktivitas.php" id="formDelete" method="POST">
+                            <input type="hidden" name="id" id="idDelete">
+                            <input type="hidden" name="action" value="delete">
+                        </form>
                         <!-- Modal Insert Aktivitas-->
                         <div class="modal fade" id="insertModal">
                             <div class="modal-dialog">
@@ -285,36 +299,50 @@ $file_peruser = $pegawai->fileperuser();
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                        <form id="insertForm" action="../../../controller/Aktivitas.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
+                                                    <input type="hidden" name="action" value="tambah_data">
                                                     <div class="col-md-10">
                                                         <div class="form-group">
-                                                            <label for="note">Kegiatan <span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="note_edit" name="note_dokter" required></textarea>
+                                                            <label for="kegiatan">Kegiatan <span class="text-danger">*</span></label>
+                                                            <textarea class="form-control" id="kegiatan" name="kegiatan" required></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-10">
                                                         <div class="form-group">
-                                                            <label for="tempat">Tempat <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukan Tempat Aktivitas" required>
+                                                            <label for="instalasi">Unit Terakhir <span class="text-danger">*</span></label>
+                                                            <select name="id_unit" class="form-control" id="instalasi" placeholder="Pilih Instalasi" required>
+                                                                <option value="">Pilih Unit/Instalasi</option>
+                                                                <?php foreach ($unit as $key) { ?>
+                                                                    <option value="<?= $key['id'] ?>"><?= $key['instalasi'] ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" name="action" value="tambah">
+                                                    <div class="col-md-10">
+                                                        <div class="form-group">
+                                                            <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
+                                                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-10">
                                                         <div class="form-group">
-                                                            <label for="age">Tanggal <span class="text-danger">*</span></label>
-                                                            <input type="date" class="form-control" id="age" name="tanggal_lahir" required>
+                                                            <label for="jam">Jam <span class="text-danger">*</span></label>
+                                                            <input type="time" class="form-control" id="jam" name="jam" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
+
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -334,33 +362,46 @@ $file_peruser = $pegawai->fileperuser();
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                        <form id="insertForm" action="../../../controller/Aktivitas.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="col-md-10">
                                                     <div class="form-group">
-                                                        <label for="note">Kegiatan <span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" id="note_edit" name="note_dokter" required></textarea>
+                                                        <label for="kegiatann">Kegiatan <span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" id="kegiatann" name="kegiatan" required></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-10">
                                                     <div class="form-group">
-                                                        <label for="tempat">Tempat <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukan Tempat Aktivitas" required>
+                                                        <label for="instalasis">Unit Terakhir <span class="text-danger">*</span></label>
+                                                        <select name="id_unit" class="form-control" id="instalasis" placeholder="Pilih Instalasi" required>
+                                                            <option value="">Pilih Unit/Instalasi</option>
+                                                            <?php foreach ($unit as $key) { ?>
+                                                                <option value="<?= $key['id'] ?>"><?= $key['instalasi'] ?></option>
+                                                            <?php } ?>
+                                                        </select>
                                                     </div>
                                                 </div>
+                                                <input type="hidden" name="action" value="edit">
+                                                <input type="hidden" name="id_aktivitas" id="id_kegiatann">
+
                                                 <div class="col-md-10">
                                                     <div class="form-group">
                                                         <label for="age">Tanggal <span class="text-danger">*</span></label>
-                                                        <input type="date" class="form-control" id="age" name="tanggal_lahir" required>
+                                                        <input type="date" class="form-control" id="tanggall" name="tanggal" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="jamm">Jam <span class="text-danger">*</span></label>
+                                                        <input type="time" class="form-control" id="jamm" name="jam" required>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
+
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -381,7 +422,7 @@ $file_peruser = $pegawai->fileperuser();
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form action="../../../controller/expor_excel.php" method="POST">
+                                        <form action="../../../controller/export_aktivitas.php" method="POST">
                                             <div class="container">
                                                 <div class="row">
                                                     <div class="form-group">
@@ -414,8 +455,8 @@ $file_peruser = $pegawai->fileperuser();
         </div>
     </div>
     <!-- / Content -->
-    <form action="../../../controller/Pasien.php" id="formDelete" method="POST">
-        <input type="hidden" name="id_pasien" id="idDelete">
+    <form action="../../../controller/Aktivitas.php" id="formDelete" method="POST">
+        <input type="hidden" name="id" id="idDelete">
         <input type="hidden" name="action" value="delete">
     </form>
     <!-- Footer -->
@@ -498,25 +539,49 @@ $file_peruser = $pegawai->fileperuser();
                 }
             });
         });
+
+
+
+        function editData(data) {
+            // Menghilangkan bagian detik dari jam (format HH:mm:ss menjadi HH:mm)
+            let jamFormatted = data.jam.substring(0, 5);
+
+            document.getElementById('kegiatann').value = data.kegiatan;
+            document.getElementById('id_kegiatann').value = data.id_aktivitas;
+            document.getElementById('instalasis').value = data.id_unit;
+            document.getElementById('tanggall').value = data.tanggal;
+            document.getElementById('jamm').value = jamFormatted; // Set jam tanpa detik
+        }
+
+
+
+        function deleteData(id) {
+
+            Swal.fire({
+                title: 'Apakah Anda Yakin?',
+                text: "Anda igin menghapus data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('idDelete').value = id;
+                    document.getElementById('formDelete').submit();
+                }
+            });
+        }
     </script>
 
 
 
 
     <!-- modal show -->
-    <script>
-        // Handle form submission
-        document.getElementById('showForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Perform your insert operation here, e.g., send data to the server
-            alert('Form submitted!');
-            // Close the modal
-            $('#showModal').modal('hide');
-        });
-    </script>
+
 
     <!-- modal print -->
-    <script>
+    <!-- <script>
         // Handle form submission
         document.getElementById('printForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -525,9 +590,34 @@ $file_peruser = $pegawai->fileperuser();
             // Close the modal
             $('#printModal').modal('hide');
         });
+    </script> -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+            const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;
+            const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+
+            if (success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses',
+                    text: success,
+                });
+                <?php unset($_SESSION['success']); ?>
+            }
+
+            if (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error,
+                });
+                <?php unset($_SESSION['error']); ?>
+            }
+        });
     </script>
-
-
+    </script>
 
 </body>
 

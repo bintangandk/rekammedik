@@ -243,7 +243,7 @@ $unit = $pasien->instalasi();
                     </tfoot>
                     <?php
                     $no = 1;
-                    foreach ($data_pasien as $pasien) { ?>
+                  foreach ($data_pasien as $pasien) { ?>
                       <tr>
                         <td class="text-center"><?= $no++; ?></td>
                         <td class="text-center"><?= $pasien['nama'] ?></td>

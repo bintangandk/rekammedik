@@ -652,7 +652,10 @@ $unit = $pasien->instalasi();
                             <input class="form-control" type="file" name="file_rekammedis">
                           </div>
                           <input type="hidden" name="id_pasien" id="id_pasien_edit">
-                          <input type="hidden" name="action" value="edit">
+                          
+                          
+
+                          
                           <div class="form-group">
                             <label for="formFile" class="form-label">Upload Hasil Rontgen <span class="text-danger">*</span></label>
                             <input class="form-control" type="file" name="file_hasilrontgen">

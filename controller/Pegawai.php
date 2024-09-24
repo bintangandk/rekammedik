@@ -55,6 +55,12 @@ public function fileperuser(){
         $query = "SELECT * FROM pasien JOIN unit ON pasien.id_unit = unit.id";
         return $this->showData($query);
     }
+    function aktivitas()
+    {
+        // $conn = new koneksi();
+        $query = "SELECT * FROM aktivitas JOIN unit ON aktivitas.id_unit = unit.id";
+        return $this->showData($query);
+    }
 
     function profile() {
         $query = "SELECT * FROM users WHERE id_user = '$_SESSION[id_user]'";
