@@ -8,6 +8,11 @@ if (isset($_SESSION['file'])) {
         // Menentukan tipe file
         $file_extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
         $mime_type = mime_content_type($file_path);
+
+        // Tambahkan header MIME type secara manual untuk file
+        header("Content-Type: " . $mime_type);
+        header("Content-Disposition: inline; filename=\"" . basename($file_path) . "\"");
+
 ?>
         <!DOCTYPE html>
         <html lang="en">
@@ -40,10 +45,10 @@ if (isset($_SESSION['file'])) {
                     top: 0;
                     left: 0;
                     right: 0;
-                    height: 50px; /* Atur sesuai tinggi toolbar PDF di browser Anda */
+                    height: 50px;
                     background: transparent;
                     z-index: 9999;
-                    pointer-events: none; /* Blokir semua interaksi */
+                    pointer-events: none;
                 }
 
                 .disable-select {
@@ -65,13 +70,13 @@ if (isset($_SESSION['file'])) {
         </head>
 
         <body class="disable-select disable-context-menu">
-            <div class="pdf-viewer-toolbar"></div> <!-- Toolbar virtual untuk memblokir -->
+            <div class="pdf-viewer-toolbar"></div>
             <?php
             // Tampilkan file berdasarkan tipenya
             switch ($file_extension) {
                 case 'pdf':
-                    // Tambahkan #toolbar=0 untuk menghilangkan toolbar PDF default
-                    echo '<iframe src="' . htmlspecialchars($file_path) . '#toolbar=0" type="application/pdf"></iframe>';
+                    // PDF.js untuk menampilkan file PDF secara langsung
+                    echo '<iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=' . urlencode($file_path) . '" width="100%" height="100%"></iframe>';
                     break;
                 case 'jpg':
                 case 'jpeg':
@@ -99,7 +104,7 @@ if (isset($_SESSION['file'])) {
             // Hitungan mundur 5 menit, kemudian alihkan ke halaman index.php
             setTimeout(function() {
                 window.location.href = 'index.php';
-            }, 300000); // 300.000 milidetik = 5 menit
+            }, 300000);
 
             // Mencegah klik kanan untuk menonaktifkan menu konteks
             document.addEventListener('contextmenu', event => event.preventDefault());
