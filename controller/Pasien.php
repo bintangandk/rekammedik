@@ -474,7 +474,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // header("Location: ../controller/$file_rekammedis");
                     header("Location: ../view/users/data-pasien/lihat_file.php");
                     exit();
-                    exit();
+                
                 } else {
                     error_log("File rekammedis tidak ditemukan: " . realpath($file_rekammedis)); // Debugging
                     $_SESSION['error'] = 'File tidak ditemukan.';
