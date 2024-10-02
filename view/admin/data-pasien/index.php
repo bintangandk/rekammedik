@@ -512,6 +512,7 @@ $unit = $pasien->instalasi();
                               <label for="nik">NIK <span class="text-danger">*</span></label>
                               <input type="text" class="form-control" id="nik_edit" name="nik" placeholder="Masukan NIK" required>
                             </div>
+                            <input type="hidden" name="action" value="edit">
                           </div>
                           <div class="col-md-6 c">
                             <div class="form-group">

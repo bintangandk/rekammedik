@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if (isset($_SESSION['file'])) {
     $file_path = '../../../controller/' . $_SESSION['file']; // Path relatif ke file
     error_log("File path: " . realpath($file_path)); // Debugging
@@ -9,11 +10,7 @@ if (isset($_SESSION['file'])) {
         $file_extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
         $mime_type = mime_content_type($file_path);
 
-        // Tambahkan header MIME type secara manual untuk file
-        header("Content-Type: " . $mime_type);
-        header("Content-Disposition: inline; filename=\"" . basename($file_path) . "\"");
-
-?>
+        ?>
         <!DOCTYPE html>
         <html lang="en">
 
@@ -28,7 +25,7 @@ if (isset($_SESSION['file'])) {
                     padding: 0;
                     height: 100%;
                     width: 100%;
-                    overflow: auto;
+                    overflow: hidden; /* Membatasi overflow untuk memblokir scroll */
                     background-color: #f0f0f0;
                 }
 
@@ -37,18 +34,6 @@ if (isset($_SESSION['file'])) {
                     height: 100%;
                     width: 100%;
                     border: none;
-                }
-
-                /* Memblokir toolbar dan tombol unduh PDF dengan menonaktifkan pointer */
-                .pdf-viewer-toolbar {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    height: 50px;
-                    background: transparent;
-                    z-index: 9999;
-                    pointer-events: none;
                 }
 
                 .disable-select {
@@ -70,19 +55,18 @@ if (isset($_SESSION['file'])) {
         </head>
 
         <body class="disable-select disable-context-menu">
-            <div class="pdf-viewer-toolbar"></div>
             <?php
             // Tampilkan file berdasarkan tipenya
             switch ($file_extension) {
                 case 'pdf':
-                    // PDF.js untuk menampilkan file PDF secara langsung
-                    echo '<iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=' . urlencode($file_path) . '" width="100%" height="100%"></iframe>';
+                    // Gunakan object atau iframe untuk menampilkan PDF secara lokal
+                    echo '<iframe src="' . htmlspecialchars($file_path) . '#toolbar=0" width="100%" height="100%"></iframe>';
                     break;
                 case 'jpg':
                 case 'jpeg':
                 case 'png':
                 case 'gif':
-                    echo '<img src="' . htmlspecialchars($file_path) . '" alt="Gambar">';
+                    echo '<img src="' . htmlspecialchars($file_path) . '" alt="Gambar" width="100%" height="auto">';
                     break;
                 case 'mp4':
                 case 'webm':
@@ -91,8 +75,7 @@ if (isset($_SESSION['file'])) {
                     break;
                 case 'doc':
                 case 'docx':
-                    $file_path_encoded = urlencode($file_path);
-                    echo '<iframe src="https://docs.google.com/gview?url=' . htmlspecialchars($file_path_encoded) . '&embedded=true" allowfullscreen></iframe>';
+                    echo '<p>Untuk melihat file Word, <a href="' . htmlspecialchars($file_path) . '" download>klik di sini untuk mengunduh file.</a></p>';
                     break;
                 default:
                     echo '<p>Tipe file tidak didukung untuk pratinjau. <a href="' . htmlspecialchars($file_path) . '" download>Klik di sini untuk mengunduh file.</a></p>';
@@ -101,13 +84,28 @@ if (isset($_SESSION['file'])) {
             ?>
         </body>
         <script>
+            // Mencegah klik kanan untuk menonaktifkan menu konteks
+            document.addEventListener('contextmenu', event => event.preventDefault());
+
+            // Mencegah pencetakan halaman
+            document.addEventListener('keydown', function(event) {
+                if ((event.ctrlKey && event.key === 'p') || event.keyCode === 44) {
+                    event.preventDefault();
+                }
+            });
+
+            // Mencegah screenshot dengan menonaktifkan tombol print screen
+            document.addEventListener('keyup', function(event) {
+                if (event.key === 'PrintScreen') {
+                    navigator.clipboard.writeText('');
+                    alert('Screenshots are disabled on this page.');
+                }
+            });
+
             // Hitungan mundur 5 menit, kemudian alihkan ke halaman index.php
             setTimeout(function() {
                 window.location.href = 'index.php';
             }, 300000);
-
-            // Mencegah klik kanan untuk menonaktifkan menu konteks
-            document.addEventListener('contextmenu', event => event.preventDefault());
         </script>
 
         </html>

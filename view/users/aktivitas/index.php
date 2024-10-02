@@ -253,7 +253,7 @@ $aktivitas  = $pegawai->aktivitas();
                                             <?php $i = 1;
                                             foreach ($aktivitas as $key) { ?>
                                                 <tr>
-                                                    <td class="text-center"><?= $i; ?></td>
+                                                    <td class="text-center"><?= $i++; ?></td>
                                                     <td class="text-center"><?= $key["kegiatan"]; ?></td>
                                                     <td class="text-center"><?= $key["instalasi"]; ?></td>
                                                     <td class="text-center"><?= $key["tanggal"]; ?></td>

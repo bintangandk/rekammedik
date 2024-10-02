@@ -58,12 +58,29 @@ public function fileperuser(){
     function aktivitas()
     {
         // $conn = new koneksi();
-        $query = "SELECT * FROM aktivitas JOIN unit ON aktivitas.id_unit = unit.id";
+        $id_user = $_SESSION['id_user'];
+    
+        // Tambahkan nama tabel secara eksplisit untuk menghindari ambiguitas
+        $query = "SELECT * FROM aktivitas 
+                  JOIN unit ON aktivitas.id_unit = unit.id 
+                  JOIN users ON aktivitas.id_user = users.id_user 
+                  WHERE aktivitas.id_user = '$id_user'";
+    
         return $this->showData($query);
     }
+    
 
     function profile() {
         $query = "SELECT * FROM users WHERE id_user = '$_SESSION[id_user]'";
+        $existingData = $this->execute($query);
+        
+        // if ($existingData && $existingData->num_rows > 0) {
+            return $existingData->fetch_assoc();
+
+        // }
+    }
+    function profile_peruser() {
+        $query = "SELECT * FROM users join unit on users.id_unit = unit.id WHERE  id_user = '$_SESSION[id_user]'";
         $existingData = $this->execute($query);
         
         // if ($existingData && $existingData->num_rows > 0) {

@@ -8,7 +8,7 @@ function tambah($data)
 {
     $conn = new koneksi();
     $errors = [];
-
+    $id_user=$_SESSION['id_user'];
     // Mendapatkan data dari parameter dan mengamankannya dari serangan XSS
     $kegiatan = htmlspecialchars($data['kegiatan'], ENT_QUOTES, 'UTF-8');
     $tanggal = htmlspecialchars($data['tanggal'], ENT_QUOTES, 'UTF-8');
@@ -54,7 +54,7 @@ function tambah($data)
 
     // Jika semua validasi sukses, tambahkan data
     $waktu = convertTo24HourFormat($tanggal = htmlspecialchars($data['jam'], ENT_QUOTES, 'UTF-8'));
-    $query = "INSERT INTO aktivitas (tanggal, jam, kegiatan, id_unit) VALUES ('$tanggall', '$waktu', '$kegiatan', '$id_unit')";
+    $query = "INSERT INTO aktivitas (tanggal, jam, kegiatan, id_unit,id_user) VALUES ('$tanggall', '$waktu', '$kegiatan', '$id_unit','$id_user')";
 
     // Eksekusi query dan cek hasilnya
     if ($conn->execute($query)) {
