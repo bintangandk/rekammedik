@@ -79,7 +79,10 @@ $unit = $pasien->instalasi();
                     <span class="app-brand-logo demo">
                         <img src="../../../assets/img/favicon/logo-si.png" alt="Logo" width="90">
                     </span>
-                    <span class="app-brand-text demo menu-text fw-bolder ms-0  text-capitalize">DiRec</span>
+                    <div class="d-flex flex-column">
+                        <span class="app-brand-text demo menu-text fw-bolder text-capitalize">DiRec</span>
+                        <span class="app-brand-text demo menu-text fw-bolder text-capitalize fs-6">Digital Records</span>
+                    </div>
                 </div>
 
                 <div class="menu-inner-shadow"></div>
@@ -257,7 +260,18 @@ $unit = $pasien->instalasi();
                         </div>
                     </div>
                     <!-- / Content -->
-
+                    <!-- footer -->
+                    <footer class="content-footer footer bg-footer-theme">
+                        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                            <div class="mb-2 mb-md-0">
+                                ©
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script>
+                                <span >Talitha Amaya Apsarini</span>
+                            </div>
+                    </footer>
+                    <!-- end footer -->
 
                     <div class="content-backdrop fade"></div>
                 </div>
@@ -265,23 +279,8 @@ $unit = $pasien->instalasi();
             </div>
             <!-- / Layout page -->
         </div>
-        <!--**********************************
-            Content body end
-        ***********************************-->
 
 
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        <!-- <div class="footer">
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-            </div>
-        </div> -->
-        <!--**********************************
-            Footer end
-        ***********************************-->
 
     </div>
 

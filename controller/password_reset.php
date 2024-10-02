@@ -29,7 +29,7 @@ $con->execute($query);
 
 
 $email_pengirim="rekammedik700@gmail.com";
-$nama_pengirim="SiRekam";
+$nama_pengirim="Digital Record";
 $email_penerima=$email;
 $subjek="Lupa Password";
 $pesan="token yang harus anda masukkan ialah  ".$token;

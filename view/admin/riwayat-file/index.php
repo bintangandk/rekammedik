@@ -85,7 +85,10 @@ $riwayat = $pegawai->riwayat();
           <span class="app-brand-logo demo">
             <img src="../../../assets/img/favicon/logo-si.png" alt="Logo" width="90">
           </span>
-          <span class="app-brand-text demo menu-text fw-bolder ms-0  text-capitalize">DiRec</span>
+          <div class="d-flex flex-column">
+            <span class="app-brand-text demo menu-text fw-bolder text-capitalize">DiRec</span>
+            <span class="app-brand-text demo menu-text fw-bolder text-capitalize fs-6">Digital Records</span>
+          </div>
         </div>
 
         <div class="menu-inner-shadow"></div>
