@@ -210,7 +210,7 @@ $unit = $pasien->instalasi();
                                                 <!-- nama user -->
                                                 <h5 class="card-title text-primary"><?= $profile['Nama'] ?></h5>
                                                 <p class="mb-4">
-                                                    Selamat datang di tim kami! Kami sangat bangga dan berterima kasih atas dedikasi Anda dalam memberikan pelayanan kesehatan terbaik.
+                                                    Kami sangat bangga dan berterima kasih atas dedikasi Anda dalam memberikan pelayanan kesehatan terbaik.
                                                 </p>
                                             </div>
                                         </div>
@@ -269,7 +269,40 @@ $unit = $pasien->instalasi();
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-12 col-md-6 order-1 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body px-0">
+                                    <div class="tab-content p-0">
+                                        <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
+                                            <div class="d-flex p-4 pt-3">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../../../assets/img/icons/unicons/chart.png" alt="User" />
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Grafik Data</small>
+                                                    <div class="d-flex align-items-center">
+                                                        <h6 class="mb-0 me-1">Pasien</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="incomeChart"></div>
+                                            <!-- <div class="d-flex justify-content-center pt-4 gap-2">
+                                                <div class="flex-shrink-0">
+                                                    <div id="expensesOfWeek"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="mb-n1 mt-1">Expenses This Week</p>
+                                                    <small class="text-muted">$39 less than last week</small>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+
                     <!-- / Content -->
 
 
