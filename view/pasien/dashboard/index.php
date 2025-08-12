@@ -1,3 +1,21 @@
+<?php
+session_start();
+// include '../koneksi.php';
+// include '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+if (!isset($_SESSION['email'])) {
+    header('Location: ../../auth/login.php');
+    exit();
+}
+if (($_SESSION['role'] != 'pasien')) {
+    header('Location: ../../admin/dashboard/index.php');
+    # code...
+}
+require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+require '../../../controller/Pegawai.php';
+$pasien = new Pegawai();
+$profile = $pasien->profile();
+?>
+
 <!DOCTYPE html>
 
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../../../assets/" data-template="vertical-menu-template-free">
@@ -119,9 +137,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">Pasien</span>
+                                                    <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
                                                     <!-- sesuai role -->
-                                                    <small class="text-muted"></small>
+                                                    <small class="text-muted"><?= $profile['role'] ?></small>
                                                 </div>
                                             </div>
                                         </a>
@@ -166,7 +184,7 @@
                                             <div class="card-body">
                                                 <h3 class="card-title text-primary">Welcome to DiRec! 🎉</h3>
                                                 <!-- nama user -->
-                                                <h5 class="card-title text-primary">Pasien</h5>
+                                                <h5 class="card-title text-primary"><?= $profile['Nama'] ?></h5>
                                                 <p class="mb-4">
                                                     Kami sangat bangga dan berterima kasih atas dedikasi Anda dalam memberikan pelayanan kesehatan terbaik.
                                                 </p>
@@ -252,7 +270,7 @@
 
     <!-- Required vendors -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <!-- <script>
+    <script>
         document.getElementById('logout-link').addEventListener('click', function(event) {
             event.preventDefault(); // Mencegah tautan default
 
@@ -271,7 +289,7 @@
                 }
             });
         });
-    </script> -->
+    </script>
 
     <script src="../../../assets/vendor/global/global.min.js"></script>
     <script src="../../../assets/js/quixnav-init.js"></script>

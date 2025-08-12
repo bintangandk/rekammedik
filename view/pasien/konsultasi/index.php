@@ -1,3 +1,20 @@
+<?php
+session_start();
+// include '../koneksi.php';
+// include '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+if (!isset($_SESSION['email'])) {
+    header('Location: ../../auth/login.php');
+    exit();
+}
+if (($_SESSION['role'] != 'pasien')) {
+    header('Location: ../../admin/dashboard/index.php');
+    # code...
+}
+require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+require '../../../controller/Pegawai.php';
+$pasien = new Pegawai();
+$profile = $pasien->profile();
+?>
 
 <!DOCTYPE html>
 

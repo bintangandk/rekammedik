@@ -221,6 +221,7 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
+                        <th class="text-center">NIK</th>
                         <th class="text-center">Nama</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">No Telp</th>
@@ -230,6 +231,7 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                     <tfoot>
                       <tr>
                         <th class="text-center">No</th>
+                        <th class="text-center">NIK</th>
                         <th class="text-center">Nama</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">No Telp</th>
@@ -237,7 +239,24 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                       </tr>
                     </tfoot>
                     <tbody>
-
+                        <tr>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                              <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
+                              <i class="bi bi-pencil"></i>
+                            </button>
+                            <button id="deleteButton" class="btn btn-danger" onclick="">
+                              <i class="bi bi-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
                     </tbody>
                   </table>
                 </div>
@@ -306,174 +325,24 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 
                   <!-- Modal Body -->
                   <div class="modal-body">
-                    <form action="../../../controller/Pasien.php" method="POST" enctype="multipart/form-data">
+                    <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
                       <div class="container">
                         <div class="row">
                           <div class="col-md-6 c">
                             <div class="form-group">
                               <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name_edit" name="name" placeholder="Masukan Nama Lengkap" required>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="nik">NIK <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="nik_edit" name="nik" placeholder="Masukan NIK" required>
-                            </div>
-                            <input type="hidden" name="action" value="edit">
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="age">Tanggal Lahir <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="tanggal_lahir_edit" name="tanggal_lahir" required>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
-                              <select name="gender" class="form-control" id="gender_edit" placeholder="Pilih" required>
-                                <option value="">Pilih</option>
-                                <option value="laki-laki">Laki-Laki</option>
-                                <option value="perempuan">Perempuan</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_rm_edit" name="no_rm" placeholder="Masukan No. RM" required>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="instalasi_edit">Unit Terakhir <span class="text-danger">*</span></label>
-                              <select name="id_unit" class="form-control" id="instalasi_edit" placeholder="Pilih Instalasi" required>
-                                <option value="">Pilih Unit/Instalasi</option>
-                               
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="kepesertaan_edit">Jenis Kepesertaan <span class="text-danger">*</span></label>
-                              <select name="jenis_kepesertaan" class="form-control" id="kepesertaan_edit" placeholder="Pilih" required>
-                                <option value="">Pilih</option>
-                                <option value="BPJS">BPJS</option>
-                                <option value="Umum">Umum</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="address">Alamat <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="alamat_edit" name="alamat" required></textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="vital">Vital Sign<span class="text-danger">*</span></label>
-                              <div class="form-group row">
-                                <label for="td" class="col-sm-1 col-form-label">TD:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="td_edit" name="td" placeholder="../.." required>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/mmHg</label>
-                              </div>
-                              <div class="form-group row">
-                                <label for="temperature" class="col-sm-1 col-form-label">T:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="temperatur_edit" name="t" placeholder="°C" required>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">°C</label>
-                              </div>
-                              <div class="form-group row">
-                                <label for="hr" class="col-sm-1 col-form-label">HR:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="hr_edit" name="hr" placeholder="Menit" required>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
-                              </div>
-                              <div class="form-group row">
-                                <label for="rr" class="col-sm-1 col-form-label">RR:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="rr_edit" name="rr" placeholder="Menit" required>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
-                              </div>
-                              <div class="form-group row">
-                                <label for="tb" class="col-sm-1 col-form-label">TB:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="tb_edit" name="tb" placeholder="Cm" required>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/Cm</label>
-                              </div>
-                              <div class="form-group row">
-                                <label for="bb" class="col-sm-1 col-form-label">BB:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="bb_edit" name="bb" placeholder="Kg" required>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/Kg</label>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="diagnosis">Diagnosis <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="diagnosis_edit" name="diagnosis" required></textarea>
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
                             </div>
                             <div class="form-group">
-                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="tindakan_edit" name="riwayat_tindakan" required></textarea>
+                              <label for="name">Email<span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
                             </div>
                             <div class="form-group">
-                              <label for="alergi">Alergi <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="alergi_edit" name="alergi" required></textarea>
+                              <label for="name">No Telpon <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
                             </div>
                           </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="obat">Obat <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="obat_edit" name="obat" required></textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="note">Note Dokter <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="note_edit" name="note_dokter" required></textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="tgl_masuk_edit">Tanggal Masuk <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="tgl_masuk_edit" name="tgl_masuk" required>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="tgl_keluar_edit">Tanggal Keluar <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="tgl_keluar_edit" name="tgl_keluar" required>
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label for="formFile" class="form-label">Upload Rekam Medis <span class="text-danger">*</span></label>
-                            <input class="form-control" type="file" name="file_rekammedis">
-                          </div>
-                          <input type="hidden" name="id_pasien" id="id_pasien_edit">
-                          
-                          
-
-                          
-                          <div class="form-group">
-                            <label for="formFile" class="form-label">Upload Hasil Rontgen <span class="text-danger">*</span></label>
-                            <input class="form-control" type="file" name="file_hasilrontgen">
-                          </div>
-                          <div class="form-group">
-                            <label for="formFile" class="form-label">Upload Hasil Laboratorium <span class="text-danger">*</span></label>
-                            <input class="form-control" type="file" name="hasil_laboratorium">
-                          </div>
-                        </div>
                       </div>
-
                   </div>
 
                   <!-- Modal Footer -->
@@ -501,194 +370,24 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 
                   <!-- Modal Body -->
                   <div class="modal-body">
-                    <form id="showForm">
+                    <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
                       <div class="container">
                         <div class="row">
-                          <div class="col-md-6 col-sm-12">
+                          <div class="col-md-6 c">
                             <div class="form-group">
                               <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name_detail" name="name" placeholder="Masukan Nama Lengkap" readonly>
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="name">Email<span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="name">No Telpon <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
                             </div>
                           </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="nik">NIK <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="nik_detail" name="nik" placeholder="Masukan NIK" readonly> 
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="age">Tanggal Lahir <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="tanggal_lahirdetil" name="age" readonly>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
-                              <select name="gender" class="form-control" id="gender_detail" placeholder="Pilih" readonly>
-                                <option value="">Pilih</option>
-                                <option value="laki-laki">Laki-Laki</option>
-                                <option value="perempuan">Perempuan</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_rm_detail" name="no_rm" placeholder="Masukan No. RM" readonly>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="instalasi">Unit Terakhir </label>
-                              <input type="text" class="form-control" id="unit_detail" readonly>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="kepesertaan">Jenis Kepesertaan <span class="text-danger">*</span></label>
-                              <select name="kepesertaan" class="form-control" id="kepesertaan_detail" placeholder="Pilih"  readonly disabled>
-                                <option value="">Pilih</option>
-                                <option value="BPJS">BPJS</option>
-                                <option value="Umum">Umum</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="alamat_edit">Alamat <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="address_detail" name="address" readonly></textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="vital">Vital Sign<span class="text-danger">*</span></label>
-                              <div class="form-group row">
-                                <label for="td" class="col-sm-1 col-form-label">TD:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="td_detail" name="td" placeholder="../.." readonly>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/mmHg</label>
-                              </div>
-                              <div class="form-group row">
-                                <label for="temperature" class="col-sm-1 col-form-label">T:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="temperatur_detail" name="temperature" placeholder="°C" readonly>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">°C</label>
-                              </div>
-                              <div class="form-group row">
-                                <label for="hr" class="col-sm-1 col-form-label">HR:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="hr_detail" name="hr" placeholder="Menit" required readonly> 
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
-                              </div>
-                              <div class="form-group row">
-                                <label for="rr" class="col-sm-1 col-form-label">RR:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="rr_detail" name="rr" placeholder="Menit" readonly>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
-                              </div>
-                              <div class="form-group row">
-                                <label for="tb" class="col-sm-1 col-form-label">TB:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="tb_detail" name="tb" placeholder="Cm" readonly>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/Cm</label>
-                              </div>
-                              <div class="form-group row">
-                                <label for="bb" class="col-sm-1 col-form-label">BB:</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="bb_detail" name="bb" placeholder="Kg" readonly>
-                                </div>
-                                <label for="td" class="col-sm-1 col-form-label ml-0">/Kg</label>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="diagnosis">Diagnosis <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="diagnosis_detail" name="diagnosis" readonly></textarea>
-                            </div>
-                            <div class="form-group">
-                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="tindakan_detail" name="tindakan" readonly></textarea>
-                            </div>
-                            <div class="form-group">
-                              <label for="alergi">Alergi <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="alergi_detail" name="alergi" readonly> </textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="obat">Obat <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="obat_detail" name="obat" readonly></textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="note">Note Dokter <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="note_detail" name="note" required readonly></textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="date">Tanggal Masuk <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="tgl_masuk_detail" name="date" required readonly>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <label for="date">Tanggal Keluar <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="tgl_keluar_detail" name="date" required readonly>
-                            </div>
-                          </div>
-                    </form>
-                    <div class="container mt-5">
-                      <div class="row">
-                        <div class="col-md-4 col-sm-12 mb-3">
-                          <form action="../../../controller/Pasien.php" method="POST">
-                            <div class="form-group mx-3">
-                              <input type="hidden" name="file_jenis" value="rekam_medis">
-                              <input type="hidden" name="file" id="rekam_medis_file">
-                              <input type="hidden" name="action" value="lihat_file">
-                              <h6>Hasil Rekam Medis</h6>
-                              <button class="btn btn-pdf btn-primary btn-block" type="submit">
-                                <i class="bi bi-file-earmark-pdf"></i> Buka PDF
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                        <div class="col-md-4 col-sm-12 mb-3">
-                          <form action="../../../controller/Pasien.php" method="POST">
-                            <div class="form-group mx-3">
-                              <input type="hidden" name="file_jenis" value="rontgen">
-                              <input type="hidden" name="file" id="rontgen_file">
-                              <input type="hidden" name="action" value="lihat_file">
-                              <h6>Hasil Rontgen</h6>
-                              <button type="submit" class="btn btn-pdf btn-primary btn-block">
-                                <i class="bi bi-file-earmark-pdf"></i> Buka PDF
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                        <div class="col-md-4 col-sm-12 mb-3">
-                          <form action="../../../controller/Pasien.php" method="POST">
-                            <div class="form-group mx-3">
-                              <input type="hidden" name="file_jenis" value="laboratorium">
-                              <input type="hidden" name="file" id="laboratorium_file">
-                              <input type="hidden" name="action" value="lihat_file">
-                              <h6>Hasil Laboratorium</h6>
-                              <button class="btn btn-pdf btn-primary btn-block" type="submit">
-                                <i class="bi bi-file-earmark-pdf"></i> Buka PDF
-                              </button>
-                            </div>
-                          </form>
-                        </div>
                       </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -705,10 +404,9 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
       <footer class="content-footer footer bg-footer-theme">
         <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
           <div class="mb-2 mb-md-0">
-
-            <script>
+            <!-- <script>
               document.write(new Date().getFullYear());
-            </script>
+            </script> -->
           </div>
         </div>
       </footer>

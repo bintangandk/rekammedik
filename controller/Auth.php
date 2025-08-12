@@ -40,6 +40,9 @@ function login($email, $password)
             if ($user['role'] == 'admin') {
                 header("Location: ../view/admin/dashboard/index.php");
                 exit();
+            } else if ($user['role'] == 'pasien') {
+                header("Location: ../view/pasien/dashboard/index.php");
+                exit();
             } else {
                 header("Location: ../view/users/dashboard/index.php");
                 exit();
