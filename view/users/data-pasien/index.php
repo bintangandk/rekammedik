@@ -118,6 +118,18 @@ $unit = $pasien->instalasi();
               <div data-i18n="Account Settings">Aktivitas</div>
             </a>
           </li>
+          <li class="menu-item">
+            <a href="../konsultasi/index.php" class="menu-link">
+              <i class="menu-icon bi bi-pencil"></i>
+              <div data-i18n="Account Settings">Konsultasi</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="../tindakan/index.php" class="menu-link">
+              <i class="menu-icon bi bi-book"></i>
+              <div data-i18n="Account Settings">Tindakan</div>
+            </a>
+          </li>
         </ul>
       </aside>
       <!-- / Menu -->
@@ -243,7 +255,7 @@ $unit = $pasien->instalasi();
                     </tfoot>
                     <?php
                     $no = 1;
-                  foreach ($data_pasien as $pasien) { ?>
+                    foreach ($data_pasien as $pasien) { ?>
                       <tr>
                         <td class="text-center"><?= $no++; ?></td>
                         <td class="text-center"><?= $pasien['nama'] ?></td>

@@ -3,15 +3,16 @@ class koneksi
 {
     private $server = "localhost";
     private $username = "root";
-    private $password = ""; 
-    private $db = "rekammedik";
-   
+    private $password = "root";
+    private $db = "rekammedikk";
+    private $port = 8889;
+    private $socket = "/Applications/MAMP/tmp/mysql/mysql.sock";
 
     private $conn;
 
     public function __construct()
     {
-        $this->conn = mysqli_connect($this->server, $this->username, $this->password, $this->db);
+        $this->conn = mysqli_connect($this->server, $this->username, $this->password, $this->db, $this->port, $this->socket);
 
         if (!$this->conn) {
             die("Connection failed: " . mysqli_connect_error());
@@ -49,4 +50,3 @@ class koneksi
         return mysqli_real_escape_string($this->prepareKoneksi(), $string);
     }
 }
-?>

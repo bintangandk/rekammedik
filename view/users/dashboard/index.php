@@ -106,6 +106,18 @@ $file_peruser = $pegawai->fileperuser();
                             <div data-i18n="Account Settings">Aktivitas</div>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="../konsultasi/index.php" class="menu-link">
+                            <i class="menu-icon bi bi-pencil"></i>
+                            <div data-i18n="Account Settings">Konsultasi</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="../tindakan/index.php" class="menu-link">
+                            <i class="menu-icon bi bi-book"></i>
+                            <div data-i18n="Account Settings">Tindakan</div>
+                        </a>
+                    </li>
                 </ul>
             </aside>
             <!-- / Menu -->

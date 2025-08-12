@@ -1,25 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['email'])) {
-  header('Location: ../../auth/login.php');
-  exit();
-}
-if (($_SESSION['role'] != 'admin')) {
-  header('Location: ../../admin/dashboard/index.php');
-  # code...
-}
-require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
-require '../../../controller/Pegawai.php';
-
-$pegawai = new Pegawai();
-$data_pegawai = $pegawai->index();
-$profile = $pegawai->profile();
-// var_dump($data_pegawai);
-$riwayat = $pegawai->riwayat();
-
-?>
-
-
 
 <!DOCTYPE html>
 
@@ -30,7 +8,7 @@ $riwayat = $pegawai->riwayat();
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Riwayat File</title>
+  <title>Riwayat Tindakan</title>
 
   <meta name="description" content="" />
 
@@ -102,27 +80,15 @@ $riwayat = $pegawai->riwayat();
             <span class="menu-header-text">menu</span>
           </li>
           <li class="menu-item">
-            <a href="../data-pasien/index.php" class="menu-link">
-              <i class="menu-icon bi-heart-pulse "></i>
-              <div data-i18n="Account Settings">Data Pasien</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="../akun -pasien/index.php" class="menu-link">
-              <i class="menu-icon bi-person"></i>
-              <div data-i18n="Account Settings">Akun Pasien</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="../data-pegawai/index.php" class="menu-link">
-              <i class="menu-icon bi-person-badge"></i>
-              <div data-i18n="Account Settings">Data Pegawai</div>
+            <a href="../konsultasi/index.php" class="menu-link">
+              <i class="menu-icon bi-pencil "></i>
+              <div data-i18n="Account Settings">Riwayat Konsultasi</div>
             </a>
           </li>
           <li class="menu-item active">
-            <a href="../riwayat-file/index.php" class="menu-link">
-              <i class="menu-icon bi bi-clipboard"></i>
-              <div data-i18n="Account Settings">Riwayat File</div>
+            <a href="../tindakan/index.php" class="menu-link">
+              <i class="menu-icon bi-heart"></i>
+              <div data-i18n="Account Settings">Riwayat Tindakan</div>
             </a>
           </li>
         </ul>
@@ -150,11 +116,9 @@ $riwayat = $pegawai->riwayat();
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-                    <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                    
                       <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                    <?php } else { ?>
-                      <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
-                    <?php } ?>
+                   
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -164,18 +128,16 @@ $riwayat = $pegawai->riwayat();
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
 
-                            <?php if ($profile['gambar'] == 'profile.jpg') { ?>
+                            
                               <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                            <?php } else { ?>
-                              <img src="../../../controller/uploads/profile/<?= $profile['gambar'] ?>" alt class="w-px-40 h-auto rounded-circle" />
-                            <?php } ?>
+                           
 
                           </div>
                         </div>
                         <div class="flex-grow-1">
-                          <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
+                          <span class="fw-semibold d-block">Asep</span>
                           <!-- sesuai role -->
-                          <small class="text-muted"><?= $profile['role'] ?></small>
+                          <small class="text-muted">Pasien</small>
                         </div>
                       </div>
                     </a>
@@ -212,7 +174,7 @@ $riwayat = $pegawai->riwayat();
           <!-- Content -->
 
           <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Riwayat File</h4>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Riwayat Tindakan</h4>
 
             <!-- Table Data Pasien -->
             <div class="card shadow mb-3">
@@ -228,34 +190,31 @@ $riwayat = $pegawai->riwayat();
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
+                        <th class="text-center">Diagnosis</th>
+                        <th class="text-center">Medikamentosa</th>
                         <th class="text-center">Tanggal</th>
-                        <th class="text-center">Jam</th>
-                        <th class="text-center">File</th>
-                        <th class="text-center">User</th>
+                        <th class="text-center">Durasi</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
                         <th class="text-center">No</th>
+                        <th class="text-center">Diagnosis</th>
+                        <th class="text-center">Medikamentosa</th>
                         <th class="text-center">Tanggal</th>
-                        <th class="text-center">Jam</th>
-                        <th class="text-center">File</th>
-                        <th class="text-center">User</th>
+                        <th class="text-center">Durasi</th>
                       </tr>
                     </tfoot>
                     <tbody>
-                      <?php $i = 1;
-                      foreach ($riwayat as $key) {
-
-                      ?>
+                    
                         <tr>
-                          <td class="text-center"><?= $i++ ?></td>
-                          <td class="text-center"><?= $key['tanggal'] ?></td>
-                          <td class="text-center"><?= $key['waktu'] ?></td>
-                          <td class="text-center"><?= $key['file'] ?></td>
-                          <td class="text-center"><?= $key['nama'] ?></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
                         </tr>
-                      <?php } ?>
+                     
 
                     </tbody>
                   </table>
@@ -369,7 +328,7 @@ $riwayat = $pegawai->riwayat();
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
   <!-- logout script -->
-  <script>
+  <!-- <script>
     document.getElementById('logout-link').addEventListener('click', function(event) {
       event.preventDefault(); // Mencegah tautan default
 
@@ -388,11 +347,11 @@ $riwayat = $pegawai->riwayat();
         }
       });
     });
-  </script>
+  </script> -->
 
   <!-- Delete alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
+  <!-- <script>
     document.getElementById('deleteButton').addEventListener('click', function() {
       const userId = this.getAttribute('data-id');
       Swal.fire({
@@ -433,11 +392,11 @@ $riwayat = $pegawai->riwayat();
         <?php unset($_SESSION['error']); ?>
       }
     });
-  </script>
+  </script> -->
 
 
   <!-- modal print -->
-  <script>
+  <!-- <script>
     // Handle form submission
     document.getElementById('printForm').addEventListener('submit', function(event) {
       event.preventDefault();
@@ -446,7 +405,7 @@ $riwayat = $pegawai->riwayat();
       // Close the modal
       $('#printModal').modal('hide');
     });
-  </script>
+  </script> -->
 
 
 

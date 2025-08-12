@@ -102,6 +102,12 @@ $unit = $pasien->instalasi();
                             <div data-i18n="Account Settings">Data Pasien</div>
                         </a>
                     </li>
+                     <li class="menu-item">
+                        <a href="../akun-pasien/index.php" class="menu-link">
+                            <i class="menu-icon bi-person "></i>
+                            <div data-i18n="Account Settings">Akun Pasien</div>
+                        </a>
+                    </li>
                     <li class="menu-item">
                         <a href="../data-pegawai/index.php" class="menu-link">
                             <i class="menu-icon bi-person-badge"></i>
