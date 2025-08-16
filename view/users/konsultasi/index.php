@@ -133,9 +133,9 @@ require '../../../controller/Pegawai.php';;
                             <div data-i18n="Account Settings">Dictionary</div>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Medikamentosa</a></li>
-                            <li><a class="dropdown-item" href="#">Diagnosis</a></li>
-                            <li><a class="dropdown-item" href="#">Tindakan</a></li>
+                            <li><a class="dropdown-item" href="../dic-medikamentosa/index.php">Medikamentosa</a></li>
+                            <li><a class="dropdown-item" href="../dic-diagnosis/index.php">Diagnosis</a></li>
+                            <li><a class="dropdown-item" href="../dic-tindakan/index.php">Tindakan</a></li>
                         </ul>
                     </li>
                 </ul>

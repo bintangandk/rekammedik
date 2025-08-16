@@ -21,7 +21,7 @@ require '../../../controller/Pegawai.php';;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Tindakan</title>
+    <title>Medikamentosa</title>
 
     <meta name="description" content="" />
 
@@ -121,7 +121,7 @@ require '../../../controller/Pegawai.php';;
                             <div data-i18n="Account Settings">Konsultasi</div>
                         </a>
                     </li>
-                    <li class="menu-item active">
+                    <li class="menu-item">
                         <a href="../tindakan/index.php" class="menu-link">
                             <i class="menu-icon bi bi-book"></i>
                             <div data-i18n="Account Settings">Tindakan</div>
@@ -133,7 +133,7 @@ require '../../../controller/Pegawai.php';;
                             <div data-i18n="Account Settings">Dictionary</div>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../dic-medikamentosa/index.php">Medikamentosa</a></li>
+                            <li><a class="dropdown-item active" href="../dic-medikamentosa/index.php">Medikamentosa</a></li>
                             <li><a class="dropdown-item" href="../dic-diagnosis/index.php">Diagnosis</a></li>
                             <li><a class="dropdown-item" href="../dic-tindakan/index.php">Tindakan</a></li>
                         </ul>
@@ -224,17 +224,10 @@ require '../../../controller/Pegawai.php';;
                     <!-- Content -->
 
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Tindakan</h4>
+                        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Dic-Medikamentosa</h4>
 
                         <!-- Table Konsultasi -->
                         <div class="card shadow mb-3">
-                            <div class="card-header py-3 d-flex justify-content-end gap-2">
-                                <!-- Insert Button -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insertModal">
-                                    <i class="bi bi-pencil"></i>
-                                    <i class="bi bi-plus"></i>
-                                </button>
-                            </div>
 
                             <!--/ Print Button -->
                             <div class="card-body">
@@ -243,32 +236,31 @@ require '../../../controller/Pegawai.php';;
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">RM</th>
-                                                <th class="text-center">Pasien</th>
-                                                <th class="text-center">Jenis Tindakan</th>
-                                                <th class="text-center">Diagnosis</th>
+                                                <th class="text-center">Kode Obat</th>
+                                                <th class="text-center">Nama Generik</th>
+                                                <th class="text-center">Nama Dagang</th>
                                                 <th class="text-center">Medikamentosa</th>
-                                                <th class="text-center">Tanggal</th>
-                                                <th class="text-center">Durasi</th>
-                                                <th class="text-center">Catatan Dokter</th>
-                                                <th class="text-center">Aksi</th>
+                                                <th class="text-center">Bentuk Sediaan</th>
+                                                <th class="text-center">Satuan</th>
+                                                <th class="text-center">Golongan</th>
+                                                <th class="text-center">Keterangan</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">RM</th>
-                                                <th class="text-center">Pasien</th>
-                                                <th class="text-center">Jenis Tindakan</th>
-                                                <th class="text-center">Diagnosis</th>
+                                                <th class="text-center">Kode Obat</th>
+                                                <th class="text-center">Nama Generik</th>
+                                                <th class="text-center">Nama Dagang</th>
                                                 <th class="text-center">Medikamentosa</th>
-                                                <th class="text-center">Tanggal</th>
-                                                <th class="text-center">Durasi</th>
-                                                <th class="text-center">Catatan Dokter</th>
-                                                <th class="text-center">Aksi</th>
+                                                <th class="text-center">Bentuk Sediaan</th>
+                                                <th class="text-center">Satuan</th>
+                                                <th class="text-center">Golongan</th>
+                                                <th class="text-center">Keterangan</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
+
                                             <tr>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
@@ -279,18 +271,6 @@ require '../../../controller/Pegawai.php';;
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
-
-                                                <td class="text-center">
-                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#editModal" onclick="">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-danger" onclick="">
-                                                        <i class="bi bi-printer"></i>
-                                                    </button>
-                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -298,150 +278,6 @@ require '../../../controller/Pegawai.php';;
                             </div>
                         </div>
                         <!--/ Responsive Table -->
-                        <form action="#" id="formDelete" method="POST">
-                            <input type="hidden" name="id" id="idDelete">
-                            <input type="hidden" name="action" value="delete">
-                        </form>
-                        <!-- Modal Insert Aktivitas-->
-                        <div class="modal fade" id="insertModal">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Tambah Tindakan</h4>
-                                        <a data-dismiss="modal">
-                                            <i class="bi bi-x"></i>
-                                        </a>
-                                    </div>
-
-                                    <!-- Modal Body -->
-                                    <div class="modal-body">
-                                        <form id="insertForm" action="../../../controller/Aktivitas.php" method="POST" enctype="multipart/form-data">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <input type="hidden" name="action" value="tambah_data">
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="no_rm">No. RM<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kegiatan" name="kegiatan" required></input>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="no_rm">Nama<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kegiatan" name="kegiatan" required></input>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="no_rm">Diagnosis<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="kegiatan" name="kegiatan" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="no_rm">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="kegiatan" name="kegiatan" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <input type="hidden" name="action" value="tambah">
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
-                                                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="jam">Durasi <span class="text-danger">*</span></label>
-                                                            <input type="time" class="form-control" id="jam" name="jam" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                    </div>
-                                    <!-- Modal Footer -->
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Mulai</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Selesai</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Modal Edit Aktivitas-->
-                        <div class="modal fade" id="editModal">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Edit Tindakan</h4>
-                                        <a data-dismiss="modal">
-                                            <i class="bi bi-x"></i>
-                                        </a>
-                                    </div>
-
-                                    <!-- Modal Body -->
-                                    <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <input type="hidden" name="action" value="tambah_data">
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="no_rm">No. RM<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kegiatan" name="kegiatan" required></input>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="no_rm">Nama<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kegiatan" name="kegiatan" required></input>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="no_rm">Diagnosis<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="kegiatan" name="kegiatan" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="no_rm">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="kegiatan" name="kegiatan" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <input type="hidden" name="action" value="tambah">
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
-                                                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <label for="jam">Durasi <span class="text-danger">*</span></label>
-                                                            <input type="time" class="form-control" id="jam" name="jam" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                    </div>
-                                    <!-- Modal Footer -->
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
