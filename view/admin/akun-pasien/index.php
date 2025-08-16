@@ -150,9 +150,9 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-    
-                      <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                    
+
+                    <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -161,7 +161,7 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                       <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
-                              <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" /> 
+                            <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
 
                           </div>
                         </div>
@@ -239,24 +239,24 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                       </tr>
                     </tfoot>
                     <tbody>
-                        <tr>
-                          <td class="text-center"></td>
-                          <td class="text-center"></td>
-                          <td class="text-center"></td>
-                          <td class="text-center"></td>
-                          <td class="text-center"></td>
-                          <td class="text-center">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
-                              <i class="bi bi-eye"></i>
-                            </button>
-                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
-                              <i class="bi bi-pencil"></i>
-                            </button>
-                            <button id="deleteButton" class="btn btn-danger" onclick="">
-                              <i class="bi bi-trash"></i>
-                            </button>
-                          </td>
-                        </tr>
+                      <tr>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button id="deleteButton" class="btn btn-danger" onclick="">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -280,23 +280,57 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 
                   <!-- Modal Body -->
                   <div class="modal-body">
-                    <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                    <form id="insertForm" action="../../../controller/Pasien.php" method="POST" enctype="multipart/form-data">
                       <div class="container">
                         <div class="row">
                           <div class="col-md-6 c">
+                            <!-- Input Nama Lengkap -->
                             <div class="form-group">
                               <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama Lengkap" required>
                             </div>
+
+                            <!-- Input Email -->
                             <div class="form-group">
-                              <label for="name">Email<span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                              <label for="email">Email <span class="text-danger">*</span></label>
+                              <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email" required>
                             </div>
+
+                            <!-- Input No Telpon -->
                             <div class="form-group">
-                              <label for="name">No Telpon <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                              <label for="no_telfon">No. Telpon <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="no_telfon" name="no_telfon" placeholder="Masukkan No Telpon" required>
                             </div>
                           </div>
+
+                          <div class="col-md-6 c">
+                            <!-- Input Password -->
+                            <div class="form-group">
+                              <label for="password">Password <span class="text-danger">*</span></label>
+                              <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password" required>
+                            </div>
+
+                            <!-- Input Role -->
+                            <div class="form-group">
+                              <label for="role">Role <span class="text-danger">*</span></label>
+                              <select class="form-control" id="role" name="role" required>
+                                <option value="patient">Pasien</option>
+                                <!-- Tambahkan role lain jika diperlukan -->
+                              </select>
+                            </div>
+
+                            <!-- Input NIP -->
+                            <div class="form-group">
+                              <label for="nip">NIP</label>
+                              <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukkan NIP">
+                            </div>
+
+                            <!-- Input ID Unit -->
+                             <input type="hidden" name="id_unit" value="NULL">
+
+                             <input type="hidden" name="gambar" value="picture.jpeg">
+                          </div>
+                        </div>
                       </div>
                   </div>
 
@@ -309,47 +343,49 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Modal Edit data pasien -->
-            <div class="modal fade" id="editModal">
-              <div class="modal-dialog">
-                <div class="modal-content">
 
-                  <!-- Modal Header -->
-                  <div class="modal-header">
-                    <h4 class="modal-title">Edit Data Pasien</h4>
-                    <a data-dismiss="modal">
-                      <i class="bi bi-x"></i>
-                    </a>
-                  </div>
+          <!-- Modal Edit data pasien -->
+          <div class="modal fade" id="editModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
 
-                  <!-- Modal Body -->
-                  <div class="modal-body">
-                    <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="name">Email<span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="name">No Telpon <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                            </div>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Edit Data Pasien</h4>
+                  <a data-dismiss="modal">
+                    <i class="bi bi-x"></i>
+                  </a>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                  <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-6 c">
+                          <div class="form-group">
+                            <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
                           </div>
+                          <div class="form-group">
+                            <label for="name">Email<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="name">No Telpon <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
+                          </div>
+                        </div>
                       </div>
-                  </div>
+                    </div>
 
-                  <!-- Modal Footer -->
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                  </div>
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Simpan</button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -387,6 +423,7 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                               <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
                             </div>
                           </div>
+                        </div>
                       </div>
                   </div>
                 </div>
@@ -394,29 +431,28 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
             </div>
           </div>
         </div>
-      </div>
-      <!-- / Content -->
-      <form action="../../../controller/Pasien.php" id="formDelete" method="POST">
-        <input type="hidden" name="id_pasien" id="idDelete">
-        <input type="hidden" name="action" value="delete">
-      </form>
-      <!-- Footer -->
-      <footer class="content-footer footer bg-footer-theme">
-        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-          <div class="mb-2 mb-md-0">
-            <!-- <script>
+        <!-- / Content -->
+        <form action="../../../controller/Pasien.php" id="formDelete" method="POST">
+          <input type="hidden" name="id_pasien" id="idDelete">
+          <input type="hidden" name="action" value="delete">
+        </form>
+        <!-- Footer -->
+        <footer class="content-footer footer bg-footer-theme">
+          <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+            <div class="mb-2 mb-md-0">
+              <!-- <script>
               document.write(new Date().getFullYear());
             </script> -->
+            </div>
           </div>
-        </div>
-      </footer>
-      <!-- / Footer -->
+        </footer>
+        <!-- / Footer -->
 
-      <div class="content-backdrop fade"></div>
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
     </div>
-    <!-- Content wrapper -->
-  </div>
-  <!-- / Layout page -->
+    <!-- / Layout page -->
   </div>
 
   <!-- Overlay -->

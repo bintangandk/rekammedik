@@ -121,6 +121,17 @@ $aktivitas  = $pegawai->aktivitas();
                             <div data-i18n="Account Settings">Aktivitas</div>
                         </a>
                     </li>
+                    <li class="menu-item dropdown">
+                        <a href="#" class="menu-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="menu-icon bi bi-bookmark"></i>
+                            <div data-i18n="Account Settings">Dictionary</div>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Medikamentosa</a></li>
+                            <li><a class="dropdown-item" href="#">Diagnosis</a></li>
+                            <li><a class="dropdown-item" href="#">Tindakan</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </aside>
             <!-- / Menu -->

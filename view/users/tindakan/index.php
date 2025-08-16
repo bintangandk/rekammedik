@@ -127,6 +127,17 @@ require '../../../controller/Pegawai.php';;
                             <div data-i18n="Account Settings">Tindakan</div>
                         </a>
                     </li>
+                    <li class="menu-item dropdown">
+                        <a href="#" class="menu-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="menu-icon bi bi-bookmark"></i>
+                            <div data-i18n="Account Settings">Dictionary</div>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Medikamentosa</a></li>
+                            <li><a class="dropdown-item" href="#">Diagnosis</a></li>
+                            <li><a class="dropdown-item" href="#">Tindakan</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -232,30 +243,35 @@ require '../../../controller/Pegawai.php';;
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">No. RM</th>
-                                                <th class="text-center">Nama Pasien</th>
+                                                <th class="text-center">RM</th>
+                                                <th class="text-center">Pasien</th>
+                                                <th class="text-center">Jenis Tindakan</th>
                                                 <th class="text-center">Diagnosis</th>
                                                 <th class="text-center">Medikamentosa</th>
                                                 <th class="text-center">Tanggal</th>
                                                 <th class="text-center">Durasi</th>
+                                                <th class="text-center">Catatan Dokter</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">No. RM</th>
-                                                <th class="text-center">Nama Pasien</th>
+                                                <th class="text-center">RM</th>
+                                                <th class="text-center">Pasien</th>
+                                                <th class="text-center">Jenis Tindakan</th>
                                                 <th class="text-center">Diagnosis</th>
                                                 <th class="text-center">Medikamentosa</th>
                                                 <th class="text-center">Tanggal</th>
                                                 <th class="text-center">Durasi</th>
+                                                <th class="text-center">Catatan Dokter</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
-
                                             <tr>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
@@ -268,8 +284,11 @@ require '../../../controller/Pegawai.php';;
                                                     <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
                                                         <i class="bi bi-pencil"></i>
                                                     </button>
+                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#editModal" onclick="">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
                                                     <button class="btn btn-danger" onclick="">
-                                                        <i class="bi bi-trash"></i>
+                                                        <i class="bi bi-printer"></i>
                                                     </button>
                                                 </td>
                                             </tr>
