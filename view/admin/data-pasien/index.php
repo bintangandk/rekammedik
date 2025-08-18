@@ -131,6 +131,29 @@ $unit = $pasien->instalasi();
               <div data-i18n="Account Settings">Riwayat File</div>
             </a>
           </li>
+          <li class="menu-item">
+            <a href="../konsultasi/index.php" class="menu-link">
+              <i class="menu-icon bi bi-pencil"></i>
+              <div data-i18n="Account Settings">Konsultasi</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="../tindakan/index.php" class="menu-link">
+              <i class="menu-icon bi bi-book"></i>
+              <div data-i18n="Account Settings">Tindakan</div>
+            </a>
+          </li>
+          <li class="menu-item dropdown">
+            <a href="#" class="menu-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="menu-icon bi bi-bookmark"></i>
+              <div data-i18n="Account Settings">Dictionary</div>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="../dic-medikamentosa/index.php">Medikamentosa</a></li>
+              <li><a class="dropdown-item" href="../dic-diagnosis/index.php">Diagnosis</a></li>
+              <li><a class="dropdown-item" href="../dic-tindakan/index.php">Tindakan</a></li>
+            </ul>
+          </li>
         </ul>
       </aside>
       <!-- / Menu -->
@@ -659,10 +682,10 @@ $unit = $pasien->instalasi();
                             <input class="form-control" type="file" name="file_rekammedis">
                           </div>
                           <input type="hidden" name="id_pasien" id="id_pasien_edit">
-                          
-                          
 
-                          
+
+
+
                           <div class="form-group">
                             <label for="formFile" class="form-label">Upload Hasil Rontgen <span class="text-danger">*</span></label>
                             <input class="form-control" type="file" name="file_hasilrontgen">
@@ -713,7 +736,7 @@ $unit = $pasien->instalasi();
                           <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                               <label for="nik">NIK <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="nik_detail" name="nik" placeholder="Masukan NIK" readonly> 
+                              <input type="text" class="form-control" id="nik_detail" name="nik" placeholder="Masukan NIK" readonly>
                             </div>
                           </div>
                           <div class="col-md-6 col-sm-12">
@@ -747,7 +770,7 @@ $unit = $pasien->instalasi();
                           <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                               <label for="kepesertaan">Jenis Kepesertaan <span class="text-danger">*</span></label>
-                              <select name="kepesertaan" class="form-control" id="kepesertaan_detail" placeholder="Pilih"  readonly disabled>
+                              <select name="kepesertaan" class="form-control" id="kepesertaan_detail" placeholder="Pilih" readonly disabled>
                                 <option value="">Pilih</option>
                                 <option value="BPJS">BPJS</option>
                                 <option value="Umum">Umum</option>
@@ -780,7 +803,7 @@ $unit = $pasien->instalasi();
                               <div class="form-group row">
                                 <label for="hr" class="col-sm-1 col-form-label">HR:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="hr_detail" name="hr" placeholder="Menit" required readonly> 
+                                  <input type="text" class="form-control" id="hr_detail" name="hr" placeholder="Menit" required readonly>
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
                               </div>

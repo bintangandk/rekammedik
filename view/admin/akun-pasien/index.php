@@ -125,6 +125,29 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
               <div data-i18n="Account Settings">Riwayat File</div>
             </a>
           </li>
+          <li class="menu-item">
+            <a href="../konsultasi/index.php" class="menu-link">
+              <i class="menu-icon bi bi-pencil"></i>
+              <div data-i18n="Account Settings">Konsultasi</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="../tindakan/index.php" class="menu-link">
+              <i class="menu-icon bi bi-book"></i>
+              <div data-i18n="Account Settings">Tindakan</div>
+            </a>
+          </li>
+          <li class="menu-item dropdown">
+            <a href="#" class="menu-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="menu-icon bi bi-bookmark"></i>
+              <div data-i18n="Account Settings">Dictionary</div>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="../dic-medikamentosa/index.php">Medikamentosa</a></li>
+              <li><a class="dropdown-item" href="../dic-diagnosis/index.php">Diagnosis</a></li>
+              <li><a class="dropdown-item" href="../dic-tindakan/index.php">Tindakan</a></li>
+            </ul>
+          </li>
         </ul>
       </aside>
       <!-- / Menu -->
@@ -326,9 +349,9 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                             </div>
 
                             <!-- Input ID Unit -->
-                             <input type="hidden" name="id_unit" value="NULL">
+                            <input type="hidden" name="id_unit" value="NULL">
 
-                             <input type="hidden" name="gambar" value="picture.jpeg">
+                            <input type="hidden" name="gambar" value="picture.jpeg">
                           </div>
                         </div>
                       </div>
