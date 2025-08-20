@@ -246,28 +246,22 @@ $profile = $pegawai->profile();
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">RM</th>
+                                                <th class="text-center">No RM</th>
                                                 <th class="text-center">Pasien</th>
-                                                <th class="text-center">Diagnosis</th>
-                                                <th class="text-center">Medikamentosa</th>
                                                 <th class="text-center">Tanggal</th>
                                                 <th class="text-center">Durasi</th>
                                                 <th class="text-center">Dokter</th>
-                                                <th class="text-center">Catatan Dokter</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">RM</th>
+                                                <th class="text-center">No RM</th>
                                                 <th class="text-center">Pasien</th>
-                                                <th class="text-center">Diagnosis</th>
-                                                <th class="text-center">Medikamentosa</th>
                                                 <th class="text-center">Tanggal</th>
                                                 <th class="text-center">Durasi</th>
                                                 <th class="text-center">Dokter</th>
-                                                <th class="text-center">Catatan Dokter</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </tfoot>
@@ -280,15 +274,11 @@ $profile = $pegawai->profile();
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-
                                                 <td class="text-center">
                                                     <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
                                                         <i class="bi bi-pencil"></i>
                                                     </button>
-                                                    <button class="btn btn-primary" data-toggle="modal" data-target="" onclick="">
+                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
                                                         <i class="bi bi-eye"></i>
                                                     </button>
                                                     <button class="btn btn-danger" onclick="">
@@ -425,7 +415,7 @@ $profile = $pegawai->profile();
                             </div>
                         </div>
 
-                        <!-- Modal Edit Aktivitas-->
+                        <!-- Modal Edit-->
                         <div class="modal fade" id="editModal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -507,6 +497,87 @@ $profile = $pegawai->profile();
                                                     <input type="hidden" name="action" value="tambah">
                                                     <div class="col-md-20">
                                                         <div class="form-group">
+                                                            <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
+                                                            <textarea class="form-control" id="catatan_dokter" name="catatan_dokter" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
+                                                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                                                        </div>
+                                                    </div>  
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label>Durasi Konsultasi</label>
+                                                            <input type="time" class="form-control" id="durasi" name="durasi" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Show-->
+                        <div class="modal fade" id="showModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Detail Konsultasi</h4>
+                                        <a data-dismiss="modal">
+                                            <i class="bi bi-x"></i>
+                                        </a>
+                                    </div>
+
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <form id="insertForm" action="../../../controller/Aktivitas.php" method="POST" enctype="multipart/form-data">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <input type="hidden" name="action" value="tambah_data">
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="no_rm">No. RM<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="no_rm" name="no_rm" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="name">Nama Pasien<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="name" name="name" required></input>
+                                                        </div>
+                                                    </div>
+                                                     <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="dokter">Nama Dokter<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="doter" name="dokter" required></input>
+                                                        </div>
+                                                    </div>
+                                                     <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="diagnosis">Diagnosis<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="diagnosis" name="diagnosis" required></input>
+                                                        </div>
+                                                    </div>
+                                                     <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="medikamentosa" name="medikamentosa" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" name="action" value="tambah">
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
                                                             <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
                                                             <input type="date" class="form-control" id="tanggal" name="tanggal" required>
                                                         </div>
@@ -528,13 +599,13 @@ $profile = $pegawai->profile();
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

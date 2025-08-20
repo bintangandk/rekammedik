@@ -8,7 +8,10 @@ if (!isset($_SESSION['email'])) {
 }
 
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
-require '../../../controller/Pegawai.php';;
+require '../../../controller/Pegawai.php';
+
+$pegawai = new Pegawai();
+$profile = $pegawai->profile();
 
 ?>
 
@@ -243,28 +246,22 @@ require '../../../controller/Pegawai.php';;
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">RM</th>
+                                                <th class="text-center">No RM</th>
                                                 <th class="text-center">Pasien</th>
                                                 <th class="text-center">Jenis Tindakan</th>
-                                                <th class="text-center">Diagnosis</th>
-                                                <th class="text-center">Medikamentosa</th>
                                                 <th class="text-center">Tanggal</th>
                                                 <th class="text-center">Durasi</th>
-                                                <th class="text-center">Catatan Dokter</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">RM</th>
+                                                <th class="text-center">No RM</th>
                                                 <th class="text-center">Pasien</th>
                                                 <th class="text-center">Jenis Tindakan</th>
-                                                <th class="text-center">Diagnosis</th>
-                                                <th class="text-center">Medikamentosa</th>
                                                 <th class="text-center">Tanggal</th>
                                                 <th class="text-center">Durasi</th>
-                                                <th class="text-center">Catatan Dokter</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </tfoot>
@@ -276,15 +273,12 @@ require '../../../controller/Pegawai.php';;
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
 
                                                 <td class="text-center">
                                                     <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
                                                         <i class="bi bi-pencil"></i>
                                                     </button>
-                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#editModal" onclick="">
+                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
                                                         <i class="bi bi-eye"></i>
                                                     </button>
                                                     <button class="btn btn-success" onclick="">
@@ -306,7 +300,7 @@ require '../../../controller/Pegawai.php';;
                             <input type="hidden" name="action" value="delete">
                         </form>
 
-                        <!-- Modal Edit Aktivitas-->
+                        <!-- Modal Edit-->
                         <div class="modal fade" id="editModal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -321,55 +315,176 @@ require '../../../controller/Pegawai.php';;
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                        <form id="insertForm" action="../../../controller/Aktivitas.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
                                                     <input type="hidden" name="action" value="tambah_data">
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="no_rm">No. RM<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kegiatan" name="kegiatan" required></input>
+                                                            <input class="form-control" id="no_rm" name="no_rm" required></input>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="no_rm">Nama<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kegiatan" name="kegiatan" required></input>
+                                                            <label for="nama_pasien">Nama Pasien<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="nama_pasien" name="nama_pasien" required></input>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="no_rm">Diagnosis<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="kegiatan" name="kegiatan" required></textarea>
+                                                            <label for="tindakan">Jenis Tindakan<span class="text-danger">*</span></label>
+                                                            <select id="tindakan" name="tindakan" class="form-control" required>
+                                                                <option value="">-- Pilih Tindakan --</option>
+                                                                <option value="1">dr. Andi Pratama</option>
+                                                                <option value="2">dr. Budi Santoso</option>
+                                                                <option value="3">dr. Citra Dewi</option>
+                                                                <option value="4">dr. Dedi Kurniawan</option>
+                                                                <option value="5">dr. Eko Setiawan</option>
+                                                                <option value="6">dr. Fitriani</option>
+                                                                <option value="7">dr. Guntur</option>
+                                                                <option value="8">dr. Hani Kusuma</option>
+                                                            </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="no_rm">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="kegiatan" name="kegiatan" required></textarea>
+                                                            <label for="diagnosis">Diagnosis<span class="text-danger">*</span></label>
+                                                            <select id="diagnosis" name="diagnosis" class="form-control" required>
+                                                                <option value="">-- Pilih Diagnosis--</option>
+                                                                <option value="1">dr. Andi Pratama</option>
+                                                                <option value="2">dr. Budi Santoso</option>
+                                                                <option value="3">dr. Citra Dewi</option>
+                                                                <option value="4">dr. Dedi Kurniawan</option>
+                                                                <option value="5">dr. Eko Setiawan</option>
+                                                                <option value="6">dr. Fitriani</option>
+                                                                <option value="7">dr. Guntur</option>
+                                                                <option value="8">dr. Hani Kusuma</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
+                                                            <select id="medikamentosa" name="medikamentosa" class="form-control" required>
+                                                                <option value="">-- Pilih Diagnosis--</option>
+                                                                <option value="1">dr. Andi Pratama</option>
+                                                                <option value="2">dr. Budi Santoso</option>
+                                                                <option value="3">dr. Citra Dewi</option>
+                                                                <option value="4">dr. Dedi Kurniawan</option>
+                                                                <option value="5">dr. Eko Setiawan</option>
+                                                                <option value="6">dr. Fitriani</option>
+                                                                <option value="7">dr. Guntur</option>
+                                                                <option value="8">dr. Hani Kusuma</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <input type="hidden" name="action" value="tambah">
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
+                                                            <textarea class="form-control" id="catatan_dokter" name="catatan_dokter" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
                                                             <input type="date" class="form-control" id="tanggal" name="tanggal" required>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="jam">Durasi <span class="text-danger">*</span></label>
-                                                            <input type="time" class="form-control" id="jam" name="jam" required>
+                                                            <label>Durasi Konsultasi</label>
+                                                            <input type="time" class="form-control" id="durasi" name="durasi" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Show-->
+                        <div class="modal fade" id="showModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Detail Tindakan</h4>
+                                        <a data-dismiss="modal">
+                                            <i class="bi bi-x"></i>
+                                        </a>
+                                    </div>
+
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <form id="insertForm" action="../../../controller/Aktivitas.php" method="POST" enctype="multipart/form-data">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <input type="hidden" name="action" value="tambah_data">
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="no_rm">No. RM<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="no_rm" name="no_rm" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="nama_pasien">Nama Pasien<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="nama_pasien" name="nama_pasien" required></input>
+                                                        </div>
+                                                    </div>
+                                                   <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="tindakan">Jenis Tindakan<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="tindakan" name="tindakan" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="diagnosis">Diagnosis<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="diagnosis" name="diagnosis" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="medikamentosa" name="medikamentosa" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" name="action" value="tambah">
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
+                                                            <textarea class="form-control" id="catatan_dokter" name="catatan_dokter" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
+                                                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label>Durasi Konsultasi</label>
+                                                            <input type="time" class="form-control" id="durasi" name="durasi" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
                                         </form>
                                     </div>
                                 </div>
