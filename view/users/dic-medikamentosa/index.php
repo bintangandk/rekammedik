@@ -8,7 +8,10 @@ if (!isset($_SESSION['email'])) {
 }
 
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
-require '../../../controller/Pegawai.php';;
+require '../../../controller/Pegawai.php';
+
+$pegawai = new Pegawai();
+$profile = $pegawai->profile();
 
 ?>
 

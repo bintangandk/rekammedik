@@ -8,7 +8,10 @@ if (!isset($_SESSION['email'])) {
 }
 
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
-require '../../../controller/Pegawai.php';;
+require '../../../controller/Pegawai.php';
+
+$pegawai = new Pegawai();
+$profile = $pegawai->profile();
 
 ?>
 
@@ -251,8 +254,6 @@ require '../../../controller/Pegawai.php';;
                                                 <th class="text-center">Nama Tindakan</th>
                                                 <th class="text-center">Kategori</th>
                                                 <th class="text-center">Durasi</th>
-                                                <th class="text-center">Keterangan</th>
-                                                <th class="text-center">Perlengkapan</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
@@ -263,8 +264,6 @@ require '../../../controller/Pegawai.php';;
                                                 <th class="text-center">Nama Tindakan</th>
                                                 <th class="text-center">Kategori</th>
                                                 <th class="text-center">Durasi</th>
-                                                <th class="text-center">Keterangan</th>
-                                                <th class="text-center">Perlengkapan</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </tfoot>
@@ -275,14 +274,12 @@ require '../../../controller/Pegawai.php';;
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
                                                     <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
                                                         <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                                                        <i class="bi bi-eye"></i>
                                                     </button>
                                                     <button id="deleteButton" class="btn btn-danger" onclick="">
                                                         <i class="bi bi-trash"></i>
@@ -295,6 +292,212 @@ require '../../../controller/Pegawai.php';;
                             </div>
                         </div>
                         <!--/ Responsive Table -->
+                        <form action="#" id="formDelete" method="POST">
+                            <input type="hidden" name="id" id="idDelete">
+                            <input type="hidden" name="action" value="delete">
+                        </form>
+                        <!-- Modal Insert-->
+                        <div class="modal fade" id="insertModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Tambah Tindakan</h4>
+                                        <a data-dismiss="modal">
+                                            <i class="bi bi-x"></i>
+                                        </a>
+                                    </div>
+
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <input type="hidden" name="action" value="tambah_data">
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="kode_tindakan">Kode Tindakan<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="kode_tindakan" name="kode_tindakan" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="nama_tindakan">Nama Tindakan<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="nama_tindakan" name="nama_tindakan" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="kategori">Kategori<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="kategori" name="kategori" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="durasi">Durasi<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="durasi" name="durasi" type="time" required></input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-20">
+                                                    <div class="form-group">
+                                                        <label for="perlengkapan">Alat/Perlengkapan<span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" id="perlengkapan" name="perlengkapan" required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-20">
+                                                    <div class="form-group">
+                                                        <label for="keterangan">Keterangan<span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" id="keterangan" name="keterangan" required></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Modal Edit-->
+                        <div class="modal fade" id="editModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit Medikamentosa</h4>
+                                        <a data-dismiss="modal">
+                                            <i class="bi bi-x"></i>
+                                        </a>
+                                    </div>
+
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <form id="editForm" action="#" method="POST" enctype="multipart/form-data">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <input type="hidden" name="action" value="tambah_data">
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="kode_tindakan">Kode Tindakan<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="kode_tindakan" name="kode_tindakan" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="nama_tindakan">Nama Tindakan<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="nama_tindakan" name="nama_tindakan" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="kategori">Kategori<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="kategori" name="kategori" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="durasi">Durasi<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="durasi" name="durasi" type="time" required></input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-20">
+                                                    <div class="form-group">
+                                                        <label for="perlengkapan">Alat/Perlengkapan<span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" id="perlengkapan" name="perlengkapan" required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-20">
+                                                    <div class="form-group">
+                                                        <label for="keterangan">Keterangan<span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" id="keterangan" name="keterangan" required></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Modal Show-->
+                        <div class="modal fade" id="showModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Detail Medikamentosa</h4>
+                                        <a data-dismiss="modal">
+                                            <i class="bi bi-x"></i>
+                                        </a>
+                                    </div>
+
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <form id="editForm" action="#" method="POST" enctype="multipart/form-data">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <input type="hidden" name="action" value="tambah_data">
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="kode_tindakan">Kode Tindakan<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="kode_tindakan" name="kode_tindakan" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="nama_tindakan">Nama Tindakan<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="nama_tindakan" name="nama_tindakan" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="kategori">Kategori<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="kategori" name="kategori" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="durasi">Durasi<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="durasi" name="durasi" type="time" required></input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-20">
+                                                    <div class="form-group">
+                                                        <label for="perlengkapan">Alat/Perlengkapan<span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" id="perlengkapan" name="perlengkapan" required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-20">
+                                                    <div class="form-group">
+                                                        <label for="keterangan">Keterangan<span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" id="keterangan" name="keterangan" required></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
