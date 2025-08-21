@@ -49,4 +49,10 @@ class koneksi
     {
         return mysqli_real_escape_string($this->prepareKoneksi(), $string);
     }
+
+    public function updateData($query) {
+    $result = $this->conn->query($query);
+    return $result ? true : false;
+}
+
 }
