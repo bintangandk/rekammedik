@@ -13,6 +13,9 @@ if (($_SESSION['role'] != 'admin')) {
 }
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 
+$db = new koneksi();
+$query = "SELECT * FROM users WHERE role = 'pasien'";
+$akuns = $db->showData($query);
 
 ?>
 
@@ -244,7 +247,6 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">NIK</th>
                         <th class="text-center">Nama</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">No Telp</th>
@@ -254,7 +256,6 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                     <tfoot>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">NIK</th>
                         <th class="text-center">Nama</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">No Telp</th>
@@ -262,24 +263,36 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                       </tr>
                     </tfoot>
                     <tbody>
-                      <tr>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
-                        <td class="text-center">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
-                            <i class="bi bi-eye"></i>
-                          </button>
-                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button id="deleteButton" class="btn btn-danger" onclick="">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
+                      <?php if (!empty($akuns)): ?>
+                        <?php $no1 = 1;
+                        foreach ($akuns as $row): ?>
+                          <tr>
+                            <td class="text-center"><?php echo $no1++; ?></td>
+                            <td class="text-center"><?php echo htmlspecialchars($row['Nama']); ?></td>
+                            <td class="text-center"><?php echo htmlspecialchars($row['email']); ?></td>
+                            <td class="text-center"><?php echo htmlspecialchars($row['no_telfon']); ?></td>
+                            <td class="text-center">
+                              <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                                <i class="bi bi-eye"></i>
+                              </button>
+                              <!-- <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
+                                <i class="bi bi-pencil"></i>
+                              </button> -->
+                              <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
+                                onclick="editData(<?= htmlspecialchars(json_encode($akun), ENT_QUOTES, 'UTF-8'); ?>)">
+                                <i class="bi bi-pencil"></i>
+                              </button>
+                              <button id="deleteButton" class="btn btn-danger" onclick="">
+                                <i class="bi bi-trash"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php else: ?>
+                        <tr>
+                          <td colspan="5" class="text-center">Belum ada data pasien</td>
+                        </tr>
+                      <?php endif; ?>
                     </tbody>
                   </table>
                 </div>
@@ -288,7 +301,7 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
             <!--/ Responsive Table -->
 
 
-            <!-- Modal Insert data pasien-->
+            <!-- Modal Insert -->
             <div class="modal fade" id="insertModal">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -303,14 +316,15 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 
                   <!-- Modal Body -->
                   <div class="modal-body">
-                    <form id="insertForm" action="../../../controller/Pasien.php" method="POST" enctype="multipart/form-data">
+                    <form id="insertForm" action="../../../controller/akunPasien.php" method="POST" enctype="multipart/form-data">
                       <div class="container">
                         <div class="row">
-                          <div class="col-md-6 c">
+                          <div class="col-md-6">
+
                             <!-- Input Nama Lengkap -->
                             <div class="form-group">
-                              <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama Lengkap" required>
+                              <label for="Nama">Nama Lengkap <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="Nama" name="Nama" placeholder="Masukkan Nama Lengkap" required>
                             </div>
 
                             <!-- Input Email -->
@@ -326,7 +340,8 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                             </div>
                           </div>
 
-                          <div class="col-md-6 c">
+                          <div class="col-md-6">
+
                             <!-- Input Password -->
                             <div class="form-group">
                               <label for="password">Password <span class="text-danger">*</span></label>
@@ -337,21 +352,90 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
                             <div class="form-group">
                               <label for="role">Role <span class="text-danger">*</span></label>
                               <select class="form-control" id="role" name="role" required>
-                                <option value="patient">Pasien</option>
-                                <!-- Tambahkan role lain jika diperlukan -->
+                                <option value="pasien">Pasien</option>
                               </select>
                             </div>
 
-                            <!-- Input NIP -->
+                            <!-- Hidden input -->
+                            <input type="hidden" name="nip" value="">
+                            <input type="hidden" name="id_unit" value="">
+                            <input type="hidden" name="gambar" value="profile.jpg">
+
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                  <!-- Modal Footer -->
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal Edit -->
+            <div class="modal fade" id="editModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Edit Akun Pasien</h4>
+                    <a data-dismiss="modal">
+                      <i class="bi bi-x"></i>
+                    </a>
+                  </div>
+
+                  <!-- Modal Body -->
+                  <div class="modal-body">
+                    <form id="insertForm" action="../../../controller/akunPasien.php" method="POST" enctype="multipart/form-data">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-md-6">
+
+                            <!-- Input Nama Lengkap -->
                             <div class="form-group">
-                              <label for="nip">NIP</label>
-                              <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukkan NIP">
+                              <label for="Nama">Nama Lengkap <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="Nama" name="Nama" placeholder="Masukkan Nama Lengkap" required>
                             </div>
 
-                            <!-- Input ID Unit -->
-                            <input type="hidden" name="id_unit" value="NULL">
+                            <!-- Input Email -->
+                            <div class="form-group">
+                              <label for="email">Email <span class="text-danger">*</span></label>
+                              <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email" required>
+                            </div>
 
-                            <input type="hidden" name="gambar" value="picture.jpeg">
+                            <!-- Input No Telpon -->
+                            <div class="form-group">
+                              <label for="no_telfon">No. Telpon <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="no_telfon" name="no_telfon" placeholder="Masukkan No Telpon" required>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+
+                            <!-- Input Password -->
+                            <div class="form-group">
+                              <label for="password">Password <span class="text-danger">*</span></label>
+                              <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password" required>
+                            </div>
+
+                            <!-- Input Role -->
+                            <div class="form-group">
+                              <label for="role">Role <span class="text-danger">*</span></label>
+                              <select class="form-control" id="role" name="role" required>
+                                <option value="pasien">Pasien</option>
+                              </select>
+                            </div>
+
+                            <!-- Hidden input -->
+                            <input type="hidden" name="nip" value="">
+                            <input type="hidden" name="id_unit" value="">
+                            <input type="hidden" name="gambar" value="profile.jpg">
+
                           </div>
                         </div>
                       </div>
@@ -368,91 +452,6 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
             </div>
           </div>
 
-
-          <!-- Modal Edit data pasien -->
-          <div class="modal fade" id="editModal">
-            <div class="modal-dialog">
-              <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                  <h4 class="modal-title">Edit Data Pasien</h4>
-                  <a data-dismiss="modal">
-                    <i class="bi bi-x"></i>
-                  </a>
-                </div>
-
-                <!-- Modal Body -->
-                <div class="modal-body">
-                  <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-md-6 c">
-                          <div class="form-group">
-                            <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                          </div>
-                          <div class="form-group">
-                            <label for="name">Email<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                          </div>
-                          <div class="form-group">
-                            <label for="name">No Telpon <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Modal Footer -->
-                    <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary">Simpan</button>
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-
-            <!-- Modal show data pasien-->
-            <div class="modal fade" id="showModal">
-              <div class="modal-dialog">
-                <div class="modal-content">
-
-                  <!-- Modal Header -->
-                  <div class="modal-header">
-                    <h4 class="modal-title">Detail Data Pasien</h4>
-                    <a data-dismiss="modal">
-                      <i class="bi bi-x"></i>
-                    </a>
-                  </div>
-
-                  <!-- Modal Body -->
-                  <div class="modal-body">
-                    <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="name">Email<span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="name">No Telpon <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Lengkap" required>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         <!-- / Content -->
         <form action="../../../controller/Pasien.php" id="formDelete" method="POST">
@@ -551,74 +550,23 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
       // Close the modal
       $('#showModal').modal('hide');
     });
+  </script>
+  <script>
+    function editData(akun) {
+      // Isi form modal
+      document.getElementById('id_user').value = pasien.id_user;
+      document.getElementById('Nama').value = pasien.Nama; // ganti name="name" kalau perlu
+      document.getElementById('email').value = pasien.email;
+      document.getElementById('no_telfon').value = pasien.no_telfon;
+      document.getElementById('role').value = pasien.role;
+      document.querySelector('input[name="nip"]').value = pasien.nip || '';
+      document.querySelector('input[name="id_unit"]').value = pasien.id_unit || '';
+      document.querySelector('input[name="gambar"]').value = pasien.gambar || '';
 
-
-    function showData(data) {
-      document.getElementById('name_detail').value = data.nama;
-      document.getElementById('nik_detail').value = data.nik;
-      document.getElementById('tanggal_lahirdetil').value = data.tanggal_lahir;
-      document.getElementById('gender_detail').value = data.jenis_kelamin;
-      document.getElementById('no_rm_detail').value = data.no_rm;
-      document.getElementById('unit_detail').value = data.instalasi;
-      document.getElementById('kepesertaan_detail').value = data.jenis_kepesertaan;
-      document.getElementById('address_detail').value = data.alamat;
-      document.getElementById('td_detail').value = data.td;
-      document.getElementById('temperatur_detail').value = data.t;
-      document.getElementById('hr_detail').value = data.hr;
-      document.getElementById('rr_detail').value = data.rr;
-      document.getElementById('tb_detail').value = data.tb;
-      document.getElementById('bb_detail').value = data.bb;
-      document.getElementById('note_detail').value = data.note_dokter;
-      document.getElementById('diagnosis_detail').value = data.diagnosis;
-      document.getElementById('tindakan_detail').value = data.riwayat_tindakan;
-      document.getElementById('alergi_detail').value = data.alergi;
-      document.getElementById('obat_detail').value = data.obat;
-      document.getElementById('tgl_masuk_detail').value = data.tgl_masuk;
-      document.getElementById('tgl_keluar_detail').value = data.tgl_keluar;
-      document.getElementById('rekam_medis_file').value = data.file_rekammedis;
-      document.getElementById('laboratorium_file').value = data.hasil_laboratorium;
-      document.getElementById('rontgen_file').value = data.file_hasilrontgen;
-
-      // Update the href attribute for PDF links with the correct paths
-      // document.getElementById('rekam_medis_link').href = '../../../controller/uploads/rekammedis/' + data.file_rekammedis;
-      // document.getElementById('rontgen_link').href = '../../../controller/uploads/rontgen/' + data.file_hasilrontgen;
-      // document.getElementById('laboratorium_link').href = '../../../controller/uploads/laboratorium/' + data.hasil_laboratorium;
-
-
-    }
-
-
-
-    function editData(data) {
-      console.log(data);
-      document.getElementById('id_pasien_edit').value = data.id_pasien;
-      document.getElementById('name_edit').value = data.nama;
-      document.getElementById('nik_edit').value = data.nik;
-      document.getElementById('tanggal_lahir_edit').value = data.tanggal_lahir;
-      document.getElementById('gender_edit').value = data.jenis_kelamin;
-      document.getElementById('no_rm_edit').value = data.no_rm;
-      document.getElementById('instalasi_edit').value = data.id_unit;
-      document.getElementById('kepesertaan_edit').value = data.jenis_kepesertaan;
-      document.getElementById('alamat_edit').value = data.alamat;
-      document.getElementById('td_edit').value = data.td;
-      document.getElementById('temperatur_edit').value = data.t;
-      document.getElementById('hr_edit').value = data.hr;
-      document.getElementById('rr_edit').value = data.rr;
-      document.getElementById('tb_edit').value = data.tb;
-      document.getElementById('bb_edit').value = data.bb;
-      document.getElementById('note_edit').value = data.note_dokter;
-      document.getElementById('diagnosis_edit').value = data.diagnosis;
-      document.getElementById('tindakan_edit').value = data.riwayat_tindakan;
-      document.getElementById('alergi_edit').value = data.alergi;
-      document.getElementById('obat_edit').value = data.obat;
-      document.getElementById('tgl_masuk_edit').value = data.tgl_masuk;
-      document.getElementById('tgl_keluar_edit').value = data.tgl_keluar;
-
-      // Update the href attribute for PDF links with the correct paths
-
+      // Tampilkan modal
+      $('#editModal').modal('show');
     }
   </script>
-
 
 
 </body>
