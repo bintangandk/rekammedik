@@ -17,11 +17,10 @@ $data_pasien = $pasien->pasien();
 $profile = $pasien->profile();
 $jumlah_login = $pasien->jumlah_riwayatlogin();
 $jumlah_liatfile = $pasien->jumlah_riwayatfile();
+$jumlah_konsultasi = $pasien->jumlah_konsultasi();
 // var_dump($jumlah_login['total']);
 $unit = $pasien->instalasi();
-// var_dump($data_pasien);
 
-// var
 ?>
 
 <!DOCTYPE html>
@@ -262,7 +261,7 @@ $unit = $pasien->instalasi();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Jumlah Pasien</span>
-                                                <h3 class="card-title mb-2">4</h3>
+                                                <h3 class="card-title mb-2"></h3>
                                                 <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i></small>
                                             </div>
                                         </div>
@@ -305,7 +304,7 @@ $unit = $pasien->instalasi();
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Konsultasi</span>
                                                 <h3 class="card-title mb-2"></h3>
-                                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i></small>
+                                                <small class="text-success fw-semibold"><?= $jumlah_konsultasi["total"]?><i class="bx bx-up-arrow-alt"></i></small>
                                             </div>
                                         </div>
                                     </div>

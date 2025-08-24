@@ -14,20 +14,9 @@ require '../../../controller/Pegawai.php';
 $pegawai = new Pegawai();
 $data_pegawai = $pegawai->index();
 $profile = $pegawai->profile();
-// var_dump($data_pegawai);
+
 $data_instalasi = $pegawai->instalasi();
 
-
-
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') :
-//   $action = $_POST['action'];
-//   if ($action == 'delete') {
-//     $id = htmlspecialchars($_POST['id']);
-//     // var_dump($id);
-//     // $pegawai->delete($id);
-//   }
-// endif;
-// // var_dump($data_pegawai);
 ?>
 <!DOCTYPE html>
 
@@ -549,16 +538,7 @@ $data_instalasi = $pegawai->instalasi();
 
   <!-- modal edit -->
   <script>
-    // Handle form submission
-    // document.getElementById('editForm').addEventListener('submit', function(event) {
-    //   event.preventDefault();
-    //   // Perform your insert operation here, e.g., send data to the server
-    //   alert('Form submitted!');
-    //   // Close the modal
-    //   $('#editModal').modal('hide');
-    // });
-
-
+   
 
     function detail(data) {
       // console.log(data.id_user)
@@ -586,20 +566,6 @@ $data_instalasi = $pegawai->instalasi();
 
     }
 
-
-
-
-    // function detail(data) {
-    //   console.log(data)
-    //   document.getElementById('nama_detail').value = data.Nama
-    //   document.getElementById('nip_detail').value = data.nip
-    //   document.getElementById('no_tlp_detail').value = data.no_telfon
-
-    //   document.getElementById('jabatan_detail').value = data.role
-    //   document.getElementById('instalasi_edit').value = data.instalasi
-
-
-    // }
     document.addEventListener('DOMContentLoaded', function() {
       const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
       const logout = <?php echo json_encode(isset($_SESSION['logout']) ? $_SESSION['logout'] : ''); ?>;

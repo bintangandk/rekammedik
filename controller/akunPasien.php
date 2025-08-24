@@ -1,53 +1,53 @@
 <?php
 session_start();
-include __DIR__ . '/../koneksi.php'; // load class koneksi
+include __DIR__ . '/../koneksi.php';
 
-$db = new koneksi(); // buat objek koneksi
+$db = new koneksi();
 
+// === HANDLE INSERT / UPDATE ===
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ambil input form
+    $id_user   = !empty($_POST['id_user']) ? $db->escapeString($_POST['id_user']) : null;
+    $nama      = $db->escapeString($_POST['Nama']);
+    $email     = $db->escapeString($_POST['email']);
+    $no_telfon = $db->escapeString($_POST['no_telfon']);
+    $role      = $db->escapeString($_POST['role']);
+    $nip       = !empty($_POST['nip']) ? $db->escapeString($_POST['nip']) : NULL;
+    $id_unit   = !empty($_POST['id_unit']) ? $db->escapeString($_POST['id_unit']) : NULL;
+    $gambar    = !empty($_POST['gambar']) ? $db->escapeString($_POST['gambar']) : 'profile.jpg';
 
-    // Cek apakah ini update atau insert
-    if (!empty($_POST['id_user'])) {
-        // === UPDATE DATA PASIEN ===
-        $id_user    = $db->escapeString($_POST['id_user']);
-        $nama       = $db->escapeString($_POST['Nama']);
-        $email      = $db->escapeString($_POST['email']);
-        $no_telfon  = $db->escapeString($_POST['no_telfon']);
-        $nip        = !empty($_POST['nip']) ? $db->escapeString($_POST['nip']) : NULL;
-        $id_unit    = !empty($_POST['id_unit']) ? $db->escapeString($_POST['id_unit']) : NULL;
-        $role       = $db->escapeString($_POST['role']); // "pasien"
-        $gambar     = !empty($_POST['gambar']) ? $db->escapeString($_POST['gambar']) : NULL; // optional
+    // === UPDATE DATA ===
+    if ($id_user) {
+        $updateQuery = "UPDATE users SET
+            Nama = '$nama',
+            email = '$email',
+            no_telfon = '$no_telfon',
+            nip = " . ($nip ? "'$nip'" : "NULL") . ",
+            id_unit = " . ($id_unit ? "'$id_unit'" : "NULL") . ",
+            role = '$role'";
 
-        // Buat query update
-        $query = "UPDATE users SET
-                    Nama = '$nama',
-                    email = '$email',
-                    no_telfon = '$no_telfon',
-                    nip = " . ($nip ? "'$nip'" : "NULL") . ",
-                    id_unit = " . ($id_unit ? "'$id_unit'" : "NULL") . ",
-                    role = '$role'" .
-                    ($gambar ? ", gambar = '$gambar'" : "") . "
-                  WHERE id_user = '$id_user'";
+        // Jika password diisi → update password
+        if (!empty($_POST['password'])) {
+            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            $updateQuery .= ", password = '$password'";
+        }
 
-        if ($db->updateData($query) !== false) {
+        // Jika gambar diisi → update gambar
+        if (!empty($_POST['gambar'])) {
+            $updateQuery .= ", gambar = '$gambar'";
+        }
+
+        $updateQuery .= " WHERE id_user = '$id_user'";
+
+        if ($db->updateData($updateQuery) !== false) {
             $_SESSION['success'] = "Data pasien berhasil diperbarui.";
         } else {
             $_SESSION['error'] = "Gagal memperbarui data pasien.";
         }
 
-        header("Location: ../view/admin/akun-pasien/index.php");
-        exit();
-
+        // === INSERT DATA BARU ===
     } else {
-        // === INSERT DATA PASIEN ===
-        $nama       = $db->escapeString($_POST['Nama']);
-        $email      = $db->escapeString($_POST['email']);
-        $password   = password_hash($_POST['password'], PASSWORD_BCRYPT); // hash password
-        $role       = $db->escapeString($_POST['role']);   // harus "pasien"
-        $nip        = !empty($_POST['nip']) ? $db->escapeString($_POST['nip']) : NULL;
-        $no_telfon  = $db->escapeString($_POST['no_telfon']);
-        $id_unit    = !empty($_POST['id_unit']) ? $db->escapeString($_POST['id_unit']) : NULL;
-        $gambar     = !empty($_POST['gambar']) ? $db->escapeString($_POST['gambar']) : 'profile.jpg';
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
         $query = "INSERT INTO users (email, password, role, Nama, nip, no_telfon, id_unit, gambar) 
                   VALUES (
@@ -66,9 +66,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $_SESSION['error'] = "Gagal menambahkan akun pasien.";
         }
-
-        header("Location: ../view/admin/akun-pasien/index.php");
-        exit();
     }
+
+    // Redirect setelah insert/update
+    header("Location: ../view/admin/akun-pasien/index.php");
+    exit();
 }
-?>
+
+// === HANDLE DELETE ===
+if (isset($_GET['delete'])) {
+    $id_user = $db->escapeString($_GET['delete']);
+
+    $query = "DELETE FROM users WHERE id_user = '$id_user'";
+
+    if ($db->deleteData($query) !== false) {
+        $_SESSION['success'] = "Data pasien berhasil dihapus.";
+    } else {
+        $_SESSION['error'] = "Gagal menghapus data pasien.";
+    }
+
+    header("Location: ../view/admin/akun-pasien/index.php");
+    exit();
+}

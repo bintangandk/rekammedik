@@ -13,6 +13,10 @@ require '../../../controller/Pegawai.php';
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
 
+$db = new koneksi();
+$query = "SELECT * FROM dic_medikamentosa";
+$dataMedikamentosa = $db->showData($query);
+
 ?>
 
 <!DOCTYPE html>
@@ -242,7 +246,6 @@ $profile = $pegawai->profile();
                                                 <th class="text-center">Kode Obat</th>
                                                 <th class="text-center">Nama Generik</th>
                                                 <th class="text-center">Nama Dagang</th>
-                                                <th class="text-center">Medikamentosa</th>
                                                 <th class="text-center">Bentuk Sediaan</th>
                                                 <th class="text-center">Satuan</th>
                                                 <th class="text-center">Golongan</th>
@@ -255,7 +258,6 @@ $profile = $pegawai->profile();
                                                 <th class="text-center">Kode Obat</th>
                                                 <th class="text-center">Nama Generik</th>
                                                 <th class="text-center">Nama Dagang</th>
-                                                <th class="text-center">Medikamentosa</th>
                                                 <th class="text-center">Bentuk Sediaan</th>
                                                 <th class="text-center">Satuan</th>
                                                 <th class="text-center">Golongan</th>
@@ -263,18 +265,26 @@ $profile = $pegawai->profile();
                                             </tr>
                                         </tfoot>
                                         <tbody>
-
-                                            <tr>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                            </tr>
+                                            <?php if (!empty($dataMedikamentosa)): ?>
+                                                <?php $no = 1;
+                                                foreach ($dataMedikamentosa as $row): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++; ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['kode_obat']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['nama_generik']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['nama_dagang']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['bentuk_sediaan']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['satuan']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['golongan']); ?></td>
+                                                        <td class=""><?= htmlspecialchars($row['keterangan']); ?></td>
+                                                        
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">Tidak ada data</td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                                </tr>
                                         </tbody>
                                     </table>
                                 </div>
