@@ -393,7 +393,7 @@ function simpan_file($data)
     $fileName = $_POST['file'];
 
     $id_user = $_SESSION['id_user'];
-    $query="SELECT * FROM users WHERE id_user = '$id_user'";
+    $query = "SELECT * FROM users WHERE id_user = '$id_user'";
     $result = $conn->execute($query);
     $row = $result->fetch_assoc();
     $nama = $row['Nama'];
@@ -469,12 +469,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($file_jenis == "rekam_medis") {
                 if (file_exists($file_rekammedis)) {
                     $_SESSION['success'] = 'berhasil rekam data..';
-                    
+
                     $_SESSION["file"] = $file_rekammedis;
                     // header("Location: ../controller/$file_rekammedis");
                     header("Location: ../view/users/data-pasien/lihat_file.php");
                     exit();
-                
                 } else {
                     error_log("File rekammedis tidak ditemukan: " . realpath($file_rekammedis)); // Debugging
                     $_SESSION['error'] = 'File tidak ditemukan.';
@@ -513,8 +512,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
 
-    // var_dump($_POST);
-    // var_dump("hdhshdhusdushdus");
+
 
 
 

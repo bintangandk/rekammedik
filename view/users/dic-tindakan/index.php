@@ -13,6 +13,10 @@ require '../../../controller/Pegawai.php';
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
 
+$db = new koneksi();
+$query = "SELECT * FROM dic_tindakan";
+$dataDictindakan = $db->showData($query);
+
 ?>
 
 <!DOCTYPE html>
@@ -259,16 +263,24 @@ $profile = $pegawai->profile();
                                             </tr>
                                         </tfoot>
                                         <tbody>
-
-                                            <tr>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                            </tr>
+                                            <?php if (!empty($dataDictindakan)): ?>
+                                                <?php $no = 1;
+                                                foreach ($dataDictindakan as $row): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++; ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['kode_dctindakan']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['nama_tindakan']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['kategori']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['durasi']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['keterangan']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['perlengkapan']); ?></td>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">Tidak ada data</td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                                </tr>
                                         </tbody>
                                     </table>
                                 </div>

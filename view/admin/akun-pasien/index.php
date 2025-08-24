@@ -272,19 +272,26 @@ $akuns = $db->showData($query);
                             <td class="text-center"><?php echo htmlspecialchars($row['email']); ?></td>
                             <td class="text-center"><?php echo htmlspecialchars($row['no_telfon']); ?></td>
                             <td class="text-center">
-                              <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                              <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                                <i class="bi bi-eye"></i>
+                              </button> -->
+                              <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="detail(<?= htmlspecialchars(json_encode($akuns), ENT_QUOTES, 'UTF-8'); ?>)">
                                 <i class="bi bi-eye"></i>
                               </button>
                               <!-- <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
                                 <i class="bi bi-pencil"></i>
                               </button> -->
-                              <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
-                                onclick="editData(<?= htmlspecialchars(json_encode($akun), ENT_QUOTES, 'UTF-8'); ?>)">
+                              <button class="btn btn-warning"
+                                data-toggle="modal"
+                                data-target="#editModal"
+                                onclick='editData(<?= json_encode($row) ?>)'>
                                 <i class="bi bi-pencil"></i>
                               </button>
-                              <button id="deleteButton" class="btn btn-danger" onclick="">
+                              <a href="../../../controller/akunPasien.php?delete=<?= $row['id_user']; ?>"
+                                class="btn btn-danger"
+                                onclick="return confirm('Yakin ingin menghapus data ini?')">
                                 <i class="bi bi-trash"></i>
-                              </button>
+                              </a>
                             </td>
                           </tr>
                         <?php endforeach; ?>
@@ -391,27 +398,30 @@ $akuns = $db->showData($query);
 
                   <!-- Modal Body -->
                   <div class="modal-body">
-                    <form id="insertForm" action="../../../controller/akunPasien.php" method="POST" enctype="multipart/form-data">
+                    <form id="editForm" action="../../../controller/akunPasien.php" method="POST" enctype="multipart/form-data">
                       <div class="container">
                         <div class="row">
                           <div class="col-md-6">
 
+                            <!-- Hidden ID User -->
+                            <input type="hidden" id="id_user" name="id_user">
+
                             <!-- Input Nama Lengkap -->
                             <div class="form-group">
                               <label for="Nama">Nama Lengkap <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="Nama" name="Nama" placeholder="Masukkan Nama Lengkap" required>
+                              <input type="text" class="form-control" id="Nama" name="Nama" required>
                             </div>
 
                             <!-- Input Email -->
                             <div class="form-group">
                               <label for="email">Email <span class="text-danger">*</span></label>
-                              <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email" required>
+                              <input type="email" class="form-control" id="email" name="email" required>
                             </div>
 
                             <!-- Input No Telpon -->
                             <div class="form-group">
                               <label for="no_telfon">No. Telpon <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_telfon" name="no_telfon" placeholder="Masukkan No Telpon" required>
+                              <input type="text" class="form-control" id="no_telfon" name="no_telfon" required>
                             </div>
                           </div>
 
@@ -419,8 +429,8 @@ $akuns = $db->showData($query);
 
                             <!-- Input Password -->
                             <div class="form-group">
-                              <label for="password">Password <span class="text-danger">*</span></label>
-                              <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password" required>
+                              <label for="password">Password</label>
+                              <input type="password" class="form-control" id="password" name="password" placeholder="Kosongkan jika tidak ingin ubah password">
                             </div>
 
                             <!-- Input Role -->
@@ -431,7 +441,7 @@ $akuns = $db->showData($query);
                               </select>
                             </div>
 
-                            <!-- Hidden input -->
+                            <!-- Hidden input lainnya -->
                             <input type="hidden" name="nip" value="">
                             <input type="hidden" name="id_unit" value="">
                             <input type="hidden" name="gambar" value="profile.jpg">
@@ -450,14 +460,81 @@ $akuns = $db->showData($query);
                 </div>
               </div>
             </div>
+            
+
+            <!-- Modal show -->
+            <div class="modal fade" id="showModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Detail Akun Pasien</h4>
+                    <a data-dismiss="modal">
+                      <i class="bi bi-x"></i>
+                    </a>
+                  </div>
+
+                  <!-- Modal Body -->
+                  <div class="modal-body">
+                    <form id="showForm">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-md-6">
+
+                            <!-- Input Nama Lengkap -->
+                            <div class="form-group">
+                              <label for="Nama">Nama Lengkap <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="Nama" name="Nama" readonly>
+                            </div>
+
+                            <!-- Input Email -->
+                            <div class="form-group">
+                              <label for="email">Email <span class="text-danger">*</span></label>
+                              <input type="email" class="form-control" id="email" name="email" readonly>
+                            </div>
+
+                            <!-- Input No Telpon -->
+                            <div class="form-group">
+                              <label for="no_telfon">No. Telpon <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="no_telfon" name="no_telfon" readonly>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <!-- Input Role -->
+                            <div class="form-group">
+                              <label for="role">Role <span class="text-danger">*</span></label>
+                              <select class="form-control" id="role" name="role" readonly>
+                                <option value="pasien">Pasien</option>
+                              </select>
+                            </div>
+
+                            <!-- Hidden input lainnya -->
+                            <input type="hidden" name="nip" value="">
+                            <input type="hidden" name="id_unit" value="">
+                            <input type="hidden" name="gambar" value="profile.jpg">
+
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                  <!-- Modal Footer -->
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>
         <!-- / Content -->
-        <form action="../../../controller/Pasien.php" id="formDelete" method="POST">
-          <input type="hidden" name="id_pasien" id="idDelete">
-          <input type="hidden" name="action" value="delete">
-        </form>
+       
         <!-- Footer -->
         <footer class="content-footer footer bg-footer-theme">
           <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
@@ -551,20 +628,15 @@ $akuns = $db->showData($query);
       $('#showModal').modal('hide');
     });
   </script>
+
+
   <script>
-    function editData(akun) {
-      // Isi form modal
+    function editData(pasien) {
       document.getElementById('id_user').value = pasien.id_user;
-      document.getElementById('Nama').value = pasien.Nama; // ganti name="name" kalau perlu
+      document.getElementById('Nama').value = pasien.Nama;
       document.getElementById('email').value = pasien.email;
       document.getElementById('no_telfon').value = pasien.no_telfon;
       document.getElementById('role').value = pasien.role;
-      document.querySelector('input[name="nip"]').value = pasien.nip || '';
-      document.querySelector('input[name="id_unit"]').value = pasien.id_unit || '';
-      document.querySelector('input[name="gambar"]').value = pasien.gambar || '';
-
-      // Tampilkan modal
-      $('#editModal').modal('show');
     }
   </script>
 

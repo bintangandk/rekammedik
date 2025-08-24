@@ -13,6 +13,10 @@ require '../../../controller/Pegawai.php';
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
 
+$db = new koneksi();
+$query = "SELECT * FROM dic_diagnosis";
+$dataDiagnosis = $db->showData($query);
+
 ?>
 
 <!DOCTYPE html>
@@ -253,13 +257,21 @@ $profile = $pegawai->profile();
                                             </tr>
                                         </tfoot>
                                         <tbody>
-
-                                            <tr>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                            </tr>
+                                            <?php if (!empty($dataDiagnosis)): ?>
+                                                <?php $no = 1;
+                                                foreach ($dataDiagnosis as $row): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++; ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['kode']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['nama_diagnosis']); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($row['kategori_penyakit']); ?></td>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">Tidak ada data</td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                                </tr>
                                         </tbody>
                                     </table>
                                 </div>

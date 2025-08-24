@@ -292,10 +292,7 @@ $profile = $pegawai->profile();
                             </div>
                         </div>
                         <!--/ Responsive Table -->
-                        <form action="#" id="formDelete" method="POST">
-                            <input type="hidden" name="id" id="idDelete">
-                            <input type="hidden" name="action" value="delete">
-                        </form>
+                       
                         <!-- Modal Insert-->
                         <div class="modal fade" id="insertModal">
                             <div class="modal-dialog">
@@ -311,20 +308,30 @@ $profile = $pegawai->profile();
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="../../../controller/Aktivitas.php" method="POST" enctype="multipart/form-data">
+                                        <form id="insertForm" action="../../../controller/konsultasi.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
                                                     <input type="hidden" name="action" value="tambah_data">
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="no_rm">No. RM<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kegiatan" name="kegiatan" required></input>
+                                                            <input class="form-control" id="no_rm" name="no_rm" readonly></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="no_rm">Nama Pasien<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kegiatan" name="kegiatan" required></input>
+                                                            <label for="id_pasien">Nama Pasien <span class="text-danger">*</span></label>
+                                                            <select id="id_pasien" name="id_pasien" class="form-control" required>
+                                                                <option value="">-- Pilih Dokter --</option>
+                                                                <option value="1">dr. Andi Pratama</option>
+                                                                <option value="2">dr. Budi Santoso</option>
+                                                                <option value="3">dr. Citra Dewi</option>
+                                                                <option value="4">dr. Dedi Kurniawan</option>
+                                                                <option value="5">dr. Eko Setiawan</option>
+                                                                <option value="6">dr. Fitriani</option>
+                                                                <option value="7">dr. Guntur</option>
+                                                                <option value="8">dr. Hani Kusuma</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
@@ -506,7 +513,7 @@ $profile = $pegawai->profile();
                                                             <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
                                                             <input type="date" class="form-control" id="tanggal" name="tanggal" required>
                                                         </div>
-                                                    </div>  
+                                                    </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label>Durasi Konsultasi</label>
@@ -557,19 +564,19 @@ $profile = $pegawai->profile();
                                                             <input class="form-control" id="name" name="name" required></input>
                                                         </div>
                                                     </div>
-                                                     <div class="col-md-20">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="dokter">Nama Dokter<span class="text-danger">*</span></label>
                                                             <input class="form-control" id="doter" name="dokter" required></input>
                                                         </div>
                                                     </div>
-                                                     <div class="col-md-20">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="diagnosis">Diagnosis<span class="text-danger">*</span></label>
                                                             <input class="form-control" id="diagnosis" name="diagnosis" required></input>
                                                         </div>
                                                     </div>
-                                                     <div class="col-md-20">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
                                                             <input class="form-control" id="medikamentosa" name="medikamentosa" required></input>
@@ -696,6 +703,15 @@ $profile = $pegawai->profile();
             });
         });
     </script>
+
+    <script>
+        document.getElementById('id_pasien').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            var noRm = selectedOption.getAttribute('data-norm');
+            document.getElementById('no_rm').value = noRm;
+        });
+    </script>
+
 
     <script>
         let timerInterval;
