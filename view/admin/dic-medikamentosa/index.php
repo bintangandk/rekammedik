@@ -10,9 +10,12 @@ if (!isset($_SESSION['email'])) {
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
 
+include '../../../controller/dic_medikamentosa.php';
+
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
 
+$medikamentosas = getAllMedikamentosa($db);
 ?>
 
 <!DOCTYPE html>
@@ -266,24 +269,32 @@ $profile = $pegawai->profile();
                                             </tr>
                                         </tfoot>
                                         <tbody>
-
-                                            <tr>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button id="deleteButton" class="btn btn-danger" onclick="">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            <?php if (!empty($medikamentosas)): ?>
+                                                <?php $no = 1;
+                                                foreach ($medikamentosas as $data): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++; ?></td>
+                                                        <td class="text-center"><?= $data['kode_obat'] ?></td>
+                                                        <td class="text-center"><?= $data['nama_generik'] ?></td>
+                                                        <td class="text-center"><?= $data['bentuk_sediaan'] ?></td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </button>
+                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                                                                <i class="bi bi-eye"></i>
+                                                            </button>
+                                                            <button id="deleteButton" class="btn btn-danger" onclick="">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td colspan="3">Tidak ada data</td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>

@@ -32,7 +32,14 @@ class koneksi
     public function insertData($query)
     {
         $result = $this->execute($query);
+        if ($result) {
+            return true;
+        } else {
+            echo "SQL Error: " . mysqli_error($this->conn); // debug kalau ada error
+            return false;
+        }
     }
+
 
     public function showData($query)
     {
