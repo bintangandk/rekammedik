@@ -10,8 +10,12 @@ if (!isset($_SESSION['email'])) {
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
 
+include '../../../controller/dic_tindakan.php';
+
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
+
+$tindakans = getAllTindakan($db);
 
 ?>
 
@@ -243,7 +247,7 @@ $profile = $pegawai->profile();
                                     <i class="bi bi-plus"></i>
                                 </button>
                             </div>
-                           
+
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -268,24 +272,33 @@ $profile = $pegawai->profile();
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button id="deleteButton" class="btn btn-danger" onclick="">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            <?php if (!empty($tindakans)): ?>
+                                                <?php $no = 1;
+                                                foreach ($tindakans as $data): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++; ?></td>
+                                                        <td class="text-center"><?= $data['kode_dctindakan'] ?></td>
+                                                        <td class="text-center"><?= $data['nama_tindakan'] ?></td>
+                                                        <td class="text-center"><?= $data['kategori'] ?></td>
+                                                        <td class="text-center"><?= $data['durasi'] ?></td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </button>
+                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                                                                <i class="bi bi-eye"></i>
+                                                            </button>
+                                                            <button id="deleteButton" class="btn btn-danger" onclick="">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td colspan="3">Tidak ada data</td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>

@@ -10,8 +10,12 @@ if (!isset($_SESSION['email'])) {
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
 
+include '../../../controller/dic_diagnosis.php';
+
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
+
+$diagnosis = getAllDiagnosis($db);
 
 ?>
 
@@ -266,23 +270,33 @@ $profile = $pegawai->profile();
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button id="deleteButton" class="btn btn-danger" onclick="">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            <?php if (!empty($diagnosis)): ?>
+                                                <?php $no = 1;
+                                                foreach ($diagnosis as $row): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++; ?></td>
+                                                        <td class="text-center"><?= $row['kode'] ?></td>
+                                                        <td class="text-center"><?= $row['nama_diagnosis'] ?></td>
+                                                        <td class="text-center"><?= $row['kategori_penyakit'] ?></td>
+                                                        <td class="text-center">
+                                                            <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                                                                <i class="bi bi-eye"></i>
+                                                            </button> -->
+                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
+                                                                onclick="editDiagnosis(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </button>
+                                                            <button class="btn btn-danger" onclick="deleteDiagnosis(<?= $row['id_diagnosis'] ?>)">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td colspan="3">Tidak ada data</td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -293,6 +307,7 @@ $profile = $pegawai->profile();
                             <input type="hidden" name="id" id="idDelete">
                             <input type="hidden" name="action" value="delete">
                         </form>
+
                         <!-- Modal Insert-->
                         <div class="modal fade" id="insertModal">
                             <div class="modal-dialog">
@@ -300,48 +315,54 @@ $profile = $pegawai->profile();
 
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Tambah Diagnosis</h4>
+                                        <h4 class="modal-title">Tambah Dictionary Diagnosis</h4>
                                         <a data-dismiss="modal">
                                             <i class="bi bi-x"></i>
                                         </a>
                                     </div>
 
-                                    <!-- Modal Body -->
-                                    <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                    <!-- Form Mulai dari sini -->
+                                    <form id="insertForm" action="../../../controller/dic_diagnosis.php" method="POST" enctype="multipart/form-data">
+                                        <div class="modal-body">
                                             <div class="container">
                                                 <div class="row">
                                                     <input type="hidden" name="action" value="tambah_data">
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="kode_diagnosis">Kode ICD-10<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kode_diagnosis" name="kode_diagnosis" required></input>
+                                                            <label for="kode">Kode ICD-10<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="kode" name="kode" required>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="diagnosis">Nama Diagnosis<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="diagnosis" name="diagnosis" required></input>
+                                                            <label for="nama_diagnosis">Nama Diagnosis<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="nama_diagnosis" name="nama_diagnosis" required>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="Kategori">Kategori Penyakit<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="Kategori" name="Kategori" required></input>
+                                                            <label for="kategori_penyakit">Kategori Penyakit<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="kategori_penyakit" name="kategori_penyakit" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                    </div>
-                                    <!-- Modal Footer -->
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                                    </div>
+                                        </div>
+
+                                        <!-- Modal Footer ada di dalam form -->
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                        </div>
+                                    </form>
+                                    <!-- Form selesai -->
                                 </div>
-                                </form>
                             </div>
                         </div>
+
 
                         <!-- Modal Edit-->
                         <div class="modal fade" id="editModal">
@@ -350,7 +371,7 @@ $profile = $pegawai->profile();
 
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Edit Medikamentosa</h4>
+                                        <h4 class="modal-title">Edit Dictionary Diagnosis</h4>
                                         <a data-dismiss="modal">
                                             <i class="bi bi-x"></i>
                                         </a>
@@ -358,36 +379,44 @@ $profile = $pegawai->profile();
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                        <form id="editForm" action="../../../controller/dic_diagnosis.php" method="POST">
                                             <div class="container">
                                                 <div class="row">
-                                                    <input type="hidden" name="action" value="tambah_data">
+                                                    <!-- hidden untuk action update -->
+                                                    <input type="hidden" name="action" value="update_data">
+                                                    <!-- hidden id -->
+                                                    <input type="hidden" id="id_edit" name="id_diagnosis">
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="kode_diagnosis">Kode ICD-10<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kode_diagnosis" name="kode_diagnosis" required></input>
+                                                            <label for="kode">Kode ICD-10<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="kode_edit" name="kode" required>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="diagnosis">Nama Diagnosis<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="diagnosis" name="diagnosis" required></input>
+                                                            <label for="nama_diagnosis">Nama Diagnosis<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="nama_diagnosis_edit" name="nama_diagnosis" required>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="Kategori">Kategori Penyakit<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="Kategori" name="Kategori" required></input>
+                                                            <label for="kategori_penyakit">Kategori Penyakit<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="kategori_penyakit_edit" name="kategori_penyakit" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                     </div>
+
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                                     </div>
+
                                 </div>
                                 </form>
                             </div>
@@ -538,6 +567,55 @@ $profile = $pegawai->profile();
             });
         });
     </script>
+
+    <script>
+        function editDiagnosis(data) {
+            document.getElementById('id_edit').value = data.id_diagnosis;
+            document.getElementById('kode_edit').value = data.kode;
+            document.getElementById('nama_diagnosis_edit').value = data.nama_diagnosis;
+            document.getElementById('kategori_penyakit_edit').value = data.kategori_penyakit;
+        }
+    </script>
+
+    <script>
+        function deleteDiagnosis(id) {
+            Swal.fire({
+                title: 'Apakah kamu yakin?',
+                text: "Data yang dihapus tidak bisa dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // bikin form hidden untuk submit delete
+                    let form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "../../../controller/dic_diagnosis.php";
+
+                    let inputAction = document.createElement("input");
+                    inputAction.type = "hidden";
+                    inputAction.name = "action";
+                    inputAction.value = "delete_data";
+                    form.appendChild(inputAction);
+
+                    let inputId = document.createElement("input");
+                    inputId.type = "hidden";
+                    inputId.name = "id_diagnosis";
+                    inputId.value = id;
+                    form.appendChild(inputId);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            })
+        }
+    </script>
+
+
+
 
 </body>
 

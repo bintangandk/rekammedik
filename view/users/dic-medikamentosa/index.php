@@ -10,12 +10,14 @@ if (!isset($_SESSION['email'])) {
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
 
+include '../../../controller/dic_medikamentosa.php';
+
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
 
-$db = new koneksi();
-$query = "SELECT * FROM dic_medikamentosa";
-$dataMedikamentosa = $db->showData($query);
+$medikamentosas = getAllMedikamentosa($db);
+
+
 
 ?>
 
@@ -265,9 +267,9 @@ $dataMedikamentosa = $db->showData($query);
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <?php if (!empty($dataMedikamentosa)): ?>
+                                            <?php if (!empty($medikamentosas)): ?>
                                                 <?php $no = 1;
-                                                foreach ($dataMedikamentosa as $row): ?>
+                                                foreach ($medikamentosas as $row): ?>
                                                     <tr>
                                                         <td class="text-center"><?= $no++; ?></td>
                                                         <td class="text-center"><?= htmlspecialchars($row['kode_obat']); ?></td>
