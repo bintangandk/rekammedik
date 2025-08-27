@@ -278,13 +278,15 @@ $medikamentosas = getAllMedikamentosa($db);
                                                         <td class="text-center"><?= $data['nama_generik'] ?></td>
                                                         <td class="text-center"><?= $data['bentuk_sediaan'] ?></td>
                                                         <td class="text-center">
-                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
+                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
+                                                                onclick="editMedikamentosa(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-pencil"></i>
                                                             </button>
-                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
+                                                                onclick="showMedikamentosa(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
-                                                            <button id="deleteButton" class="btn btn-danger" onclick="">
+                                                            <button class="btn btn-danger" onclick="deleteMedikamentosa(<?= $data['id_medikamentosa'] ?>)">
                                                                 <i class="bi bi-trash"></i>
                                                             </button>
                                                         </td>
@@ -320,7 +322,7 @@ $medikamentosas = getAllMedikamentosa($db);
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                        <form id="insertForm" action="../../../controller/dic_medikamentosa.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
                                                     <input type="hidden" name="action" value="tambah_data">
@@ -397,48 +399,49 @@ $medikamentosas = getAllMedikamentosa($db);
                                         <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
-                                                    <input type="hidden" name="action" value="tambah_data">
+                                                    <input type="hidden" name="action" value="update_data">
+                                                    <input type="hidden" id="id_medikamentosa_edit" name="id_medikamentosa">
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="kode_obat">Kode Obat<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kode_obat" name="kode_obat" required></input>
+                                                            <input class="form-control" id="kode_obat_edit" name="kode_obat" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="nama_generik">Nama Generik<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_generik" name="nama_generik" required></input>
+                                                            <input class="form-control" id="nama_generik_edit" name="nama_generik" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="nama_dagang">Nama Dagang<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_dagang" name="nama_dagang" required></input>
+                                                            <input class="form-control" id="nama_dagang_edit" name="nama_dagang" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="bentuk_sediaan">Bentuk Sediaan<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="bentuk_sediaan" name="bentuk_sediaan" required></input>
+                                                            <input class="form-control" id="bentuk_sediaan_edit" name="bentuk_sediaan" required></input>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-20">
                                                     <div class="form-group">
                                                         <label for="satuan">Satuan<span class="text-danger">*</span></label>
-                                                        <input class="form-control" id="satuan" name="satuan" required></input>
+                                                        <input class="form-control" id="satuan_edit" name="satuan" required></input>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-20">
                                                     <div class="form-group">
                                                         <label for="golongan">Golongan<span class="text-danger">*</span></label>
-                                                        <input class="form-control" id="golongan" name="golongan" required></input>
+                                                        <input class="form-control" id="golongan_edit" name="golongan" required></input>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-20">
                                                     <div class="form-group">
                                                         <label for="keterangan">Keterangan<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" id="keterangan" name="keterangan" required></textarea>
+                                                        <textarea class="form-control" id="keterangan_edit" name="keterangan" required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -472,47 +475,48 @@ $medikamentosas = getAllMedikamentosa($db);
                                             <div class="container">
                                                 <div class="row">
                                                     <input type="hidden" name="action" value="tambah_data">
+                                                    <input type="hidden" id="id_medikamentosa_show" name="id_medikamentosa">
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="kode_obat">Kode Obat<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kode_obat" name="kode_obat" required></input>
+                                                            <input class="form-control" id="kode_obat_show" name="kode_obat" readonly></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="nama_generik">Nama Generik<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_generik" name="nama_generik" required></input>
+                                                            <input class="form-control" id="nama_generik_show" name="nama_generik" readonly></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="nama_dagang">Nama Dagang<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_dagang" name="nama_dagang" required></input>
+                                                            <input class="form-control" id="nama_dagang_show" name="nama_dagang" readonly></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="bentuk_sediaan">Bentuk Sediaan<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="bentuk_sediaan" name="bentuk_sediaan" required></input>
+                                                            <input class="form-control" id="bentuk_sediaan_show" name="bentuk_sediaan" readonly></input>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-20">
                                                     <div class="form-group">
                                                         <label for="satuan">Satuan<span class="text-danger">*</span></label>
-                                                        <input class="form-control" id="satuan" name="satuan" required></input>
+                                                        <input class="form-control" id="satuan_show" name="satuan" readonly></input>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-20">
                                                     <div class="form-group">
                                                         <label for="golongan">Golongan<span class="text-danger">*</span></label>
-                                                        <input class="form-control" id="golongan" name="golongan" required></input>
+                                                        <input class="form-control" id="golongan_show" name="golongan" readonly></input>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-20">
                                                     <div class="form-group">
                                                         <label for="keterangan">Keterangan<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" id="keterangan" name="keterangan" required></textarea>
+                                                        <textarea class="form-control" id="keterangan_show" name="keterangan" readonly></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -616,6 +620,67 @@ $medikamentosas = getAllMedikamentosa($db);
                 }
             });
         });
+    </script>
+
+    <script>
+        function editMedikamentosa(data) {
+            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa;
+            document.getElementById('kode_obat_edit').value = data.kode_obat;
+            document.getElementById('nama_generik_edit').value = data.nama_generik;
+            document.getElementById('nama_dagang_edit').value = data.nama_dagang;
+            document.getElementById('bentuk_sediaan_edit').value = data.bentuk_sediaan;
+            document.getElementById('satuan_edit').value = data.satuan;
+            document.getElementById('golongan_edit').value = data.golongan;
+            document.getElementById('keterangan_edit').value = data.keterangan;
+        }
+
+        function showMedikamentosa(data) {
+            document.getElementById('id_medikamentosa_show').value = data.id_medikamentosa;
+            document.getElementById('kode_obat_show').value = data.kode_obat;
+            document.getElementById('nama_generik_show').value = data.nama_generik;
+            document.getElementById('nama_dagang_show').value = data.nama_dagang;
+            document.getElementById('bentuk_sediaan_show').value = data.bentuk_sediaan;
+            document.getElementById('satuan_show').value = data.satuan;
+            document.getElementById('golongan_show').value = data.golongan;
+            document.getElementById('keterangan_show').value = data.keterangan;
+        }
+    </script>
+
+    <script>
+        function deleteMedikamentosa(id) {
+            Swal.fire({
+                title: 'Apakah kamu yakin?',
+                text: "Data yang dihapus tidak bisa dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // bikin form hidden untuk submit delete
+                    let form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "../../../controller/dic_medikamentosa.php";
+
+                    let inputAction = document.createElement("input");
+                    inputAction.type = "hidden";
+                    inputAction.name = "action";
+                    inputAction.value = "delete_data";
+                    form.appendChild(inputAction);
+
+                    let inputId = document.createElement("input");
+                    inputId.type = "hidden";
+                    inputId.name = "id_medikamentosa";
+                    inputId.value = id;
+                    form.appendChild(inputId);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            })
+        }
     </script>
 
 </body>
