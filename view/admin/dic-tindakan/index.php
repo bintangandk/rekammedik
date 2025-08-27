@@ -274,21 +274,23 @@ $tindakans = getAllTindakan($db);
                                         <tbody>
                                             <?php if (!empty($tindakans)): ?>
                                                 <?php $no = 1;
-                                                foreach ($tindakans as $data): ?>
+                                                foreach ($tindakans as $row): ?>
                                                     <tr>
                                                         <td class="text-center"><?= $no++; ?></td>
-                                                        <td class="text-center"><?= $data['kode_dctindakan'] ?></td>
-                                                        <td class="text-center"><?= $data['nama_tindakan'] ?></td>
-                                                        <td class="text-center"><?= $data['kategori'] ?></td>
-                                                        <td class="text-center"><?= $data['durasi'] ?></td>
+                                                        <td class="text-center"><?= $row['kode_dctindakan'] ?></td>
+                                                        <td class="text-center"><?= $row['nama_tindakan'] ?></td>
+                                                        <td class="text-center"><?= $row['kategori'] ?></td>
+                                                        <td class="text-center"><?= $row['durasi'] ?></td>
                                                         <td class="text-center">
-                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
+                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
+                                                                onclick="editDcTindakan(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-pencil"></i>
                                                             </button>
-                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
+                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
+                                                                onclick="showDcTindakan(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
-                                                            <button id="deleteButton" class="btn btn-danger" onclick="">
+                                                            <button class="btn btn-danger" onclick="deleteDicTindakan(<?= $row['id_dctindakan'] ?>)">
                                                                 <i class="bi bi-trash"></i>
                                                             </button>
                                                         </td>
@@ -324,14 +326,14 @@ $tindakans = getAllTindakan($db);
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                        <form id="insertForm" action="../../../controller/dic_tindakan.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
                                                     <input type="hidden" name="action" value="tambah_data">
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="kode_tindakan">Kode Tindakan<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kode_tindakan" name="kode_tindakan" required></input>
+                                                            <label for="kode_dctindakan">Kode Tindakan<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="kode_dctindakan" name="kode_dctindakan" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
@@ -349,7 +351,14 @@ $tindakans = getAllTindakan($db);
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="durasi">Durasi<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="durasi" name="durasi" type="time" required></input>
+                                                            <input class="form-control"
+                                                                id="durasi"
+                                                                name="durasi"
+                                                                type="text"
+                                                                pattern="^([0-9]{1,2}):([0-5][0-9]):([0-5][0-9])$"
+                                                                placeholder="HH:MM:SS"
+                                                                required>
+                                                            <small class="form-text text-muted">Format: Jam:Menit:Detik (contoh: 01:30:45)</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -384,7 +393,7 @@ $tindakans = getAllTindakan($db);
 
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Edit Medikamentosa</h4>
+                                        <h4 class="modal-title">Edit Dictionary Tindakan</h4>
                                         <a data-dismiss="modal">
                                             <i class="bi bi-x"></i>
                                         </a>
@@ -392,45 +401,53 @@ $tindakans = getAllTindakan($db);
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="editForm" action="#" method="POST" enctype="multipart/form-data">
+                                        <form id="editForm" action="../../../controller/dic_tindakan.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
-                                                    <input type="hidden" name="action" value="tambah_data">
+                                                    <input type="hidden" name="action" value="update_data">
+                                                    <input type="hidden" id="id_dctindakan_edit" name="id_dctindakan">
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="kode_tindakan">Kode Tindakan<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kode_tindakan" name="kode_tindakan" required></input>
+                                                            <label for="kode_dctindakan">Kode Tindakan<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="kode_dctindakan_edit" name="kode_dctindakan" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="nama_tindakan">Nama Tindakan<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_tindakan" name="nama_tindakan" required></input>
+                                                            <input class="form-control" id="nama_tindakan_edit" name="nama_tindakan" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="kategori">Kategori<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kategori" name="kategori" required></input>
+                                                            <input class="form-control" id="kategori_edit" name="kategori" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="durasi">Durasi<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="durasi" name="durasi" type="time" required></input>
+                                                            <input class="form-control"
+                                                                id="durasi_edit"
+                                                                name="durasi"
+                                                                type="text"
+                                                                pattern="^([0-9]{1,2}):([0-5][0-9]):([0-5][0-9])$"
+                                                                placeholder="HH:MM:SS"
+                                                                required>
+                                                            <small class="form-text text-muted">Format: Jam:Menit:Detik (contoh: 01:30:45)</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-20">
                                                     <div class="form-group">
                                                         <label for="perlengkapan">Alat/Perlengkapan<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" id="perlengkapan" name="perlengkapan" required></textarea>
+                                                        <textarea class="form-control" id="perlengkapan_edit" name="perlengkapan" required></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-20">
                                                     <div class="form-group">
                                                         <label for="keterangan">Keterangan<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" id="keterangan" name="keterangan" required></textarea>
+                                                        <textarea class="form-control" id="keterangan_edit" name="keterangan" required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -464,41 +481,49 @@ $tindakans = getAllTindakan($db);
                                             <div class="container">
                                                 <div class="row">
                                                     <input type="hidden" name="action" value="tambah_data">
+                                                    <input type="hidden" id="id_dctindakan_show" name="id_dctindakan">
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="kode_tindakan">Kode Tindakan<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kode_tindakan" name="kode_tindakan" required></input>
+                                                            <input class="form-control" id="kode_dctindakan_show" name="kode_tindakan" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="nama_tindakan">Nama Tindakan<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_tindakan" name="nama_tindakan" required></input>
+                                                            <input class="form-control" id="nama_tindakan_show" name="nama_tindakan" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="kategori">Kategori<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kategori" name="kategori" required></input>
+                                                            <input class="form-control" id="kategori_show" name="kategori" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="durasi">Durasi<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="durasi" name="durasi" type="time" required></input>
+                                                            <input class="form-control"
+                                                                id="durasi_show"
+                                                                name="durasi"
+                                                                type="text"
+                                                                pattern="^([0-9]{1,2}):([0-5][0-9]):([0-5][0-9])$"
+                                                                placeholder="HH:MM:SS"
+                                                                required>
+                                                            <small class="form-text text-muted">Format: Jam:Menit:Detik (contoh: 01:30:45)</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-20">
                                                     <div class="form-group">
                                                         <label for="perlengkapan">Alat/Perlengkapan<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" id="perlengkapan" name="perlengkapan" required></textarea>
+                                                        <textarea class="form-control" id="perlengkapan_show" name="perlengkapan" required></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-20">
                                                     <div class="form-group">
                                                         <label for="keterangan">Keterangan<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" id="keterangan" name="keterangan" required></textarea>
+                                                        <textarea class="form-control" id="keterangan_show" name="keterangan" required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -601,6 +626,65 @@ $tindakans = getAllTindakan($db);
                 }
             });
         });
+    </script>
+
+    <script>
+        function editDcTindakan(data) {
+            document.getElementById('id_dctindakan_edit').value = data.id_dctindakan;
+            document.getElementById('kode_dctindakan_edit').value = data.kode_dctindakan;
+            document.getElementById('nama_tindakan_edit').value = data.nama_tindakan;
+            document.getElementById('kategori_edit').value = data.kategori;
+            document.getElementById('durasi_edit').value = data.durasi;
+            document.getElementById('keterangan_edit').value = data.keterangan;
+            document.getElementById('perlengkapan_edit').value = data.perlengkapan;
+        }
+
+        function showDcTindakan(data) {
+            document.getElementById('id_dctindakan_show').value = data.id_dctindakan;
+            document.getElementById('kode_dctindakan_show').value = data.kode_dctindakan;
+            document.getElementById('nama_tindakan_show').value = data.nama_tindakan;
+            document.getElementById('kategori_show').value = data.kategori;
+            document.getElementById('durasi_show').value = data.durasi;
+            document.getElementById('keterangan_show').value = data.keterangan;
+            document.getElementById('perlengkapan_show').value = data.perlengkapan;
+        }
+    </script>
+
+    <script>
+        function deleteDicTindakan(id) {
+            Swal.fire({
+                title: 'Apakah kamu yakin?',
+                text: "Data yang dihapus tidak bisa dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // bikin form hidden untuk submit delete
+                    let form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "../../../controller/dic_tindakan.php";
+
+                    let inputAction = document.createElement("input");
+                    inputAction.type = "hidden";
+                    inputAction.name = "action";
+                    inputAction.value = "delete_data";
+                    form.appendChild(inputAction);
+
+                    let inputId = document.createElement("input");
+                    inputId.type = "hidden";
+                    inputId.name = "id_dctindakan";
+                    inputId.value = id;
+                    form.appendChild(inputId);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            })
+        }
     </script>
 
 </body>

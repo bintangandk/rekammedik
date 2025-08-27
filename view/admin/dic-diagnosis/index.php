@@ -279,9 +279,6 @@ $diagnosis = getAllDiagnosis($db);
                                                         <td class="text-center"><?= $row['nama_diagnosis'] ?></td>
                                                         <td class="text-center"><?= $row['kategori_penyakit'] ?></td>
                                                         <td class="text-center">
-                                                            <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
-                                                                <i class="bi bi-eye"></i>
-                                                            </button> -->
                                                             <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
                                                                 onclick="editDiagnosis(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-pencil"></i>
