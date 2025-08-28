@@ -1,90 +1,115 @@
 <?php
-session_start();
-include __DIR__ . '/../koneksi.php';
+include_once __DIR__ . '/../koneksi.php';
 
 $db = new koneksi();
 
-// === HANDLE INSERT / UPDATE ===
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil input form
-    $id_user   = !empty($_POST['id_user']) ? $db->escapeString($_POST['id_user']) : null;
-    $nama      = $db->escapeString($_POST['Nama']);
-    $email     = $db->escapeString($_POST['email']);
-    $no_telfon = $db->escapeString($_POST['no_telfon']);
-    $role      = $db->escapeString($_POST['role']);
-    $nip       = !empty($_POST['nip']) ? $db->escapeString($_POST['nip']) : NULL;
-    $id_unit   = !empty($_POST['id_unit']) ? $db->escapeString($_POST['id_unit']) : NULL;
-    $gambar    = !empty($_POST['gambar']) ? $db->escapeString($_POST['gambar']) : 'profile.jpg';
-
-    // === UPDATE DATA ===
-    if ($id_user) {
-        $updateQuery = "UPDATE users SET
-            Nama = '$nama',
-            email = '$email',
-            no_telfon = '$no_telfon',
-            nip = " . ($nip ? "'$nip'" : "NULL") . ",
-            id_unit = " . ($id_unit ? "'$id_unit'" : "NULL") . ",
-            role = '$role'";
-
-        // Jika password diisi → update password
-        if (!empty($_POST['password'])) {
-            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            $updateQuery .= ", password = '$password'";
-        }
-
-        // Jika gambar diisi → update gambar
-        if (!empty($_POST['gambar'])) {
-            $updateQuery .= ", gambar = '$gambar'";
-        }
-
-        $updateQuery .= " WHERE id_user = '$id_user'";
-
-        if ($db->updateData($updateQuery) !== false) {
-            $_SESSION['success'] = "Data pasien berhasil diperbarui.";
-        } else {
-            $_SESSION['error'] = "Gagal memperbarui data pasien.";
-        }
-
-        // === INSERT DATA BARU ===
-    } else {
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-
-        $query = "INSERT INTO users (email, password, role, Nama, nip, no_telfon, id_unit, gambar) 
-                  VALUES (
-                    '$email', 
-                    '$password', 
-                    '$role', 
-                    '$nama', 
-                    " . ($nip ? "'$nip'" : "NULL") . ", 
-                    '$no_telfon', 
-                    " . ($id_unit ? "'$id_unit'" : "NULL") . ", 
-                    '$gambar'
-                  )";
-
-        if ($db->insertData($query) !== false) {
-            $_SESSION['success'] = "Akun pasien berhasil ditambahkan.";
-        } else {
-            $_SESSION['error'] = "Gagal menambahkan akun pasien.";
-        }
-    }
-
-    // Redirect setelah insert/update
-    header("Location: ../view/admin/akun-pasien/index.php");
-    exit();
+function getAllAkun($db)
+{
+    $sql = "SELECT * FROM users WHERE role = 'pasien' ORDER BY id_user DESC";
+    return $db->showData($sql);
 }
 
-// === HANDLE DELETE ===
-if (isset($_GET['delete'])) {
-    $id_user = $db->escapeString($_GET['delete']);
 
-    $query = "DELETE FROM users WHERE id_user = '$id_user'";
+function createAkunPasien($db, $email, $password, $role, $no_telfon, $Nama, $gambar)
+{
 
-    if ($db->deleteData($query) !== false) {
-        $_SESSION['success'] = "Data pasien berhasil dihapus.";
+    $email = $db->escapeString($email);
+    $password = $db->escapeString($password);
+    $role = $db->escapeString($role);
+    $no_telfon = $db->escapeString($no_telfon);
+    $Nama = $db->escapeString($Nama);
+    $gambar = $db->escapeString($gambar);
+
+    $sql = "INSERT INTO users (email, password, role, no_telfon, Nama, gambar)
+    VALUES ('$email', '$password', '$role', '$no_telfon', '$Nama', '$gambar')";
+
+    $result = $db->insertData($sql);
+
+    if ($result) {
+        header("Location: /view/admin/akun-pasien/index.php");
+        exit;
     } else {
-        $_SESSION['error'] = "Gagal menghapus data pasien.";
+        echo "Gagal menambahkan tindakan";
+    }
+}
+
+function updateAkunPasien($db, $id_user, $email, $password, $role, $no_telfon, $Nama, $gambar)
+{
+
+    $id_user = intval($id_user);
+    $email = $db->escapeString($email);
+    $password = $db->escapeString($password);
+    $role = $db->escapeString($role);
+    $no_telfon = $db->escapeString($no_telfon);
+    $Nama = $db->escapeString($Nama);
+    $gambar = $db->escapeString($gambar);
+
+    $sql = "UPDATE users 
+            SET email = '$email',
+                password = '$password', 
+                role = '$role', 
+                no_telfon = '$no_telfon', 
+                Nama = '$Nama', 
+                gambar = '$gambar'
+            WHERE id_user = $id_user";
+
+    $result = $db->updateData($sql);
+
+    if ($result) {
+        header("Location: /view/admin/akun-pasien/index.php");
+        exit;
+    } else {
+        echo "Gagal menambahkan tindakan";
+    }
+}
+
+function deleteAkunPasien($db, $id_user)
+{
+
+    $id_user = (int) $id_user;
+    $sql = "DELETE FROM users WHERE id_user = $id_user";
+    $result = $db->deleteData($sql);
+
+    if ($result) {
+        header("Location: /view/admin/akun-pasien/index.php");
+        exit;
+    } else {
+        echo "Gagal menambahkan tindakan";
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    if (isset($_POST['action']) && $_POST['action'] === 'tambah_data') {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $role = $_POST['role'];
+        $no_telfon = $_POST['no_telfon'];
+        $Nama = $_POST['Nama'];
+        $gambar = $_POST['gambar'];
+
+        createAkunPasien($db, $email, $password, $role, $no_telfon, $Nama, $gambar);
     }
 
-    header("Location: ../view/admin/akun-pasien/index.php");
-    exit();
+    if (isset($_POST['action']) && $_POST['action'] === 'update_data') {
+        $id_user = $_POST['id_user'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $role = $_POST['role'];
+        $no_telfon = $_POST['no_telfon'];
+        $Nama = $_POST['Nama'];
+        $gambar = $_POST['gambar'];
+
+        updateAkunPasien($db, $id_user, $email, $password, $role, $no_telfon, $Nama, $gambar);
+    }
+
+    if (isset($_POST['action'])) {
+        if ($_POST['action'] === 'tambah_data') {
+            createAkunPasien($db, $_POST['email'], $_POST['password'], $_POST['role'], $_POST['no_telfon'], $_POST['Nama'], $_POST['gambar']);
+        } elseif ($_POST['action'] === 'update_data') {
+            updateAkunPasien($db, $_POST['id_user'], $_POST['email'], $_POST['password'], $_POST['role'], $_POST['no_telfon'], $_POST['Nama'], $_POST['gambar']);
+        } elseif ($_POST['action'] === 'delete_data') {
+            deleteAkunPasien($db, $_POST['id_user']);
+        }
+    }
 }
