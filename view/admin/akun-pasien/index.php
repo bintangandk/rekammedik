@@ -1,7 +1,5 @@
 <?php
 session_start();
-// include '../koneksi.php';
-// include '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 if (!isset($_SESSION['email'])) {
   header('Location: ../../auth/login.php');
   exit();
@@ -11,11 +9,11 @@ if (($_SESSION['role'] != 'admin')) {
   header('Location: ../../users/dashboard/index.php');
   # code...
 }
-require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+require '../../../koneksi.php';
 
-$db = new koneksi();
-$query = "SELECT * FROM users WHERE role = 'pasien'";
-$akuns = $db->showData($query);
+include '../../../controller/akunPasien.php';
+
+$akuns = getAllAkun($db);
 
 ?>
 
@@ -272,26 +270,17 @@ $akuns = $db->showData($query);
                             <td class="text-center"><?php echo htmlspecialchars($row['email']); ?></td>
                             <td class="text-center"><?php echo htmlspecialchars($row['no_telfon']); ?></td>
                             <td class="text-center">
-                              <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
-                                <i class="bi bi-eye"></i>
-                              </button> -->
-                              <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="detail(<?= htmlspecialchars(json_encode($akuns), ENT_QUOTES, 'UTF-8'); ?>)">
+                              <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
+                                onclick="showAkun(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
                                 <i class="bi bi-eye"></i>
                               </button>
-                              <!-- <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
-                                <i class="bi bi-pencil"></i>
-                              </button> -->
-                              <button class="btn btn-warning"
-                                data-toggle="modal"
-                                data-target="#editModal"
-                                onclick='editData(<?= json_encode($row) ?>)'>
+                              <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
+                                onclick="editAkun(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
                                 <i class="bi bi-pencil"></i>
                               </button>
-                              <a href="../../../controller/akunPasien.php?delete=<?= $row['id_user']; ?>"
-                                class="btn btn-danger"
-                                onclick="return confirm('Yakin ingin menghapus data ini?')">
+                              <button class="btn btn-danger" onclick="deleteAkun(<?= $row['id_user'] ?>)">
                                 <i class="bi bi-trash"></i>
-                              </a>
+                              </button>
                             </td>
                           </tr>
                         <?php endforeach; ?>
@@ -327,6 +316,7 @@ $akuns = $db->showData($query);
                       <div class="container">
                         <div class="row">
                           <div class="col-md-6">
+                            <input type="hidden" name="action" value="tambah_data">
 
                             <!-- Input Nama Lengkap -->
                             <div class="form-group">
@@ -364,8 +354,6 @@ $akuns = $db->showData($query);
                             </div>
 
                             <!-- Hidden input -->
-                            <input type="hidden" name="nip" value="">
-                            <input type="hidden" name="id_unit" value="">
                             <input type="hidden" name="gambar" value="profile.jpg">
 
                           </div>
@@ -403,25 +391,27 @@ $akuns = $db->showData($query);
                         <div class="row">
                           <div class="col-md-6">
 
-                            <!-- Hidden ID User -->
-                            <input type="hidden" id="id_user" name="id_user">
+                            <!-- hidden untuk action update -->
+                            <input type="hidden" name="action" value="update_data">
+                            <!-- hidden id -->
+                            <input type="hidden" id="id_edit" name="id_user">
 
                             <!-- Input Nama Lengkap -->
                             <div class="form-group">
                               <label for="Nama">Nama Lengkap <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="Nama" name="Nama" required>
+                              <input type="text" class="form-control" id="Nama_edit" name="Nama" required>
                             </div>
 
                             <!-- Input Email -->
                             <div class="form-group">
                               <label for="email">Email <span class="text-danger">*</span></label>
-                              <input type="email" class="form-control" id="email" name="email" required>
+                              <input type="email" class="form-control" id="email_edit" name="email" required>
                             </div>
 
                             <!-- Input No Telpon -->
                             <div class="form-group">
                               <label for="no_telfon">No. Telpon <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_telfon" name="no_telfon" required>
+                              <input type="text" class="form-control" id="no_telfon_edit" name="no_telfon" required>
                             </div>
                           </div>
 
@@ -430,20 +420,18 @@ $akuns = $db->showData($query);
                             <!-- Input Password -->
                             <div class="form-group">
                               <label for="password">Password</label>
-                              <input type="password" class="form-control" id="password" name="password" placeholder="Kosongkan jika tidak ingin ubah password">
+                              <input type="password" class="form-control" id="password_edit" name="password" placeholder="Kosongkan jika tidak ingin ubah password">
                             </div>
 
                             <!-- Input Role -->
                             <div class="form-group">
                               <label for="role">Role <span class="text-danger">*</span></label>
-                              <select class="form-control" id="role" name="role" required>
+                              <select class="form-control" id="role_edit" name="role" required>
                                 <option value="pasien">Pasien</option>
                               </select>
                             </div>
 
                             <!-- Hidden input lainnya -->
-                            <input type="hidden" name="nip" value="">
-                            <input type="hidden" name="id_unit" value="">
                             <input type="hidden" name="gambar" value="profile.jpg">
 
                           </div>
@@ -460,7 +448,7 @@ $akuns = $db->showData($query);
                 </div>
               </div>
             </div>
-            
+
 
             <!-- Modal show -->
             <div class="modal fade" id="showModal">
@@ -482,22 +470,24 @@ $akuns = $db->showData($query);
                         <div class="row">
                           <div class="col-md-6">
 
+                            <input type="hidden" id="id_show" name="id_user">
+
                             <!-- Input Nama Lengkap -->
                             <div class="form-group">
                               <label for="Nama">Nama Lengkap <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="Nama" name="Nama" readonly>
+                              <input type="text" class="form-control" id="Nama_show" name="Nama" readonly>
                             </div>
 
                             <!-- Input Email -->
                             <div class="form-group">
                               <label for="email">Email <span class="text-danger">*</span></label>
-                              <input type="email" class="form-control" id="email" name="email" readonly>
+                              <input type="email" class="form-control" id="email_show" name="email" readonly>
                             </div>
 
                             <!-- Input No Telpon -->
                             <div class="form-group">
                               <label for="no_telfon">No. Telpon <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_telfon" name="no_telfon" readonly>
+                              <input type="text" class="form-control" id="no_telfon_show" name="no_telfon" readonly>
                             </div>
                           </div>
 
@@ -505,7 +495,7 @@ $akuns = $db->showData($query);
                             <!-- Input Role -->
                             <div class="form-group">
                               <label for="role">Role <span class="text-danger">*</span></label>
-                              <select class="form-control" id="role" name="role" readonly>
+                              <select class="form-control" id="role_show" name="role" readonly>
                                 <option value="pasien">Pasien</option>
                               </select>
                             </div>
@@ -522,8 +512,7 @@ $akuns = $db->showData($query);
 
                   <!-- Modal Footer -->
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
                   </div>
                   </form>
                 </div>
@@ -534,7 +523,7 @@ $akuns = $db->showData($query);
 
         </div>
         <!-- / Content -->
-       
+
         <!-- Footer -->
         <footer class="content-footer footer bg-footer-theme">
           <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
@@ -629,14 +618,58 @@ $akuns = $db->showData($query);
     });
   </script>
 
+  <script>
+    function editAkun(data) {
+      document.getElementById('id_edit').value = data.id_user;
+      document.getElementById('Nama_edit').value = data.Nama;
+      document.getElementById('email_edit').value = data.email;
+      document.getElementById('no_telfon_edit').value = data.no_telfon;
+      document.getElementById('role_edit').value = data.role;
+    }
+
+    function showAkun(data) {
+      document.getElementById('id_show').value = data.id_user;
+      document.getElementById('Nama_show').value = data.Nama;
+      document.getElementById('email_show').value = data.email;
+      document.getElementById('no_telfon_show').value = data.no_telfon;
+      document.getElementById('role_show').value = data.role;
+    }
+  </script>
 
   <script>
-    function editData(pasien) {
-      document.getElementById('id_user').value = pasien.id_user;
-      document.getElementById('Nama').value = pasien.Nama;
-      document.getElementById('email').value = pasien.email;
-      document.getElementById('no_telfon').value = pasien.no_telfon;
-      document.getElementById('role').value = pasien.role;
+    function deleteAkun(id) {
+      Swal.fire({
+        title: 'Apakah kamu yakin?',
+        text: "Data yang dihapus tidak bisa dikembalikan!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // bikin form hidden untuk submit delete
+          let form = document.createElement("form");
+          form.method = "POST";
+          form.action = "../../../controller/akunPasien.php";
+
+          let inputAction = document.createElement("input");
+          inputAction.type = "hidden";
+          inputAction.name = "action";
+          inputAction.value = "delete_data";
+          form.appendChild(inputAction);
+
+          let inputId = document.createElement("input");
+          inputId.type = "hidden";
+          inputId.name = "id_user";
+          inputId.value = id;
+          form.appendChild(inputId);
+
+          document.body.appendChild(form);
+          form.submit();
+        }
+      })
     }
   </script>
 
