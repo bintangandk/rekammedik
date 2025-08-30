@@ -283,6 +283,10 @@ $diagnosis = getAllDiagnosis($db);
                                                                 onclick="editDiagnosis(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-pencil"></i>
                                                             </button>
+                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
+                                                                onclick="showDiagnosis(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
+                                                                <i class="bi bi-eye"></i>
+                                                            </button>
                                                             <button class="btn btn-danger" onclick="deleteDiagnosis(<?= $row['id_diagnosis'] ?>)">
                                                                 <i class="bi bi-trash"></i>
                                                             </button>
@@ -426,7 +430,7 @@ $diagnosis = getAllDiagnosis($db);
 
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Detail Medikamentosa</h4>
+                                        <h4 class="modal-title">Detail Dictionary Diagnosis</h4>
                                         <a data-dismiss="modal">
                                             <i class="bi bi-x"></i>
                                         </a>
@@ -434,32 +438,30 @@ $diagnosis = getAllDiagnosis($db);
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                        <form id="editForm" action="#" method="POST">
                                             <div class="container">
                                                 <div class="row">
-                                                    <input type="hidden" name="action" value="tambah_data">
+
+                                                    <input type="hidden" id="id_show" name="id_diagnosis">
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="kode_obat">Kode Obat<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kode_obat" name="kode_obat" required></input>
+                                                            <label for="kode">Kode ICD-10<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="kode_show" name="kode" required>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="nama_generik">Nama Generik<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_generik" name="nama_generik" required></input>
+                                                            <label for="nama_diagnosis">Nama Diagnosis<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="nama_diagnosis_show" name="nama_diagnosis" required>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="nama_dagang">Nama Dagang<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_dagang" name="nama_dagang" required></input>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="bentuk_sediaan">Bentuk Sediaan<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="bentuk_sediaan" name="bentuk_sediaan" required></input>
+                                                            <label for="kategori_penyakit">Kategori Penyakit<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="kategori_penyakit_show" name="kategori_penyakit" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -571,6 +573,13 @@ $diagnosis = getAllDiagnosis($db);
             document.getElementById('kode_edit').value = data.kode;
             document.getElementById('nama_diagnosis_edit').value = data.nama_diagnosis;
             document.getElementById('kategori_penyakit_edit').value = data.kategori_penyakit;
+        }
+
+        function showDiagnosis(data) {
+            document.getElementById('id_show').value = data.id_diagnosis;
+            document.getElementById('kode_show').value = data.kode;
+            document.getElementById('nama_diagnosis_show').value = data.nama_diagnosis;
+            document.getElementById('kategori_penyakit_show').value = data.kategori_penyakit;
         }
     </script>
 

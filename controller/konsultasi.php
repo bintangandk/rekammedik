@@ -1,28 +1,121 @@
 <?php
-session_start();
-include '../koneksi.php';
+include_once __DIR__ . '/../koneksi.php';
+
+$db = new koneksi();
+
+function getAllKonsultasi($db)
+{
+    $sql = "
+        SELECT konsultasi.*, 
+               pasien.nama AS nama_pasien, 
+               pasien.no_rm, 
+               diagnosis.nama_diagnosis, 
+               medikamentosa.nama_generik AS nama_medikamentosa
+        FROM konsultasi
+        LEFT JOIN pasien ON konsultasi.id_pasien = pasien.id_pasien
+        LEFT JOIN dic_diagnosis AS diagnosis ON konsultasi.id_diagnosis = diagnosis.id_diagnosis
+        LEFT JOIN dic_medikamentosa AS medikamentosa ON konsultasi.id_medikamentosa = medikamentosa.id_medikamentosa
+        ORDER BY konsultasi.id_konsultasi DESC
+    ";
+    return $db->showData($sql);
+}
+
+
+function createKonsultasi($db, $id_pasien, $id_diagnosis, $id_medikamentosa, $tanggal, $durasi, $nama_dokter, $catatan_dokter)
+{
+
+    $id_pasien = $db->escapeString($id_pasien);
+    $id_diagnosis = $db->escapeString($id_diagnosis);
+    $id_medikamentosa = $db->escapeString($id_medikamentosa);
+    $tanggal = $db->escapeString($tanggal);
+    $durasi = $db->escapeString($durasi);
+    $nama_dokter = $db->escapeString($nama_dokter);
+    $catatan_dokter = $db->escapeString($catatan_dokter);
+
+    $sql = "INSERT INTO konsultasi (id_pasien, id_diagnosis, id_medikamentosa, tanggal, durasi, nama_dokter, catatan_dokter)
+    VALUE ('$id_pasien', '$id_diagnosis', '$id_medikamentosa', '$tanggal', '$durasi', '$nama_dokter', '$catatan_dokter')";
+
+    $result = $db->insertData($sql);
+
+    if ($result) {
+        header("Location: /view/users/konsultasi/index.php");
+        exit;
+    } else {
+        echo "Gagal menambahkan konsultasi!";
+    }
+}
+
+function updateKonsultasi($db, $id, $id_pasien, $id_diagnosis, $id_medikamentosa, $tanggal, $durasi, $nama_dokter, $catatan_dokter)
+{
+    $id = intval($id);
+    $id_pasien = $db->escapeString($id_pasien);
+    $id_diagnosis = $db->escapeString($id_diagnosis);
+    $id_medikamentosa = $db->escapeString($id_medikamentosa);
+    $tanggal = $db->escapeString($tanggal);
+    $durasi = $db->escapeString($durasi);
+    $nama_dokter = $db->escapeString($nama_dokter);
+    $catatan_dokter = $db->escapeString($catatan_dokter);
+
+    $sql = "UPDATE konsultasi
+            SET id_pasien = '$id_pasien',
+                id_diagnosis = '$id_diagnosis',
+                id_medikamentosa = '$id_medikamentosa',
+                tanggal = '$tanggal',
+                durasi = '$durasi',
+                nama_dokter = '$nama_dokter',
+                catatan_dokter = '$catatan_dokter'
+            WHERE id_konsultasi = $id";
+
+    $result = $db->updateData($sql);
+
+    if ($result) {
+        header("Location: /view/users/konsultasi/index.php");
+        exit;
+    } else {
+        echo "Gagal menambahkan konsultasi!";
+    }
+}
+
+function deletekonsultasi($db, $id)
+{
+
+    $id = (int) $id;
+    $sql = "DELETE FROM konsultasi WHERE id_konsultasi = $id";
+    $result = $db->deleteData($sql);
+
+    if ($result) {
+        header("Location: /view/users/konsultasi/index.php");
+        exit;
+    } else {
+        echo "Gagal menambahkan konsultasi!";
+    }
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'] ?? '';
 
-    if ($action === 'tambah') {
+    if (isset($_POST['action']) && $_POST['action'] === 'tambah_data') {
         $id_pasien = $_POST['id_pasien'];
-        $id_diagnosis = $_POST['diagnosis'];
-        $id_medikamentosa = $_POST['medikamentosa'];
+        $id_diagnosis = $_POST['id_diagnosis'];
+        $id_medikamentosa = $_POST['id_medikamentosa'];
         $tanggal = $_POST['tanggal'];
         $durasi = $_POST['durasi'];
-        $nama_dokter = $_POST['dokter']; // karena dokter diubah jadi input text
-        $catatan_dokter = $_POST['catatan'];
+        $nama_dokter = $_POST['nama_dokter'];
+        $catatan_dokter = $_POST['catatan_dokter'];
 
-        $query = "INSERT INTO konsultasi 
-                (id_pasien, id_diagnosis, id_medikamentosa, tanggal, durasi, nama_dokter, catatan_dokter) 
-                VALUES 
-                ('$id_pasien', '$id_diagnosis', '$id_medikamentosa', '$tanggal', '$durasi', '$nama_dokter', '$catatan_dokter')";
-
-        if (mysqli_query($conn, $query)) {
-            header("Location: ../views/users/konsultasi/index.php?status=success");
-        } else {
-            echo "Error: " . mysqli_error($conn);
-        }
+        createKonsultasi($db, $id_pasien, $id_diagnosis, $id_medikamentosa, $tanggal, $durasi, $nama_dokter, $catatan_dokter);
     }
+
+    if (isset($_POST['action']) && $_POST['action'] === 'update_data') {
+        $id = $_POST['id_konsultasi'];
+        $id_pasien = $_POST['id_pasien'];
+        $id_diagnosis = $_POST['id_diagnosis'];
+        $id_medikamentosa = $_POST['id_medikamentosa'];
+        $tanggal = $_POST['tanggal'];
+        $durasi = $_POST['durasi'];
+        $nama_dokter = $_POST['nama_dokter'];
+        $catatan_dokter = $_POST['catatan_dokter'];
+        updateKonsultasi($db, $id, $id_pasien, $id_diagnosis, $id_medikamentosa, $tanggal, $durasi, $nama_dokter, $catatan_dokter);
+    }
+
 }

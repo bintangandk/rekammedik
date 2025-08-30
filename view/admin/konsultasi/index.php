@@ -10,8 +10,13 @@ if (!isset($_SESSION['email'])) {
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
 
+include '../../../controller/konsultasi.php';
+
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
+
+$konsultasi = getAllKonsultasi($db);
+
 
 ?>
 
@@ -107,7 +112,7 @@ $profile = $pegawai->profile();
                             <div data-i18n="Account Settings">Data Pasien</div>
                         </a>
                     </li>
-                     <li class="menu-item">
+                    <li class="menu-item">
                         <a href="../akun-pasien/index.php" class="menu-link">
                             <i class="menu-icon bi-person "></i>
                             <div data-i18n="Account Settings">Akun Pasien</div>
@@ -125,7 +130,7 @@ $profile = $pegawai->profile();
                             <div data-i18n="Account Settings">Riwayat File</div>
                         </a>
                     </li>
-                     <li class="menu-item active">
+                    <li class="menu-item active">
                         <a href="../konsultasi/index.php" class="menu-link">
                             <i class="menu-icon bi bi-pencil"></i>
                             <div data-i18n="Account Settings">Konsultasi</div>
@@ -239,7 +244,7 @@ $profile = $pegawai->profile();
                         <!-- Table Konsultasi -->
                         <div class="card shadow mb-3">
                             <div class="card-header py-3 d-flex justify-content-end gap-2">
-        
+
                             </div>
 
                             <!--/ Print Button -->
@@ -269,30 +274,40 @@ $profile = $pegawai->profile();
                                             </tr>
                                         </tfoot>
                                         <tbody>
+                                            <?php if (!empty($konsultasi)): ?>
+                                                <?php $no = 1;
+                                                foreach ($konsultasi as $row): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++; ?></td>
+                                                        <td class="text-center"><?= $row['no_rm'] ?></td>
+                                                        <td class="text-center"><?= $row['nama_pasien']; ?></td>
+                                                        <td class="text-center"><?= $row['tanggal']; ?></td>
+                                                        <td class="text-center"><?= $row['durasi']; ?></td>
+                                                        <td class="text-center"><?= $row['nama_dokter']; ?></td>
 
-                                            <tr>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-
-                                                <td class="text-center">
-                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-success" onclick="">
-                                                        <i class="bi bi-printer"></i>
-                                                    </button>
-                                                    <button class="btn btn-danger" onclick="">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
+                                                                onclick="editKonsultasi(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </button>
+                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
+                                                                onclick="showKonsultasi(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
+                                                                <i class="bi bi-eye"></i>
+                                                            </button>
+                                                            <button class="btn btn-success" onclick="">
+                                                                <i class="bi bi-printer"></i>
+                                                            </button>
+                                                            <button class="btn btn-danger" onclick="">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td colspan="3">Tidak ada data</td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -322,23 +337,27 @@ $profile = $pegawai->profile();
                                         <form id="insertForm" action="../../../controller/Aktivitas.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
-                                                    <input type="hidden" name="action" value="tambah_data">
+                                                    <input type="hidden" name="action" value="update_data">
+
+                                                    <input type="hidden" id="id_edit" name="id_konsultasi">
+
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="no_rm">No. RM<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kegiatan" name="kegiatan" required></input>
+                                                            <input class="form-control" id="no_rm_edit" name="no_rm" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="no_rm">Nama Pasien<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="kegiatan" name="kegiatan" required></input>
+                                                            <input class="form-control" id="nama_pasien_edit" name="nama_pasien" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="dokter">Nama Dokter <span class="text-danger">*</span></label>
-                                                            <select id="dokter" name="dokter" class="form-control" required>
+                                                            <label for="nama_dokter">Nama Dokter <span class="text-danger">*</span></label>
+                                                            <select id="nama_dokter_edit" name="nama_dokter" class="form-control" required>
                                                                 <option value="">-- Pilih Dokter --</option>
                                                                 <option value="1">dr. Andi Pratama</option>
                                                                 <option value="2">dr. Budi Santoso</option>
@@ -353,8 +372,8 @@ $profile = $pegawai->profile();
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="diagnosis">Diagnosis<span class="text-danger">*</span></label>
-                                                            <select id="diagnosis" name="diagnosis" class="form-control" required>
+                                                            <label for="nama_diagnosis">Diagnosis<span class="text-danger">*</span></label>
+                                                            <select id="nama_diagnosis_edit" name="nama_diagnosis" class="form-control" required>
                                                                 <option value="">-- Pilih Diagnosis--</option>
                                                                 <option value="1">dr. Andi Pratama</option>
                                                                 <option value="2">dr. Budi Santoso</option>
@@ -369,8 +388,8 @@ $profile = $pegawai->profile();
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <select id="medikamentosa" name="medikamentosa" class="form-control" required>
+                                                            <label for="nama_medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
+                                                            <select id="nama_medikamentosa_edit" name="nama_medikamentosa" class="form-control" required>
                                                                 <option value="">-- Pilih Diagnosis--</option>
                                                                 <option value="1">dr. Andi Pratama</option>
                                                                 <option value="2">dr. Budi Santoso</option>
@@ -383,23 +402,22 @@ $profile = $pegawai->profile();
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <input type="hidden" name="action" value="tambah">
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="catatan_dokter" name="catatan_dokter" required></textarea>
+                                                            <textarea class="form-control" id="catatan_dokter_edit" name="catatan_dokter" required></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
-                                                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                                                            <input type="date" class="form-control" id="tanggal_edit" name="tanggal" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label>Durasi Konsultasi</label>
-                                                            <input type="time" class="form-control" id="durasi" name="durasi" required>
+                                                            <input type="time" class="form-control" id="durasi_edit" name="durasi" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -430,57 +448,58 @@ $profile = $pegawai->profile();
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="../../../controller/Aktivitas.php" method="POST" enctype="multipart/form-data">
+                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
-                                                    <input type="hidden" name="action" value="tambah_data">
+
+                                                    <input type="hidden" id="id_show" name="id_konsultasi">
+
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="no_rm">No. RM<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="no_rm" name="no_rm" required></input>
+                                                            <input class="form-control" id="no_rm_show" name="no_rm" required></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="name">Nama Pasien<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="name" name="name" required></input>
+                                                            <input class="form-control" id="nama_pasien_show" name="name" required></input>
                                                         </div>
                                                     </div>
-                                                     <div class="col-md-20">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="dokter">Nama Dokter<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="doter" name="dokter" required></input>
+                                                            <input class="form-control" id="nama_dokter_show" name="dokter" required></input>
                                                         </div>
                                                     </div>
-                                                     <div class="col-md-20">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="diagnosis">Diagnosis<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="diagnosis" name="diagnosis" required></input>
+                                                            <input class="form-control" id="nama_diagnosis_show" name="diagnosis" required></input>
                                                         </div>
                                                     </div>
-                                                     <div class="col-md-20">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="medikamentosa" name="medikamentosa" required></input>
+                                                            <input class="form-control" id="nama_medikamentosa_show" name="medikamentosa" required></input>
                                                         </div>
                                                     </div>
-                                                    <input type="hidden" name="action" value="tambah">
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="catatan_dokter" name="catatan_dokter" required></textarea>
+                                                            <textarea class="form-control" id="catatan_dokter_show" name="catatan_dokter" required></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
-                                                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                                                            <input type="date" class="form-control" id="tanggal_show" name="tanggal" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label>Durasi Konsultasi</label>
-                                                            <input type="time" class="form-control" id="durasi" name="durasi" required>
+                                                            <input type="time" class="form-control" id="durasi_show" name="durasi" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -584,6 +603,32 @@ $profile = $pegawai->profile();
                 }
             });
         });
+    </script>
+
+    <script>
+        function editKonsultasi(data) {
+            document.getElementById('id_edit').value = data.id_konsultasi;
+            document.getElementById('no_rm_edit').value = data.no_rm;
+            document.getElementById('nama_pasien_edit').value = data.nama_pasien;
+            document.getElementById('nama_diagnosis_edit').value = data.nama_diagnosis;
+            document.getElementById('nama_medikamentosa_edit').value = data.nama_medikamentosa;
+            document.getElementById('tanggal_edit').value = data.tanggal;
+            document.getElementById('durasi_edit').value = data.durasi;
+            document.getElementById('nama_dokter_edit').value = data.nama_dokter;
+            document.getElementById('catatan_dokter_edit').value = data.catatan_dokter;
+        }
+
+        function showKonsultasi(data) {
+            document.getElementById('id_show').value = data.id_konsultasi;
+            document.getElementById('no_rm_show').value = data.no_rm;
+            document.getElementById('nama_pasien_show').value = data.nama_pasien;
+            document.getElementById('nama_diagnosis_show').value = data.nama_diagnosis;
+            document.getElementById('nama_medikamentosa_show').value = data.nama_medikamentosa;
+            document.getElementById('tanggal_show').value = data.tanggal;
+            document.getElementById('durasi_show').value = data.durasi;
+            document.getElementById('nama_dokter_show').value = data.nama_dokter;
+            document.getElementById('catatan_dokter_show').value = data.catatan_dokter;
+        }
     </script>
 
 </body>
