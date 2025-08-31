@@ -118,4 +118,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         updateKonsultasi($db, $id, $id_pasien, $id_diagnosis, $id_medikamentosa, $tanggal, $durasi, $nama_dokter, $catatan_dokter);
     }
 
+    if (isset($_POST['action'])) {
+        if ($_POST['action'] === 'tambah_data') {
+            createKonsultasi($db, $_POST['id_pasien'], $_POST['id_diagnosis'], $_POST['id_medikamentosa'], $_POST['tanggal'], $_POST['durasi'], $_POST['nama_dokter'], $_POST['catatan_dokter']);
+        } elseif ($_POST['action'] === 'update_data') {
+            updateKonsultasi($db, $_POST['id_konsultasi'], $_POST['id_pasien'], $_POST['id_diagnosis'], $_POST['id_medikamentosa'], $_POST['tanggal'], $_POST['durasi'], $_POST['nama_dokter'], $_POST['catatan_dokter']);
+        } elseif ($_POST['action'] === 'delete_data') {
+            deletekonsultasi($db, $_POST['id_konsultasi']);
+        }
+        
+    }
+
 }
