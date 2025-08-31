@@ -7,7 +7,7 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
-require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+require '../../../koneksi.php';
 require '../../../controller/Pegawai.php';
 
 include '../../../controller/konsultasi.php';
@@ -300,6 +300,9 @@ $pasienList = getAllPasien($db);
                                                                 onclick="showKonsultasi(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
+                                                            <button class="btn btn-danger" onclick="deleteKonsultasi(<?= $data['id_konsultasi'] ?>)">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
                                                             <button class="btn btn-success" onclick="">
                                                                 <i class="bi bi-printer"></i>
                                                             </button>
@@ -308,7 +311,7 @@ $pasienList = getAllPasien($db);
                                                 <?php endforeach; ?>
                                             <?php else: ?>
                                                 <tr>
-                                                    <td colspan="3">Tidak ada data</td>
+                                                    <td class="text-center" colspan="7">Tidak ada data</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
@@ -377,7 +380,6 @@ $pasienList = getAllPasien($db);
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <!-- <input type="hidden" name="action" value="tambah"> -->
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
@@ -491,15 +493,8 @@ $pasienList = getAllPasien($db);
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label>Timer Konsultasi</label>
-                                                            <h4 id="timerDisplay">00:00:00</h4>
-                                                            <input type="hidden" id="durasi_edit" name="durasi">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <div class="form-group">
-                                                            <button type="button" id="btnMulai" class="btn btn-warning">Mulai</button>
-                                                            <button type="button" id="btnSelesai" class="btn btn-secondary" disabled>Selesai</button>
+                                                            <label>Durasi Konsultasi</label>
+                                                            <input type="time" class="form-control" id="durasi_edit" name="durasi" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -595,7 +590,7 @@ $pasienList = getAllPasien($db);
                                 </div>
                             </div>
                         </div>
-
+                        
                     </div>
                 </div>
             </div>
@@ -752,15 +747,15 @@ $pasienList = getAllPasien($db);
     <script>
         function editKonsultasi(data) {
             document.getElementById('id_edit').value = data.id_konsultasi;
-            document.getElementById('no_rm_edit').value = data.no_rm;
-            document.getElementById('nama_pasien_edit').value = data.nama_pasien;
-            document.getElementById('nama_diagnosis_edit').value = data.nama_diagnosis;
-            document.getElementById('nama_medikamentosa_edit').value = data.nama_medikamentosa;
+            document.getElementById('id_pasien_edit').value = data.id_pasien; // id pasien
+            document.getElementById('id_diagnosis_edit').value = data.id_diagnosis; // id diagnosis
+            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa; // id medikamentosa
             document.getElementById('tanggal_edit').value = data.tanggal;
             document.getElementById('durasi_edit').value = data.durasi;
             document.getElementById('nama_dokter_edit').value = data.nama_dokter;
             document.getElementById('catatan_dokter_edit').value = data.catatan_dokter;
         }
+
 
         function showKonsultasi(data) {
             document.getElementById('id_show').value = data.id_konsultasi;
@@ -772,6 +767,43 @@ $pasienList = getAllPasien($db);
             document.getElementById('durasi_show').value = data.durasi;
             document.getElementById('nama_dokter_show').value = data.nama_dokter;
             document.getElementById('catatan_dokter_show').value = data.catatan_dokter;
+        }
+    </script>
+
+    <script>
+        function deleteKonsultasi(id) {
+            Swal.fire({
+                title: 'Apakah kamu yakin?',
+                text: "Data yang dihapus tidak bisa dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // bikin form hidden untuk submit delete
+                    let form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "../../../controller/konsultasi.php";
+
+                    let inputAction = document.createElement("input");
+                    inputAction.type = "hidden";
+                    inputAction.name = "action";
+                    inputAction.value = "delete_data";
+                    form.appendChild(inputAction);
+
+                    let inputId = document.createElement("input");
+                    inputId.type = "hidden";
+                    inputId.name = "id_konsultasi";
+                    inputId.value = id;
+                    form.appendChild(inputId);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            })
         }
     </script>
 

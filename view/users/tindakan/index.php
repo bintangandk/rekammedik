@@ -9,9 +9,12 @@ if (!isset($_SESSION['email'])) {
 
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
+include '../../../controller/tindakan.php';
 
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
+
+$tindakanList = getAllTindakan($db);
 
 ?>
 
@@ -266,25 +269,35 @@ $profile = $pegawai->profile();
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center"></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-danger" onclick="">
-                                                        <i class="bi bi-printer"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            <?php if (!empty($tindakanList)): ?>
+                                                <?php $no = 1;
+                                                foreach ($tindakanList as $data): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++; ?></td>
+                                                        <td class="text-center"><?= $data['no_rm'] ?></td>
+                                                        <td class="text-center"><?= $data['nama_pasien']; ?></td>
+                                                        <td class="text-center"><?= $data['nama_tindakan']; ?></td>
+                                                        <td class="text-center"><?= $data['tanggal']; ?></td>
+                                                        <td class="text-center"><?= $data['durasi']; ?></td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </button>
+                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
+                                                                onclick="showTindakan(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
+                                                                <i class="bi bi-eye"></i>
+                                                            </button>
+                                                            <button class="btn btn-danger" onclick="">
+                                                                <i class="bi bi-printer"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td class="text-center" colspan="7">Tidak ada data</td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -556,7 +569,7 @@ $profile = $pegawai->profile();
                                                             <input class="form-control" id="nama_pasien" name="nama_pasien" required></input>
                                                         </div>
                                                     </div>
-                                                   <div class="col-md-20">
+                                                    <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="tindakan">Jenis Tindakan<span class="text-danger">*</span></label>
                                                             <input class="form-control" id="tindakan" name="tindakan" required></input>
