@@ -84,7 +84,7 @@ function deletekonsultasi($db, $id)
     $result = $db->deleteData($sql);
 
     if ($result) {
-        header("Location: /view/users/konsultasi/index.php");
+        header("Location: /view/admin/konsultasi/index.php");
         exit;
     } else {
         echo "Gagal menambahkan konsultasi!";

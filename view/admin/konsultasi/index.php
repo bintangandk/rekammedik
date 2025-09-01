@@ -11,11 +11,22 @@ require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
 
 include '../../../controller/konsultasi.php';
+include '../../../controller/dic_diagnosis.php';
+include '../../../controller/dic_medikamentosa.php';
+
+function getAllPasien($db)
+{
+    $sql = "SELECT * FROM pasien";
+    return $db->showData($sql);
+}
 
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
 
 $konsultasi = getAllKonsultasi($db);
+$diagnosisList = getAllDiagnosis($db);
+$medikamentosaList = getAllMedikamentosa($db);
+$pasienList = getAllPasien($db);
 
 
 ?>
@@ -294,11 +305,11 @@ $konsultasi = getAllKonsultasi($db);
                                                                 onclick="showKonsultasi(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
+                                                            <button class="btn btn-danger" onclick="deleteKonsultasi(<?= $row['id_konsultasi'] ?>)">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
                                                             <button class="btn btn-success" onclick="">
                                                                 <i class="bi bi-printer"></i>
-                                                            </button>
-                                                            <button class="btn btn-danger" onclick="">
-                                                                <i class="bi bi-trash"></i>
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -334,78 +345,50 @@ $konsultasi = getAllKonsultasi($db);
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="../../../controller/Aktivitas.php" method="POST" enctype="multipart/form-data">
+                                        <form id="insertForm" action="../../../controller/konsultasi.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
                                                     <input type="hidden" name="action" value="update_data">
 
                                                     <input type="hidden" id="id_edit" name="id_konsultasi">
 
-
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="no_rm">No. RM<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="no_rm_edit" name="no_rm" required></input>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="no_rm">Nama Pasien<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_pasien_edit" name="nama_pasien" required></input>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="nama_dokter">Nama Dokter <span class="text-danger">*</span></label>
-                                                            <select id="nama_dokter_edit" name="nama_dokter" class="form-control" required>
-                                                                <option value="">-- Pilih Dokter --</option>
-                                                                <option value="1">dr. Andi Pratama</option>
-                                                                <option value="2">dr. Budi Santoso</option>
-                                                                <option value="3">dr. Citra Dewi</option>
-                                                                <option value="4">dr. Dedi Kurniawan</option>
-                                                                <option value="5">dr. Eko Setiawan</option>
-                                                                <option value="6">dr. Fitriani</option>
-                                                                <option value="7">dr. Guntur</option>
-                                                                <option value="8">dr. Hani Kusuma</option>
+                                                            <label for="id_pasien">Nama Pasien <span class="text-danger">*</span></label>
+                                                            <select id="id_pasien_edit" name="id_pasien" class="form-control" required>
+                                                                <option value="">-- Pilih Pasien --</option>
+                                                                <?php foreach ($pasienList as $row): ?>
+                                                                    <option value="<?= $row['id_pasien']; ?>"><?= $row['nama']; ?></option>
+                                                                <?php endforeach; ?>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="nama_diagnosis">Diagnosis<span class="text-danger">*</span></label>
-                                                            <select id="nama_diagnosis_edit" name="nama_diagnosis" class="form-control" required>
+                                                            <label for="nama_dokter">Nama Dokter<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="nama_dokter_edit" name="nama_dokter" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="id_diagnosis">Diagnosis<span class="text-danger">*</span></label>
+                                                            <select id="id_diagnosis_edit" name="id_diagnosis" class="form-control" required>
                                                                 <option value="">-- Pilih Diagnosis--</option>
-                                                                <option value="1">dr. Andi Pratama</option>
-                                                                <option value="2">dr. Budi Santoso</option>
-                                                                <option value="3">dr. Citra Dewi</option>
-                                                                <option value="4">dr. Dedi Kurniawan</option>
-                                                                <option value="5">dr. Eko Setiawan</option>
-                                                                <option value="6">dr. Fitriani</option>
-                                                                <option value="7">dr. Guntur</option>
-                                                                <option value="8">dr. Hani Kusuma</option>
+                                                                <?php foreach ($diagnosisList as $row): ?>
+                                                                    <option value="<?= $row['id_diagnosis']; ?>"><?= $row['nama_diagnosis']; ?></option>
+                                                                <?php endforeach; ?>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
-                                                            <label for="nama_medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <select id="nama_medikamentosa_edit" name="nama_medikamentosa" class="form-control" required>
+                                                            <label for="id_medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
+                                                            <select id="id_medikamentosa_edit" name="id_medikamentosa" class="form-control" required>
                                                                 <option value="">-- Pilih Diagnosis--</option>
-                                                                <option value="1">dr. Andi Pratama</option>
-                                                                <option value="2">dr. Budi Santoso</option>
-                                                                <option value="3">dr. Citra Dewi</option>
-                                                                <option value="4">dr. Dedi Kurniawan</option>
-                                                                <option value="5">dr. Eko Setiawan</option>
-                                                                <option value="6">dr. Fitriani</option>
-                                                                <option value="7">dr. Guntur</option>
-                                                                <option value="8">dr. Hani Kusuma</option>
+                                                                <?php foreach ($medikamentosaList as $row): ?>
+                                                                    <option value="<?= $row['id_medikamentosa']; ?>"><?= $row['nama_generik']; ?></option>
+                                                                <?php endforeach; ?>
                                                             </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="catatan_dokter_edit" name="catatan_dokter" required></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
@@ -416,8 +399,14 @@ $konsultasi = getAllKonsultasi($db);
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
+                                                            <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
+                                                            <textarea class="form-control" id="catatan_dokter_edit" name="catatan_dokter" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
                                                             <label>Durasi Konsultasi</label>
-                                                            <input type="time" class="form-control" id="durasi_edit" name="durasi" required>
+                                                            <input type="time" class="form-control" id="durasi_edit" name="durasi" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -519,10 +508,7 @@ $konsultasi = getAllKonsultasi($db);
         </div>
     </div>
     <!-- / Content -->
-    <form action="../../../controller/Aktivitas.php" id="formDelete" method="POST">
-        <input type="hidden" name="id" id="idDelete">
-        <input type="hidden" name="action" value="delete">
-    </form>
+    
     <!-- Footer -->
     <footer class="content-footer footer bg-footer-theme">
         <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
@@ -608,10 +594,9 @@ $konsultasi = getAllKonsultasi($db);
     <script>
         function editKonsultasi(data) {
             document.getElementById('id_edit').value = data.id_konsultasi;
-            document.getElementById('no_rm_edit').value = data.no_rm;
-            document.getElementById('nama_pasien_edit').value = data.nama_pasien;
-            document.getElementById('nama_diagnosis_edit').value = data.nama_diagnosis;
-            document.getElementById('nama_medikamentosa_edit').value = data.nama_medikamentosa;
+            document.getElementById('id_pasien_edit').value = data.id_pasien; // id pasien
+            document.getElementById('id_diagnosis_edit').value = data.id_diagnosis; // id diagnosis
+            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa; // id medikamentosa
             document.getElementById('tanggal_edit').value = data.tanggal;
             document.getElementById('durasi_edit').value = data.durasi;
             document.getElementById('nama_dokter_edit').value = data.nama_dokter;
@@ -628,6 +613,43 @@ $konsultasi = getAllKonsultasi($db);
             document.getElementById('durasi_show').value = data.durasi;
             document.getElementById('nama_dokter_show').value = data.nama_dokter;
             document.getElementById('catatan_dokter_show').value = data.catatan_dokter;
+        }
+    </script>
+
+    <script>
+        function deleteKonsultasi(id) {
+            Swal.fire({
+                title: 'Apakah kamu yakin?',
+                text: "Data yang dihapus tidak bisa dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // bikin form hidden untuk submit delete
+                    let form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "../../../controller/konsultasi.php";
+
+                    let inputAction = document.createElement("input");
+                    inputAction.type = "hidden";
+                    inputAction.name = "action";
+                    inputAction.value = "delete_data";
+                    form.appendChild(inputAction);
+
+                    let inputId = document.createElement("input");
+                    inputId.type = "hidden";
+                    inputId.name = "id_konsultasi";
+                    inputId.value = id;
+                    form.appendChild(inputId);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            })
         }
     </script>
 

@@ -4,7 +4,7 @@ include_once __DIR__ . '/../koneksi.php';
 $db = new koneksi();
 
 
-function getAllTindakan($db)
+function getAllTindakans($db)
 {
     $sql = "
         SELECT tindakan.*, 
@@ -46,6 +46,7 @@ function createTindakan($db, $id_pasien, $id_dctindakan, $id_diagnosis, $id_medi
     }
 }
 
+
 function updateTindakan($db, $id, $id_pasien, $id_dctindakan, $id_diagnosis, $id_medikamentosa, $tanggal, $durasi, $catatan_dokter)
 {
     $id = intval($id);
@@ -61,7 +62,7 @@ function updateTindakan($db, $id, $id_pasien, $id_dctindakan, $id_diagnosis, $id
             SET id_pasien = '$id_pasien',
                 id_dctindakan = '$id_dctindakan',
                 id_diagnosis = '$id_diagnosis',
-                id_mmedikamentisa = '$id_medikamentosa',
+                id_medikamentosa = '$id_medikamentosa',
                 tanggal = '$tanggal',
                 durasi = '$durasi',
                 catatan_dokter = '$catatan_dokter'
@@ -84,7 +85,7 @@ function deleteTindakan($db, $id)
     $result = $db->deleteData($sql);
 
     if ($result) {
-        header("Location: /view/users/tindakan/index.php");
+        header("Location: /view/admin/tindakan/index.php");
         exit;
     } else {
         echo "Gagal menambahkan konsultasi!";
@@ -95,8 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['action']) && $_POST['action'] === 'tambah_data') {
         $id_pasien = $_POST['id_pasien'];
-        $id_dctindakan = $_POST['id_tindakan'];
-        $id_diagnosis = $_POST['id_dcdiagnosis'];
+        $id_dctindakan = $_POST['id_dctindakan'];
+        $id_diagnosis = $_POST['id_diagnosis'];
         $id_medikamentosa = $_POST['id_medikamentosa'];
         $tanggal = $_POST['tanggal'];
         $durasi = $_POST['durasi'];
@@ -126,6 +127,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($_POST['action'] === 'delete_data') {
             deleteTindakan($db, $_POST['id_tindakan']);
         }
-        
     }
 }
