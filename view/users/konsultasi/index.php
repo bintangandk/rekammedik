@@ -300,10 +300,7 @@ $pasienList = getAllPasien($db);
                                                                 onclick="showKonsultasi(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-danger" onclick="deleteKonsultasi(<?= $data['id_konsultasi'] ?>)">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                            <button class="btn btn-success" onclick="">
+                                                            <button class="btn btn-success" onclick="printKonsultasi(<?= $data['id_konsultasi'] ?>)">
                                                                 <i class="bi bi-printer"></i>
                                                             </button>
                                                         </td>
@@ -590,17 +587,14 @@ $pasienList = getAllPasien($db);
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- / Content -->
-    <form action="../../../controller/Aktivitas.php" id="formDelete" method="POST">
-        <input type="hidden" name="id" id="idDelete">
-        <input type="hidden" name="action" value="delete">
-    </form>
+
     <!-- Footer -->
     <footer class="content-footer footer bg-footer-theme">
         <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
@@ -771,41 +765,11 @@ $pasienList = getAllPasien($db);
     </script>
 
     <script>
-        function deleteKonsultasi(id) {
-            Swal.fire({
-                title: 'Apakah kamu yakin?',
-                text: "Data yang dihapus tidak bisa dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // bikin form hidden untuk submit delete
-                    let form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "../../../controller/konsultasi.php";
-
-                    let inputAction = document.createElement("input");
-                    inputAction.type = "hidden";
-                    inputAction.name = "action";
-                    inputAction.value = "delete_data";
-                    form.appendChild(inputAction);
-
-                    let inputId = document.createElement("input");
-                    inputId.type = "hidden";
-                    inputId.name = "id_konsultasi";
-                    inputId.value = id;
-                    form.appendChild(inputId);
-
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            })
+        function printKonsultasi(id) {
+            window.open('../../../controller/print_konsultasi.php?id=' + id, '_blank');
         }
     </script>
+
 
 </body>
 

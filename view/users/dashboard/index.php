@@ -9,6 +9,11 @@ if (!isset($_SESSION['email'])) {
 
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
+include '../../../controller/konsultasi.php';
+include '../../../controller/tindakan.php';
+
+$totalKonsultasi = countKonsultasiBulanIni($db);
+$totalTindakan = countTindakanBulanIni($db);
 
 $pegawai = new Pegawai();
 $profile = $pegawai->profile();
@@ -264,7 +269,7 @@ $file_peruser = $pegawai->fileperuser();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Konsultasi</span>
-                                                <h3 class="card-title mb-2">20</h3>
+                                                <h3 class="card-title mb-2"><?= $totalKonsultasi ?></h3>
                                                 <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i></small>
                                             </div>
                                         </div>
@@ -278,7 +283,7 @@ $file_peruser = $pegawai->fileperuser();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Tindakan</span>
-                                                <h3 class="card-title mb-2">20</h3>
+                                                <h3 class="card-title mb-2"><?= $totalTindakan ?></h3>
                                                 <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i></small>
                                             </div>
                                         </div>

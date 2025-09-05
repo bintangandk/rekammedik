@@ -12,14 +12,19 @@ if (($_SESSION['role'] != 'admin')) {
 }
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
+include '../../../controller/konsultasi.php';
+include '../../../controller/tindakan.php';
+
+
 $pasien = new Pegawai();
 $data_pasien = $pasien->pasien();
 $profile = $pasien->profile();
 $jumlah_login = $pasien->jumlah_riwayatlogin();
 $jumlah_liatfile = $pasien->jumlah_riwayatfile();
 $jumlah_konsultasi = $pasien->jumlah_konsultasi();
-// var_dump($jumlah_login['total']);
 $unit = $pasien->instalasi();
+$totalKonsultasi = countTotalKonsultasi($db);
+$totalTindakan = countTotalTindakan($db);
 
 ?>
 
@@ -303,8 +308,8 @@ $unit = $pasien->instalasi();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Konsultasi</span>
-                                                <h3 class="card-title mb-2"></h3>
-                                                <small class="text-success fw-semibold"><?= $jumlah_konsultasi["total"]?><i class="bx bx-up-arrow-alt"></i></small>
+                                                <h3 class="card-title mb-2"><?= $totalKonsultasiAll ?></h3>
+                                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i></small>
                                             </div>
                                         </div>
                                     </div>
@@ -317,7 +322,7 @@ $unit = $pasien->instalasi();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Tindakan</span>
-                                                <h3 class="card-title mb-2"></h3>
+                                                <h3 class="card-title mb-2"><?= $totalTindakanAll ?></h3>
                                                 <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i></small>
                                             </div>
                                         </div>
