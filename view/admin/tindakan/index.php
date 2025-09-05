@@ -305,7 +305,7 @@ $pasienList = getAllPasien($db);
                                                             <button class="btn btn-danger" onclick="deleteTindakan(<?= $data['id_tindakan'] ?>)">
                                                                 <i class="bi bi-trash"></i>
                                                             </button>
-                                                            <button class="btn btn-success" onclick="">
+                                                            <button class="btn btn-success" onclick="printTindakan(<?= $data['id_tindakan'] ?>)">
                                                                 <i class="bi bi-printer"></i>
                                                             </button>
                                                         </td>
@@ -602,9 +602,9 @@ $pasienList = getAllPasien($db);
     <script>
         function editTindakan(data) {
             document.getElementById('id_edit').value = data.id_tindakan;
-            document.getElementById('id_pasien_edit').value = data.id_pasien; 
-            document.getElementById('id_diagnosis_edit').value = data.id_diagnosis; 
-            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa; 
+            document.getElementById('id_pasien_edit').value = data.id_pasien;
+            document.getElementById('id_diagnosis_edit').value = data.id_diagnosis;
+            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa;
             document.getElementById('id_dctindakan_edit').value = data.id_dctindakan;
             document.getElementById('tanggal_edit').value = data.tanggal;
             document.getElementById('durasi_edit').value = data.durasi;
@@ -660,6 +660,14 @@ $pasienList = getAllPasien($db);
             })
         }
     </script>
+
+    <script>
+        function printTindakan(id) {
+            window.open('../../../controller/print_tindakan.php?id=' + id, '_blank');
+        }
+    </script>
+
+
 
 </body>
 

@@ -3,6 +3,61 @@ include_once __DIR__ . '/../koneksi.php';
 
 $db = new koneksi();
 
+// Hitung tindakan bulan ini (reset tiap bulan)
+function countTindakanBulanIni($db)
+{
+    $bulan = date('m');
+    $tahun = date('Y');
+
+    $sql = "
+        SELECT COUNT(*) AS total 
+        FROM tindakan 
+        WHERE MONTH(tanggal) = '$bulan' 
+          AND YEAR(tanggal) = '$tahun'
+    ";
+    $result = $db->showData($sql);
+
+    return !empty($result) ? (int)$result[0]['total'] : 0;
+}
+
+// Hitung total semua tindakan (tidak reset)
+function countTotalTindakan($db)
+{
+    $sql = "SELECT COUNT(*) AS total FROM tindakan";
+    $result = $db->showData($sql);
+
+    return !empty($result) ? (int)$result[0]['total'] : 0;
+}
+
+// Hitung tindakan milik pasien tertentu (reset tiap bulan)
+function countTindakanPasienBulanIni($db, $id_user)
+{
+    $bulan = date('m');
+    $tahun = date('Y');
+
+    $sql = "
+        SELECT COUNT(*) AS total 
+        FROM tindakan 
+        WHERE id_user = '$id_user'
+          AND MONTH(tanggal) = '$bulan' 
+          AND YEAR(tanggal) = '$tahun'
+    ";
+    $result = $db->showData($sql);
+
+    return !empty($result) ? (int)$result[0]['total'] : 0;
+}
+
+// Hitung total semua tindakan milik pasien
+function countTotalTindakanPasien($db, $id_user)
+{
+    $sql = "SELECT COUNT(*) AS total FROM tindakan WHERE id_user = '$id_user'";
+    $result = $db->showData($sql);
+
+    return !empty($result) ? (int)$result[0]['total'] : 0;
+}
+
+
+
 
 function getAllTindakans($db)
 {

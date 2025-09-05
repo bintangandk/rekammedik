@@ -302,7 +302,7 @@ $pasienList = getAllPasien($db);
                                                                 onclick="showTindakan(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-success" onclick="">
+                                                            <button class="btn btn-success" onclick="printTindakan(<?= $data['id_tindakan'] ?>)">
                                                                 <i class="bi bi-printer"></i>
                                                             </button>
                                                         </td>
@@ -773,6 +773,12 @@ $pasienList = getAllPasien($db);
             document.getElementById('tanggal_show').value = data.tanggal;
             document.getElementById('durasi_show').value = data.durasi;
             document.getElementById('catatan_dokter_show').value = data.catatan_dokter;
+        }
+    </script>
+
+    <script>
+        function printTindakan(id) {
+            window.open('../../../controller/print_tindakan.php?id=' + id, '_blank');
         }
     </script>
 </body>

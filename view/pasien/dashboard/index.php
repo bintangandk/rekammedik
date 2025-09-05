@@ -12,6 +12,15 @@ if (($_SESSION['role'] != 'pasien')) {
 }
 require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 require '../../../controller/Pegawai.php';
+include '../../../controller/konsultasi.php';
+include '../../../controller/tindakan.php';
+
+
+
+$totalKonsultasiBulanIni = countKonsultasiPasienBulanIni($db, $idPasien);
+$totalKonsultasiAll = countTotalKonsultasiPasien($db, $idPasien);
+$totalTindakanBulanIni = countTindakanPasienBulanIni($db, $idPasien);
+$totalTindakanAll = countTotalTindakanPasien($db, $idPasien);
 $pasien = new Pegawai();
 $profile = $pasien->profile();
 ?>

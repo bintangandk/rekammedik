@@ -297,18 +297,18 @@ $pasienList = getAllPasien($db);
                                                         <td class="text-center"><?= $row['nama_dokter']; ?></td>
 
                                                         <td class="text-center">
-                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
+                                                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
                                                                 onclick="editKonsultasi(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-pencil"></i>
                                                             </button>
-                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
+                                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#showModal"
                                                                 onclick="showKonsultasi(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
                                                             <button class="btn btn-danger" onclick="deleteKonsultasi(<?= $row['id_konsultasi'] ?>)">
                                                                 <i class="bi bi-trash"></i>
                                                             </button>
-                                                            <button class="btn btn-success" onclick="">
+                                                            <button class="btn btn-success" onclick="printKonsultasi(<?= $row['id_konsultasi'] ?>)">
                                                                 <i class="bi bi-printer"></i>
                                                             </button>
                                                         </td>
@@ -338,89 +338,77 @@ $pasienList = getAllPasien($db);
                                     <!-- Modal Header -->
                                     <div class="modal-header">
                                         <h4 class="modal-title">Edit Konsultasi</h4>
-                                        <a data-dismiss="modal">
-                                            <i class="bi bi-x"></i>
-                                        </a>
+                                        <a data-bs-dismiss="modal"><i class="bi bi-x"></i></a>
                                     </div>
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="../../../controller/konsultasi.php" method="POST" enctype="multipart/form-data">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <input type="hidden" name="action" value="update_data">
+                                        <form id="editForm" action="../../../controller/konsultasi.php" method="POST" enctype="multipart/form-data">
+                                            <input type="hidden" name="action" value="update_data">
+                                            <input type="hidden" id="id_edit" name="id_konsultasi">
 
-                                                    <input type="hidden" id="id_edit" name="id_konsultasi">
-
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="id_pasien">Nama Pasien <span class="text-danger">*</span></label>
-                                                            <select id="id_pasien_edit" name="id_pasien" class="form-control" required>
-                                                                <option value="">-- Pilih Pasien --</option>
-                                                                <?php foreach ($pasienList as $row): ?>
-                                                                    <option value="<?= $row['id_pasien']; ?>"><?= $row['nama']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="nama_dokter">Nama Dokter<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_dokter_edit" name="nama_dokter" required></input>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="id_diagnosis">Diagnosis<span class="text-danger">*</span></label>
-                                                            <select id="id_diagnosis_edit" name="id_diagnosis" class="form-control" required>
-                                                                <option value="">-- Pilih Diagnosis--</option>
-                                                                <?php foreach ($diagnosisList as $row): ?>
-                                                                    <option value="<?= $row['id_diagnosis']; ?>"><?= $row['nama_diagnosis']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="id_medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <select id="id_medikamentosa_edit" name="id_medikamentosa" class="form-control" required>
-                                                                <option value="">-- Pilih Diagnosis--</option>
-                                                                <?php foreach ($medikamentosaList as $row): ?>
-                                                                    <option value="<?= $row['id_medikamentosa']; ?>"><?= $row['nama_generik']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
-                                                            <input type="date" class="form-control" id="tanggal_edit" name="tanggal" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="catatan_dokter_edit" name="catatan_dokter" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label>Durasi Konsultasi</label>
-                                                            <input type="time" class="form-control" id="durasi_edit" name="durasi" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div class="form-group">
+                                                <label for="id_pasien_edit">Nama Pasien <span class="text-danger">*</span></label>
+                                                <select id="id_pasien_edit" name="id_pasien" class="form-control" required>
+                                                    <option value="">-- Pilih Pasien --</option>
+                                                    <?php foreach ($pasienList as $row): ?>
+                                                        <option value="<?= $row['id_pasien']; ?>"><?= $row['nama']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
                                             </div>
-                                    </div>
-                                    <!-- Modal Footer -->
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+
+                                            <div class="form-group">
+                                                <label for="nama_dokter_edit">Nama Dokter<span class="text-danger">*</span></label>
+                                                <input class="form-control" id="nama_dokter_edit" name="nama_dokter" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="id_diagnosis_edit">Diagnosis<span class="text-danger">*</span></label>
+                                                <select id="id_diagnosis_edit" name="id_diagnosis" class="form-control" required>
+                                                    <option value="">-- Pilih Diagnosis --</option>
+                                                    <?php foreach ($diagnosisList as $row): ?>
+                                                        <option value="<?= $row['id_diagnosis']; ?>"><?= $row['nama_diagnosis']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="id_medikamentosa_edit">Medikamentosa<span class="text-danger">*</span></label>
+                                                <select id="id_medikamentosa_edit" name="id_medikamentosa" class="form-control" required>
+                                                    <option value="">-- Pilih Medikamentosa --</option>
+                                                    <?php foreach ($medikamentosaList as $row): ?>
+                                                        <option value="<?= $row['id_medikamentosa']; ?>"><?= $row['nama_generik']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tanggal_edit">Tanggal <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" id="tanggal_edit" name="tanggal" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="catatan_dokter_edit">Catatan Dokter<span class="text-danger">*</span></label>
+                                                <textarea class="form-control" id="catatan_dokter_edit" name="catatan_dokter" required></textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="durasi_edit">Durasi Konsultasi</label>
+                                                <input type="time" class="form-control" id="durasi_edit" name="durasi" readonly>
+                                            </div>
                                         </form>
                                     </div>
+
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" form="editForm" class="btn btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Modal Show-->
                         <div class="modal fade" id="showModal">
@@ -430,7 +418,7 @@ $pasienList = getAllPasien($db);
                                     <!-- Modal Header -->
                                     <div class="modal-header">
                                         <h4 class="modal-title">Detail Konsultasi</h4>
-                                        <a data-dismiss="modal">
+                                        <a data-bs-dismiss="modal">
                                             <i class="bi bi-x"></i>
                                         </a>
                                     </div>
@@ -446,49 +434,49 @@ $pasienList = getAllPasien($db);
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="no_rm">No. RM<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="no_rm_show" name="no_rm" required></input>
+                                                            <input class="form-control" id="no_rm_show" name="no_rm" readonly></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="name">Nama Pasien<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_pasien_show" name="name" required></input>
+                                                            <input class="form-control" id="nama_pasien_show" name="name" readonly></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="dokter">Nama Dokter<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_dokter_show" name="dokter" required></input>
+                                                            <input class="form-control" id="nama_dokter_show" name="dokter" readonly></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="diagnosis">Diagnosis<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_diagnosis_show" name="diagnosis" required></input>
+                                                            <input class="form-control" id="nama_diagnosis_show" name="diagnosis" readonly></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_medikamentosa_show" name="medikamentosa" required></input>
+                                                            <input class="form-control" id="nama_medikamentosa_show" name="medikamentosa" readonly></input>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="catatan_dokter_show" name="catatan_dokter" required></textarea>
+                                                            <textarea class="form-control" id="catatan_dokter_show" name="catatan_dokter" readonly></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
-                                                            <input type="date" class="form-control" id="tanggal_show" name="tanggal" required>
+                                                            <input type="date" class="form-control" id="tanggal_show" name="tanggal" readonly>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label>Durasi Konsultasi</label>
-                                                            <input type="time" class="form-control" id="durasi_show" name="durasi" required>
+                                                            <input type="time" class="form-control" id="durasi_show" name="durasi" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -496,7 +484,7 @@ $pasienList = getAllPasien($db);
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
                                         </form>
                                     </div>
                                 </div>
@@ -508,7 +496,7 @@ $pasienList = getAllPasien($db);
         </div>
     </div>
     <!-- / Content -->
-    
+
     <!-- Footer -->
     <footer class="content-footer footer bg-footer-theme">
         <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
@@ -565,9 +553,9 @@ $pasienList = getAllPasien($db);
 
     <!-- modal -->
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
 
-    <!-- Delete alert -->
+    <!-- Sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -592,31 +580,7 @@ $pasienList = getAllPasien($db);
     </script>
 
     <script>
-        function editKonsultasi(data) {
-            document.getElementById('id_edit').value = data.id_konsultasi;
-            document.getElementById('id_pasien_edit').value = data.id_pasien; // id pasien
-            document.getElementById('id_diagnosis_edit').value = data.id_diagnosis; // id diagnosis
-            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa; // id medikamentosa
-            document.getElementById('tanggal_edit').value = data.tanggal;
-            document.getElementById('durasi_edit').value = data.durasi;
-            document.getElementById('nama_dokter_edit').value = data.nama_dokter;
-            document.getElementById('catatan_dokter_edit').value = data.catatan_dokter;
-        }
-
-        function showKonsultasi(data) {
-            document.getElementById('id_show').value = data.id_konsultasi;
-            document.getElementById('no_rm_show').value = data.no_rm;
-            document.getElementById('nama_pasien_show').value = data.nama_pasien;
-            document.getElementById('nama_diagnosis_show').value = data.nama_diagnosis;
-            document.getElementById('nama_medikamentosa_show').value = data.nama_medikamentosa;
-            document.getElementById('tanggal_show').value = data.tanggal;
-            document.getElementById('durasi_show').value = data.durasi;
-            document.getElementById('nama_dokter_show').value = data.nama_dokter;
-            document.getElementById('catatan_dokter_show').value = data.catatan_dokter;
-        }
-    </script>
-
-    <script>
+        // alert confirm delete
         function deleteKonsultasi(id) {
             Swal.fire({
                 title: 'Apakah kamu yakin?',
@@ -652,6 +616,109 @@ $pasienList = getAllPasien($db);
             })
         }
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const editForm = document.getElementById("editForm");
+
+            if (!editForm) return; // kalau form tidak ada, langsung stop
+
+            console.log("✅ Event listener editForm terpasang");
+
+            editForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(editForm);
+
+                fetch("../../../controller/konsultasi.php", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.text()) // ambil raw response dulu
+                    .then(text => {
+                        console.log("📩 Raw response dari server:", text);
+
+                        let data;
+                        try {
+                            data = JSON.parse(text); // coba parse JSON
+                        } catch (e) {
+                            console.error("❌ JSON parse error:", e);
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Response server tidak valid!"
+                            });
+                            return;
+                        }
+
+                        // ✅ jika sukses
+                        if (data.status === "success") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil!",
+                                text: data.message,
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            setTimeout(() => {
+                                $("#editModal").modal("hide");
+                                location.reload();
+                            }, 2000);
+
+                            // ❌ jika gagal
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: data.message || "Terjadi kesalahan!"
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        console.error("❌ Fetch error:", err);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Terjadi kesalahan pada server!"
+                        });
+                    });
+            });
+        });
+    </script>
+
+
+    <script>
+        function editKonsultasi(data) {
+            document.getElementById('id_edit').value = data.id_konsultasi;
+            document.getElementById('id_pasien_edit').value = data.id_pasien; // id pasien
+            document.getElementById('id_diagnosis_edit').value = data.id_diagnosis; // id diagnosis
+            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa; // id medikamentosa
+            document.getElementById('tanggal_edit').value = data.tanggal;
+            document.getElementById('durasi_edit').value = data.durasi;
+            document.getElementById('nama_dokter_edit').value = data.nama_dokter;
+            document.getElementById('catatan_dokter_edit').value = data.catatan_dokter;
+        }
+
+        function showKonsultasi(data) {
+            document.getElementById('id_show').value = data.id_konsultasi;
+            document.getElementById('no_rm_show').value = data.no_rm;
+            document.getElementById('nama_pasien_show').value = data.nama_pasien;
+            document.getElementById('nama_diagnosis_show').value = data.nama_diagnosis;
+            document.getElementById('nama_medikamentosa_show').value = data.nama_medikamentosa;
+            document.getElementById('tanggal_show').value = data.tanggal;
+            document.getElementById('durasi_show').value = data.durasi;
+            document.getElementById('nama_dokter_show').value = data.nama_dokter;
+            document.getElementById('catatan_dokter_show').value = data.catatan_dokter;
+        }
+    </script>
+
+    <script>
+        function printKonsultasi(id) {
+            window.open('../../../controller/print_konsultasi.php?id=' + id, '_blank');
+        }
+    </script>
+
 
 </body>
 

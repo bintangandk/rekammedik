@@ -3,6 +3,61 @@ include_once __DIR__ . '/../koneksi.php';
 
 $db = new koneksi();
 
+// Hitung konsultasi bulan ini (reset tiap bulan)
+function countKonsultasiBulanIni($db)
+{
+    $bulan = date('m');
+    $tahun = date('Y');
+
+    $sql = "
+        SELECT COUNT(*) AS total 
+        FROM konsultasi 
+        WHERE MONTH(tanggal) = '$bulan' 
+          AND YEAR(tanggal) = '$tahun'
+    ";
+    $result = $db->showData($sql);
+
+    return !empty($result) ? (int)$result[0]['total'] : 0;
+}
+
+// Hitung total semua konsultasi (tidak reset)
+function countTotalKonsultasi($db)
+{
+    $sql = "SELECT COUNT(*) AS total FROM konsultasi";
+    $result = $db->showData($sql);
+
+    return !empty($result) ? (int)$result[0]['total'] : 0;
+}
+
+// Hitung konsultasi milik pasien tertentu (reset tiap bulan)
+function countKonsultasiPasienBulanIni($db, $id_user)
+{
+    $bulan = date('m');
+    $tahun = date('Y');
+
+    $sql = "
+        SELECT COUNT(*) AS total 
+        FROM konsultasi 
+        WHERE id_user = '$id_user'
+          AND MONTH(tanggal) = '$bulan' 
+          AND YEAR(tanggal) = '$tahun'
+    ";
+    $result = $db->showData($sql);
+
+    return !empty($result) ? (int)$result[0]['total'] : 0;
+}
+
+// Hitung total semua konsultasi milik pasien
+function countTotalKonsultasiPasien($db, $id_user)
+{
+    $sql = "SELECT COUNT(*) AS total FROM konsultasi WHERE id_user = '$id_user'";
+    $result = $db->showData($sql);
+
+    return !empty($result) ? (int)$result[0]['total'] : 0;
+}
+
+
+
 function getAllKonsultasi($db)
 {
     $sql = "
@@ -47,6 +102,11 @@ function createKonsultasi($db, $id_pasien, $id_diagnosis, $id_medikamentosa, $ta
 
 function updateKonsultasi($db, $id, $id_pasien, $id_diagnosis, $id_medikamentosa, $tanggal, $durasi, $nama_dokter, $catatan_dokter)
 {
+    // Pastikan tidak ada output sampah
+    if (ob_get_length()) {
+        ob_end_clean();
+    }
+
     $id = intval($id);
     $id_pasien = $db->escapeString($id_pasien);
     $id_diagnosis = $db->escapeString($id_diagnosis);
@@ -68,13 +128,21 @@ function updateKonsultasi($db, $id, $id_pasien, $id_diagnosis, $id_medikamentosa
 
     $result = $db->updateData($sql);
 
+    header('Content-Type: application/json; charset=utf-8');
     if ($result) {
-        header("Location: /view/users/konsultasi/index.php");
-        exit;
+        echo json_encode([
+            "status" => "success",
+            "message" => "Data berhasil diperbarui!"
+        ]);
     } else {
-        echo "Gagal menambahkan konsultasi!";
+        echo json_encode([
+            "status" => "error",
+            "message" => "Gagal memperbarui data!"
+        ]);
     }
+    exit;
 }
+
 
 function deletekonsultasi($db, $id)
 {
@@ -126,7 +194,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($_POST['action'] === 'delete_data') {
             deletekonsultasi($db, $_POST['id_konsultasi']);
         }
-        
     }
-
 }

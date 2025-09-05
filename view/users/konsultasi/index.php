@@ -300,7 +300,7 @@ $pasienList = getAllPasien($db);
                                                                 onclick="showKonsultasi(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-success" onclick="">
+                                                            <button class="btn btn-success" onclick="printKonsultasi(<?= $data['id_konsultasi'] ?>)">
                                                                 <i class="bi bi-printer"></i>
                                                             </button>
                                                         </td>
@@ -587,14 +587,14 @@ $pasienList = getAllPasien($db);
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- / Content -->
-   
+
     <!-- Footer -->
     <footer class="content-footer footer bg-footer-theme">
         <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
@@ -761,6 +761,12 @@ $pasienList = getAllPasien($db);
             document.getElementById('durasi_show').value = data.durasi;
             document.getElementById('nama_dokter_show').value = data.nama_dokter;
             document.getElementById('catatan_dokter_show').value = data.catatan_dokter;
+        }
+    </script>
+
+    <script>
+        function printKonsultasi(id) {
+            window.open('../../../controller/print_konsultasi.php?id=' + id, '_blank');
         }
     </script>
 
