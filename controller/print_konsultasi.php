@@ -85,7 +85,7 @@ $mpdf->WriteHTML($html);
 
 $mpdf->SetHTMLFooter("
     <div style='text-align: right; font-size: 10pt;'>
-        Dicetak pada: ".date('d-m-Y H:i:s')."
+        Dicetak pada: ".date('d-m-Y')."
     </div>
 ");
 

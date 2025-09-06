@@ -102,10 +102,6 @@ function createKonsultasi($db, $id_pasien, $id_diagnosis, $id_medikamentosa, $ta
 
 function updateKonsultasi($db, $id, $id_pasien, $id_diagnosis, $id_medikamentosa, $tanggal, $durasi, $nama_dokter, $catatan_dokter)
 {
-    // Pastikan tidak ada output sampah
-    if (ob_get_length()) {
-        ob_end_clean();
-    }
 
     $id = intval($id);
     $id_pasien = $db->escapeString($id_pasien);
@@ -129,6 +125,7 @@ function updateKonsultasi($db, $id, $id_pasien, $id_diagnosis, $id_medikamentosa
     $result = $db->updateData($sql);
 
     header('Content-Type: application/json; charset=utf-8');
+    ob_clean(); 
     if ($result) {
         echo json_encode([
             "status" => "success",

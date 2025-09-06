@@ -31,6 +31,14 @@ $pasienList = getAllPasien($db);
 
 ?>
 
+<style>
+    .swal2-container {
+        z-index: 20000 !important;
+        /* pastikan lebih tinggi dari modal bootstrap */
+    }
+</style>
+
+
 <!DOCTYPE html>
 
 
@@ -558,6 +566,7 @@ $pasienList = getAllPasien($db);
     <!-- Sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
     <script>
         document.getElementById('logout-link').addEventListener('click', function(event) {
             event.preventDefault(); // Mencegah tautan default
@@ -580,53 +589,13 @@ $pasienList = getAllPasien($db);
     </script>
 
     <script>
-        // alert confirm delete
-        function deleteKonsultasi(id) {
-            Swal.fire({
-                title: 'Apakah kamu yakin?',
-                text: "Data yang dihapus tidak bisa dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // bikin form hidden untuk submit delete
-                    let form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "../../../controller/konsultasi.php";
-
-                    let inputAction = document.createElement("input");
-                    inputAction.type = "hidden";
-                    inputAction.name = "action";
-                    inputAction.value = "delete_data";
-                    form.appendChild(inputAction);
-
-                    let inputId = document.createElement("input");
-                    inputId.type = "hidden";
-                    inputId.name = "id_konsultasi";
-                    inputId.value = id;
-                    form.appendChild(inputId);
-
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            })
-        }
-    </script>
-
-    <script>
         document.addEventListener("DOMContentLoaded", function() {
             const editForm = document.getElementById("editForm");
 
-            if (!editForm) return; // kalau form tidak ada, langsung stop
-
-            console.log("✅ Event listener editForm terpasang");
+            if (!editForm) return;
 
             editForm.addEventListener("submit", function(e) {
-                e.preventDefault();
+                e.preventDefault(); // cegah reload default
 
                 const formData = new FormData(editForm);
 
@@ -634,53 +603,34 @@ $pasienList = getAllPasien($db);
                         method: "POST",
                         body: formData
                     })
-                    .then(response => response.text()) // ambil raw response dulu
-                    .then(text => {
-                        console.log("📩 Raw response dari server:", text);
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire({
+                            icon: data.status === "success" ? "success" : "error",
+                            title: data.status === "success" ? "Berhasil!" : "Oops...",
+                            text: data.message,
+                            confirmButtonText: "OK",
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then((result) => {
+                            if (result.isConfirmed && data.status === "success") {
+                                const modalEl = document.getElementById("editModal");
+                                const modal = bootstrap.Modal.getInstance(modalEl);
+                                if (modal) modal.hide();
 
-                        let data;
-                        try {
-                            data = JSON.parse(text); // coba parse JSON
-                        } catch (e) {
-                            console.error("❌ JSON parse error:", e);
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops...",
-                                text: "Response server tidak valid!"
-                            });
-                            return;
-                        }
-
-                        // ✅ jika sukses
-                        if (data.status === "success") {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Berhasil!",
-                                text: data.message,
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
-
-                            setTimeout(() => {
-                                $("#editModal").modal("hide");
-                                location.reload();
-                            }, 2000);
-
-                            // ❌ jika gagal
-                        } else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops...",
-                                text: data.message || "Terjadi kesalahan!"
-                            });
-                        }
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 500);
+                            }
+                        });
                     })
                     .catch(err => {
                         console.error("❌ Fetch error:", err);
                         Swal.fire({
                             icon: "error",
                             title: "Oops...",
-                            text: "Terjadi kesalahan pada server!"
+                            text: "Terjadi kesalahan pada server!",
+                            confirmButtonText: "OK"
                         });
                     });
             });
