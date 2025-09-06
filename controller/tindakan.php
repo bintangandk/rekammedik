@@ -125,12 +125,20 @@ function updateTindakan($db, $id, $id_pasien, $id_dctindakan, $id_diagnosis, $id
 
     $result = $db->updateData($sql);
 
+    header('Content-Type: application/json; charset=utf-8');
+    ob_clean();
     if ($result) {
-        header("Location: /view/users/tindakan/index.php");
-        exit;
+        echo json_encode([
+            "status" => "success",
+            "message" => "Data berhasil diperbarui!"
+        ]);
     } else {
-        echo "Gagal menambahkan konsultasi!";
+        echo json_encode([
+            "status" => "error",
+            "message" => "Gagal memperbarui data!"
+        ]);
     }
+    exit;
 }
 
 function deleteTindakan($db, $id)

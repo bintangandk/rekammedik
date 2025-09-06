@@ -30,6 +30,12 @@ $pasienList = getAllPasien($db);
 
 ?>
 
+<style>
+    .swal2-container {
+        z-index: 20000 !important;
+    }
+</style>
+
 <!DOCTYPE html>
 
 
@@ -248,7 +254,7 @@ $pasienList = getAllPasien($db);
                         <div class="card shadow mb-3">
                             <div class="card-header py-3 d-flex justify-content-end gap-2">
                                 <!-- Insert Button -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insertModal">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#insertModal">
                                     <i class="bi bi-pencil"></i>
                                     <i class="bi bi-plus"></i>
                                 </button>
@@ -292,11 +298,11 @@ $pasienList = getAllPasien($db);
                                                         <td class="text-center"><?= $data['nama_dokter']; ?></td>
 
                                                         <td class="text-center">
-                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
+                                                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
                                                                 onclick="editKonsultasi(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-pencil"></i>
                                                             </button>
-                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
+                                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#showModal"
                                                                 onclick="showKonsultasi(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
@@ -326,7 +332,7 @@ $pasienList = getAllPasien($db);
                                     <!-- Modal Header -->
                                     <div class="modal-header">
                                         <h4 class="modal-title">Tambah Konsultasi</h4>
-                                        <a data-dismiss="modal">
+                                        <a data-bs-dismiss="modal">
                                             <i class="bi bi-x"></i>
                                         </a>
                                     </div>
@@ -408,7 +414,7 @@ $pasienList = getAllPasien($db);
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <button type="button" id="btnBatal" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                        <button type="button" id="btnBatal" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                                     </div>
                                     </form>
                                 </div>
@@ -423,86 +429,73 @@ $pasienList = getAllPasien($db);
                                     <!-- Modal Header -->
                                     <div class="modal-header">
                                         <h4 class="modal-title">Edit Konsultasi</h4>
-                                        <a data-dismiss="modal">
-                                            <i class="bi bi-x"></i>
-                                        </a>
+                                        <a data-bs-dismiss="modal"><i class="bi bi-x"></i></a>
                                     </div>
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="../../../controller/konsultasi.php" method="POST" enctype="multipart/form-data">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <input type="hidden" name="action" value="update_data">
+                                        <form id="editForm" action="../../../controller/konsultasi.php" method="POST" enctype="multipart/form-data">
+                                            <input type="hidden" name="action" value="update_data">
+                                            <input type="hidden" id="id_edit" name="id_konsultasi">
 
-                                                    <input type="hidden" id="id_edit" name="id_konsultasi">
-
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="id_pasien">Nama Pasien <span class="text-danger">*</span></label>
-                                                            <select id="id_pasien_edit" name="id_pasien" class="form-control" required>
-                                                                <option value="">-- Pilih Pasien --</option>
-                                                                <?php foreach ($pasienList as $row): ?>
-                                                                    <option value="<?= $row['id_pasien']; ?>"><?= $row['nama']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="nama_dokter">Nama Dokter<span class="text-danger">*</span></label>
-                                                            <input class="form-control" id="nama_dokter_edit" name="nama_dokter" required></input>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="id_diagnosis">Diagnosis<span class="text-danger">*</span></label>
-                                                            <select id="id_diagnosis_edit" name="id_diagnosis" class="form-control" required>
-                                                                <option value="">-- Pilih Diagnosis--</option>
-                                                                <?php foreach ($diagnosisList as $row): ?>
-                                                                    <option value="<?= $row['id_diagnosis']; ?>"><?= $row['nama_diagnosis']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="id_medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <select id="id_medikamentosa_edit" name="id_medikamentosa" class="form-control" required>
-                                                                <option value="">-- Pilih Diagnosis--</option>
-                                                                <?php foreach ($medikamentosaList as $row): ?>
-                                                                    <option value="<?= $row['id_medikamentosa']; ?>"><?= $row['nama_generik']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
-                                                            <input type="date" class="form-control" id="tanggal_edit" name="tanggal" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
-                                                            <textarea class="form-control" id="catatan_dokter_edit" name="catatan_dokter" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-20">
-                                                        <div class="form-group">
-                                                            <label>Durasi Konsultasi</label>
-                                                            <input type="time" class="form-control" id="durasi_edit" name="durasi" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div class="form-group">
+                                                <label for="id_pasien_edit">Nama Pasien <span class="text-danger">*</span></label>
+                                                <select id="id_pasien_edit" name="id_pasien" class="form-control" required>
+                                                    <option value="">-- Pilih Pasien --</option>
+                                                    <?php foreach ($pasienList as $row): ?>
+                                                        <option value="<?= $row['id_pasien']; ?>"><?= $row['nama']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
                                             </div>
-                                    </div>
-                                    <!-- Modal Footer -->
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+
+                                            <div class="form-group">
+                                                <label for="nama_dokter_edit">Nama Dokter<span class="text-danger">*</span></label>
+                                                <input class="form-control" id="nama_dokter_edit" name="nama_dokter" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="id_diagnosis_edit">Diagnosis<span class="text-danger">*</span></label>
+                                                <select id="id_diagnosis_edit" name="id_diagnosis" class="form-control" required>
+                                                    <option value="">-- Pilih Diagnosis --</option>
+                                                    <?php foreach ($diagnosisList as $row): ?>
+                                                        <option value="<?= $row['id_diagnosis']; ?>"><?= $row['nama_diagnosis']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="id_medikamentosa_edit">Medikamentosa<span class="text-danger">*</span></label>
+                                                <select id="id_medikamentosa_edit" name="id_medikamentosa" class="form-control" required>
+                                                    <option value="">-- Pilih Medikamentosa --</option>
+                                                    <?php foreach ($medikamentosaList as $row): ?>
+                                                        <option value="<?= $row['id_medikamentosa']; ?>"><?= $row['nama_generik']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tanggal_edit">Tanggal <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" id="tanggal_edit" name="tanggal" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="catatan_dokter_edit">Catatan Dokter<span class="text-danger">*</span></label>
+                                                <textarea class="form-control" id="catatan_dokter_edit" name="catatan_dokter" required></textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="durasi_edit">Durasi Konsultasi</label>
+                                                <input type="time" class="form-control" id="durasi_edit" name="durasi" readonly>
+                                            </div>
                                         </form>
                                     </div>
+
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" form="editForm" class="btn btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -515,7 +508,7 @@ $pasienList = getAllPasien($db);
                                     <!-- Modal Header -->
                                     <div class="modal-header">
                                         <h4 class="modal-title">Detail Konsultasi</h4>
-                                        <a data-dismiss="modal">
+                                        <a data-bs-dismiss="modal">
                                             <i class="bi bi-x"></i>
                                         </a>
                                     </div>
@@ -581,7 +574,7 @@ $pasienList = getAllPasien($db);
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
                                         </form>
                                     </div>
                                 </div>
@@ -649,8 +642,7 @@ $pasienList = getAllPasien($db);
     <!-- Page level custom scripts -->
     <script src="../../../assets/js/demo/datatables-demo.js"></script>
 
-    <!-- modal -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+   
 
     <!-- Delete alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -762,6 +754,55 @@ $pasienList = getAllPasien($db);
             document.getElementById('nama_dokter_show').value = data.nama_dokter;
             document.getElementById('catatan_dokter_show').value = data.catatan_dokter;
         }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const editForm = document.getElementById("editForm");
+
+            if (!editForm) return;
+
+            editForm.addEventListener("submit", function(e) {
+                e.preventDefault(); // cegah reload default
+
+                const formData = new FormData(editForm);
+
+                fetch("../../../controller/konsultasi.php", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire({
+                            icon: data.status === "success" ? "success" : "error",
+                            title: data.status === "success" ? "Berhasil!" : "Oops...",
+                            text: data.message,
+                            confirmButtonText: "OK",
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then((result) => {
+                            if (result.isConfirmed && data.status === "success") {
+                                const modalEl = document.getElementById("editModal");
+                                const modal = bootstrap.Modal.getInstance(modalEl);
+                                if (modal) modal.hide();
+
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 500);
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        console.error("❌ Fetch error:", err);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Terjadi kesalahan pada server!",
+                            confirmButtonText: "OK"
+                        });
+                    });
+            });
+        });
     </script>
 
     <script>
