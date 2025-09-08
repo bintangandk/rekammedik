@@ -9,29 +9,50 @@ function getAllAkun($db)
     return $db->showData($sql);
 }
 
-
-function createAkunPasien($db, $email, $password, $role, $no_telfon, $Nama, $gambar)
+function getPasienWithoutAkun($db)
 {
+    $sql = "SELECT id_pasien, nama FROM pasien WHERE id_user IS NULL ORDER BY nama ASC";
+    return $db->showData($sql);
+}
 
+
+function createAkunPasien($db, $id_pasien, $email, $password, $role, $no_telfon, $gambar)
+{
     $email = $db->escapeString($email);
-    $password = $db->escapeString($password);
+    $password = password_hash($db->escapeString($password), PASSWORD_BCRYPT);
     $role = $db->escapeString($role);
     $no_telfon = $db->escapeString($no_telfon);
-    $Nama = $db->escapeString($Nama);
     $gambar = $db->escapeString($gambar);
 
-    $sql = "INSERT INTO users (email, password, role, no_telfon, Nama, gambar)
-    VALUES ('$email', '$password', '$role', '$no_telfon', '$Nama', '$gambar')";
+    // Ambil nama pasien dari tabel pasien
+    $pasien = $db->showData("SELECT nama FROM pasien WHERE id_pasien = $id_pasien LIMIT 1");
+    if (!$pasien) {
+        echo "Pasien tidak ditemukan!";
+        return;
+    }
+    $nama = $db->escapeString($pasien[0]['nama']);
 
+    // 1. Insert ke tabel users (termasuk Nama)
+    $sql = "INSERT INTO users (email, password, role, no_telfon, Nama, gambar)
+            VALUES ('$email', '$password', '$role', '$no_telfon', '$nama', '$gambar')";
     $result = $db->insertData($sql);
 
     if ($result) {
+        // Ambil id_user terakhir
+        $id_user = $db->getlastId();
+
+        // 2. Update tabel pasien agar terhubung dengan user
+        $update = "UPDATE pasien SET id_user = $id_user WHERE id_pasien = $id_pasien";
+        $db->updateData($update);
+
         header("Location: /view/admin/akun-pasien/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan tindakan";
+        echo "Gagal menambahkan akun pasien";
     }
 }
+
+
 
 function updateAkunPasien($db, $id_user, $email, $password, $role, $no_telfon, $Nama, $gambar)
 {
@@ -81,14 +102,14 @@ function deleteAkunPasien($db, $id_user)
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST['action']) && $_POST['action'] === 'tambah_data') {
+        $id_pasien = $_POST['id_pasien'];
         $email = $_POST['email'];
         $password = $_POST['password'];
         $role = $_POST['role'];
         $no_telfon = $_POST['no_telfon'];
-        $Nama = $_POST['Nama'];
         $gambar = $_POST['gambar'];
 
-        createAkunPasien($db, $email, $password, $role, $no_telfon, $Nama, $gambar);
+        createAkunPasien($db, $id_pasien, $email, $password, $role, $no_telfon, $gambar);
     }
 
     if (isset($_POST['action']) && $_POST['action'] === 'update_data') {

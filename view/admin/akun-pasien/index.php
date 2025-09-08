@@ -14,6 +14,7 @@ require '../../../koneksi.php';
 include '../../../controller/akunPasien.php';
 
 $akuns = getAllAkun($db);
+$pasienList = getPasienWithoutAkun($db);
 
 ?>
 
@@ -320,8 +321,13 @@ $akuns = getAllAkun($db);
 
                             <!-- Input Nama Lengkap -->
                             <div class="form-group">
-                              <label for="Nama">Nama Lengkap <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="Nama" name="Nama" placeholder="Masukkan Nama Lengkap" required>
+                              <label for="id_pasien">Pilih Pasien <span class="text-danger">*</span></label>
+                              <select class="form-control" id="id_pasien" name="id_pasien" required>
+                                <option value="">-- Pilih Pasien --</option>
+                                <?php foreach ($pasienList as $pasien): ?>
+                                  <option value="<?= $pasien['id_pasien'] ?>"><?= $pasien['nama'] ?></option>
+                                <?php endforeach; ?>
+                              </select>
                             </div>
 
                             <!-- Input Email -->

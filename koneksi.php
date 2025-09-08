@@ -67,4 +67,9 @@ class koneksi
     {
         return $this->conn->query($query);
     }
+
+    public function getlastId()
+    {
+        return mysqli_insert_id($this->conn);
+    }
 }

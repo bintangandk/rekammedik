@@ -29,31 +29,38 @@ function countTotalKonsultasi($db)
     return !empty($result) ? (int)$result[0]['total'] : 0;
 }
 
-// Hitung konsultasi milik pasien tertentu (reset tiap bulan)
-function countKonsultasiPasienBulanIni($db, $id_user)
+// Hitung konsultasi bulan ini (untuk pasien tertentu)
+function countKonsultasiBulanIniByPasien($db, $id_pasien)
 {
     $bulan = date('m');
     $tahun = date('Y');
+    $id_pasien = (int) $id_pasien;
 
     $sql = "
         SELECT COUNT(*) AS total 
         FROM konsultasi 
-        WHERE id_user = '$id_user'
-          AND MONTH(tanggal) = '$bulan' 
+        WHERE MONTH(tanggal) = '$bulan' 
           AND YEAR(tanggal) = '$tahun'
+          AND id_pasien = $id_pasien
     ";
     $result = $db->showData($sql);
 
-    return !empty($result) ? (int)$result[0]['total'] : 0;
+    return !empty($result) ? (int) $result[0]['total'] : 0;
 }
 
-// Hitung total semua konsultasi milik pasien
-function countTotalKonsultasiPasien($db, $id_user)
+// Hitung total semua konsultasi (untuk pasien tertentu)
+function countTotalKonsultasiByPasien($db, $id_pasien)
 {
-    $sql = "SELECT COUNT(*) AS total FROM konsultasi WHERE id_user = '$id_user'";
+    $id_pasien = (int) $id_pasien;
+
+    $sql = "
+        SELECT COUNT(*) AS total 
+        FROM konsultasi
+        WHERE id_pasien = $id_pasien
+    ";
     $result = $db->showData($sql);
 
-    return !empty($result) ? (int)$result[0]['total'] : 0;
+    return !empty($result) ? (int) $result[0]['total'] : 0;
 }
 
 
@@ -74,6 +81,27 @@ function getAllKonsultasi($db)
     ";
     return $db->showData($sql);
 }
+
+function getKonsultasiByPasien($db, $id_pasien)
+{
+    $sql = "
+        SELECT konsultasi.*, 
+               pasien.nama AS nama_pasien, 
+               pasien.no_rm, 
+               diagnosis.nama_diagnosis, 
+               medikamentosa.nama_generik AS nama_medikamentosa
+        FROM konsultasi
+        LEFT JOIN pasien ON konsultasi.id_pasien = pasien.id_pasien
+        LEFT JOIN dic_diagnosis AS diagnosis ON konsultasi.id_diagnosis = diagnosis.id_diagnosis
+        LEFT JOIN dic_medikamentosa AS medikamentosa ON konsultasi.id_medikamentosa = medikamentosa.id_medikamentosa
+        WHERE konsultasi.id_pasien = '$id_pasien'
+        ORDER BY konsultasi.id_konsultasi DESC
+    ";
+    return $db->showData($sql);
+}
+
+
+
 
 
 function createKonsultasi($db, $id_pasien, $id_diagnosis, $id_medikamentosa, $tanggal, $durasi, $nama_dokter, $catatan_dokter)
@@ -125,7 +153,7 @@ function updateKonsultasi($db, $id, $id_pasien, $id_diagnosis, $id_medikamentosa
     $result = $db->updateData($sql);
 
     header('Content-Type: application/json; charset=utf-8');
-    ob_clean(); 
+    ob_clean();
     if ($result) {
         echo json_encode([
             "status" => "success",
