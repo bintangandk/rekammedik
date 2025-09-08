@@ -1,27 +1,39 @@
 <?php
 session_start();
-if (!isset($_SESSION['email'])) {
+
+$id_user = $_SESSION['id_user'] ?? null;
+if (!$id_user) {
     header('Location: ../../auth/login.php');
     exit();
 }
-if (($_SESSION['role'] != 'pasien')) {
+
+if ($_SESSION['role'] != 'pasien') {
     header('Location: ../../admin/dashboard/index.php');
-    # code...
+    exit();
 }
-require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
-require '../../../controller/Pegawai.php';
-include '../../../controller/konsultasi.php';
-include '../../../controller/tindakan.php';
 
+// Load dependency
+require_once '../../../koneksi.php';
+require_once '../../../controller/Pegawai.php';
+require_once '../../../controller/konsultasi.php';
+require_once '../../../controller/tindakan.php';   // <-- perlu kalau mau hitung tindakan juga
+require_once '../../../controller/pasien_helper.php';
 
-
-$totalKonsultasiBulanIni = countKonsultasiPasienBulanIni($db, $idPasien);
-$totalKonsultasiAll = countTotalKonsultasiPasien($db, $idPasien);
-$totalTindakanBulanIni = countTindakanPasienBulanIni($db, $idPasien);
-$totalTindakanAll = countTotalTindakanPasien($db, $idPasien);
+// Gunakan class dan helper
 $pasien = new Pegawai();
 $profile = $pasien->profile();
+
+$id_pasien = getIdPasienByUser($db, $id_user);
+
+// --- Ringkasan data (bukan list data) ---
+$count_konsultasi_bulan_ini = $id_pasien ? countKonsultasiBulanIniByPasien($db, $id_pasien) : 0;
+$count_total_konsultasi     = $id_pasien ? countTotalKonsultasiByPasien($db, $id_pasien)     : 0;
+
+$count_tindakan_bulan_ini   = $id_pasien ? countTindakanBulanIniByPasien($db, $id_pasien)   : 0;
+$count_total_tindakan       = $id_pasien ? countTotalTindakanByPasien($db, $id_pasien)     : 0;
+
 ?>
+
 
 <!DOCTYPE html>
 
@@ -216,7 +228,7 @@ $profile = $pasien->profile();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Konsultasi</span>
-                                                <h3 class="card-title mb-2"></h3>
+                                                <h3 class="card-title mb-2"><?= $count_total_konsultasi ?></h3>
                                                 <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i></small>
                                             </div>
                                         </div>
@@ -230,7 +242,7 @@ $profile = $pasien->profile();
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Tindakan</span>
-                                                <h3 class="card-title mb-2"></h3>
+                                                <h3 class="card-title mb-2"><?= $count_total_tindakan  ?></h3>
                                                 <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i></small>
                                             </div>
                                         </div>
@@ -238,28 +250,6 @@ $profile = $pasien->profile();
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-lg-12 col-md-6 order-1 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body px-0">
-                                    <div class="tab-content p-0">
-                                        <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
-                                            <div class="d-flex p-4 pt-3">
-                                                <div class="avatar flex-shrink-0 me-3">
-                                                    <img src="../../../assets/img/icons/unicons/chart.png" alt="User" />
-                                                </div>
-                                                <div>
-                                                    <small class="text-muted d-block">Grafik Data</small>
-                                                    <div class="d-flex align-items-center">
-                                                        <h6 class="mb-0 me-1">Pasien</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="incomeChart"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
 
 

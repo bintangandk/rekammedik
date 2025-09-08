@@ -1,19 +1,29 @@
 <?php
 session_start();
-// include '../koneksi.php';
-// include '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
-if (!isset($_SESSION['email'])) {
+
+$id_user = $_SESSION['id_user'] ?? null;
+if (!$id_user) {
     header('Location: ../../auth/login.php');
     exit();
 }
-if (($_SESSION['role'] != 'pasien')) {
+
+if ($_SESSION['role'] != 'pasien') {
     header('Location: ../../admin/dashboard/index.php');
-    # code...
+    exit();
 }
-require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
-require '../../../controller/Pegawai.php';
+
+// Load dependencies sekali saja
+require_once '../../../koneksi.php'; 
+require_once '../../../controller/Pegawai.php';
+require_once '../../../controller/tindakan.php';
+require_once '../../../controller/pasien_helper.php';
+
+// Pakai class dan helper
 $pasien = new Pegawai();
 $profile = $pasien->profile();
+$id_pasien = getIdPasienByUser($db, $id_user);
+$tindakans = $id_pasien ? getTindakansByIdPasien($db, $id_pasien) : [];
+
 ?>
 
 <!DOCTYPE html>
@@ -133,9 +143,9 @@ $profile = $pasien->profile();
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-                    
-                      <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                   
+
+                    <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -145,9 +155,9 @@ $profile = $pasien->profile();
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
 
-                            
-                              <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                           
+
+                            <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+
 
                           </div>
                         </div>
@@ -196,10 +206,6 @@ $profile = $pasien->profile();
             <!-- Table Data Pasien -->
             <div class="card shadow mb-3">
               <div class="card-header py-3 d-flex justify-content-end">
-                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#printModal">
-                  <i class="bi bi-printer"></i>
-                  Cetak
-                </button>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -207,6 +213,7 @@ $profile = $pasien->profile();
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
+                        <th class="tex-center">No. RM</th>
                         <th class="text-center">Diagnosis</th>
                         <th class="text-center">Medikamentosa</th>
                         <th class="text-center">Tanggal</th>
@@ -216,6 +223,7 @@ $profile = $pasien->profile();
                     <tfoot>
                       <tr>
                         <th class="text-center">No</th>
+                        <th class="tex-center">No. RM</th>
                         <th class="text-center">Diagnosis</th>
                         <th class="text-center">Medikamentosa</th>
                         <th class="text-center">Tanggal</th>
@@ -223,16 +231,23 @@ $profile = $pasien->profile();
                       </tr>
                     </tfoot>
                     <tbody>
-                    
+                      <?php if (!empty($tindakans)): ?>
+                        <?php $no = 1;
+                        foreach ($tindakans as $data): ?>
+                          <tr>
+                            <td class="text-center"><?= $no++; ?></td>
+                            <td class="text-center"><?= $data['no_rm'] ?></td>
+                            <td class="text-center"><?= $data['nama_pasien']; ?></td>
+                            <td class="text-center"><?= $data['nama_tindakan']; ?></td>
+                            <td class="text-center"><?= $data['tanggal']; ?></td>
+                            <td class="text-center"><?= $data['durasi']; ?></td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php else: ?>
                         <tr>
-                          <td class="text-center"></td>
-                          <td class="text-center"></td>
-                          <td class="text-center"></td>
-                          <td class="text-center"></td>
-                          <td class="text-center"></td>
+                          <td class="text-center" colspan="7">Tidak ada data</td>
                         </tr>
-                     
-
+                      <?php endif; ?>
                     </tbody>
                   </table>
                 </div>
@@ -345,7 +360,7 @@ $profile = $pasien->profile();
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
   <!-- logout script -->
-  <!-- <script>
+  <script>
     document.getElementById('logout-link').addEventListener('click', function(event) {
       event.preventDefault(); // Mencegah tautan default
 
@@ -364,7 +379,7 @@ $profile = $pasien->profile();
         }
       });
     });
-  </script> -->
+  </script>
 
   <!-- Delete alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

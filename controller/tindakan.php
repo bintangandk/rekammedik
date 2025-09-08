@@ -29,33 +29,57 @@ function countTotalTindakan($db)
     return !empty($result) ? (int)$result[0]['total'] : 0;
 }
 
-// Hitung tindakan milik pasien tertentu (reset tiap bulan)
-function countTindakanPasienBulanIni($db, $id_user)
+// Hitung tindakan bulan ini (untuk pasien tertentu)
+function countTindakanBulanIniByPasien($db, $id_pasien)
 {
     $bulan = date('m');
     $tahun = date('Y');
+    $id_pasien = (int) $id_pasien;
 
     $sql = "
         SELECT COUNT(*) AS total 
         FROM tindakan 
-        WHERE id_user = '$id_user'
-          AND MONTH(tanggal) = '$bulan' 
+        WHERE MONTH(tanggal) = '$bulan' 
           AND YEAR(tanggal) = '$tahun'
+          AND id_pasien = $id_pasien
     ";
     $result = $db->showData($sql);
 
-    return !empty($result) ? (int)$result[0]['total'] : 0;
+    return !empty($result) ? (int) $result[0]['total'] : 0;
 }
 
-// Hitung total semua tindakan milik pasien
-function countTotalTindakanPasien($db, $id_user)
+// Hitung total semua tindakan (untuk pasien tertentu)
+function countTotalTindakanByPasien($db, $id_pasien)
 {
-    $sql = "SELECT COUNT(*) AS total FROM tindakan WHERE id_user = '$id_user'";
+    $id_pasien = (int) $id_pasien;
+
+    $sql = "SELECT COUNT(*) AS total FROM tindakan WHERE id_pasien = $id_pasien";
     $result = $db->showData($sql);
 
-    return !empty($result) ? (int)$result[0]['total'] : 0;
+    return !empty($result) ? (int) $result[0]['total'] : 0;
 }
 
+
+function getTindakansByIdPasien($db, $id_pasien)
+{
+    $id_pasien = (int)$id_pasien;
+    $sql = "
+        SELECT t.*, 
+               p.nama AS nama_pasien, 
+               p.no_rm, 
+               d.nama_diagnosis, 
+               m.nama_generik AS nama_medikamentosa,
+               dt.nama_tindakan
+        FROM tindakan t
+        LEFT JOIN pasien p ON t.id_pasien = p.id_pasien
+        LEFT JOIN dic_diagnosis d ON t.id_diagnosis = d.id_diagnosis
+        LEFT JOIN dic_medikamentosa m ON t.id_medikamentosa = m.id_medikamentosa
+        LEFT JOIN dic_tindakan dt ON t.id_dctindakan = dt.id_dctindakan
+        WHERE t.id_pasien = $id_pasien
+        ORDER BY t.id_tindakan DESC
+    ";
+    return $db->showData($sql);
+}
 
 
 
