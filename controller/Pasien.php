@@ -22,27 +22,28 @@ function tambah_data(
     $jenis_kepesertaan,
     $tanggal_lahir,
     $alamat,
-    $riwayat_tindakan,
-    $diagnosis,
-    $alergi,
-    $obat,
-    $id_unit,
-    $td,
-    $t,
-    $hr,
-    $rr,
-    $tb,
-    $bb,
-    $note_dokter,
-    $tgl_masuk,
-    $tgl_keluar,
-    $file_rekammedis,
-    $file_hasilrontgen,
-    $hasil_laboratorium
+    $riwayat_tindakan = null,
+    $diagnosis = null,
+    $alergi = null,
+    $obat = null,
+    $id_unit = null,
+    $td = null,
+    $t = null,
+    $hr = null,
+    $rr = null,
+    $tb = null,
+    $bb = null,
+    $note_dokter = null,
+    $tgl_masuk = null,
+    $tgl_keluar = null,
+    $file_rekammedis = null,
+    $file_hasilrontgen = null,
+    $hasil_laboratorium = null
 ) {
     $conn = new koneksi();
     $errors = [];
 
+    // ✅ Hanya field wajib
     if (empty($nama)) {
         $errors[] = 'Nama harus diisi.';
     }
@@ -51,82 +52,47 @@ function tambah_data(
     } elseif (!preg_match('/^[0-9]+$/', $nik)) {
         $errors[] = "NIK harus berupa angka.";
     }
-    if (empty($no_rm)) {
-        $errors[] = 'No. Rekam Medis harus diisi.';
-    }
-    if (empty($id_unit)) {
-        $errors[] = 'Unit harus diisi.';
-    }
-    if (empty($tgl_masuk)) {
-        $errors[] = 'Tgl. Masuk harus diisi.';
-    }
     if (empty($jenis_kelamin)) {
-        $errors[] = 'Jenis Kelamin Harus diisi';
+        $errors[] = 'Jenis Kelamin harus diisi.';
     }
     if (empty($jenis_kepesertaan)) {
-        $errors[] = 'Jenis Kepesertaan Harus diisi';
+        $errors[] = 'Jenis Kepesertaan harus diisi.';
     }
     if (empty($tanggal_lahir)) {
-        $errors[] = 'Tanggal Lahir Harus diisi';
+        $errors[] = 'Tanggal Lahir harus diisi.';
     }
     if (empty($alamat)) {
-        $errors[] = 'Alamat Harus diisi';
+        $errors[] = 'Alamat harus diisi.';
     }
-    if (empty($riwayat_tindakan)) {
-        $errors[] = 'Riwayat Tindakan Harus diisi';
-    }
-    if (empty($diagnosis)) {
-        $errors[] = 'Diagnosis Harus diisi';
-    }
-    if (empty($alergi)) {
-        $errors[] = 'Alergi Harus diisi';
-    }
-    if (empty($obat)) {
-        $errors[] = 'Obat Harus diisi';
-    }
-    if (empty($td)) {
-        $errors[] = 'Tensi Darah Harus diisi';
-    }
-    if (empty($t)) {
-        $errors[] = 'Tekanan Jantung Harus diisi';
-    }
-    if (empty($hr)) {
-        $errors[] = 'Harapan Harus diisi';
-    }
-    if (empty($rr)) {
-        $errors[] = 'Respirasi Harus diisi';
-    }
-    if (empty($tb)) {
-        $errors[] = 'Tinggi Badan Harus diisi';
-    }
-    if (empty($bb)) {
-        $errors[] = 'Berat Badan Harus diisi';
-    }
-    if (empty($note_dokter)) {
-        $errors[] = 'Note Dokter Harus diisi';
-    }
-    if (empty($file_rekammedis['name'])) {
-        $errors[] = 'File Rekam Medis Harus diisi';
-    } else {
-        $fileExtension = pathinfo($file_rekammedis['name'], PATHINFO_EXTENSION);
-        if (!in_array($fileExtension, array('pdf', 'doc', 'docx', 'xls', 'xlsx'))) {
-            $errors[] = 'File Rekam Medis hanya boleh berupa pdf, word, dan excel.';
+
+    // ✅ Validasi file hanya jika di-upload
+    $file_rekammedis_name = null;
+    if (!empty($file_rekammedis['name'])) {
+        $ext = pathinfo($file_rekammedis['name'], PATHINFO_EXTENSION);
+        if (!in_array($ext, ['pdf', 'doc', 'docx', 'xls', 'xlsx'])) {
+            $errors[] = 'File Rekam Medis hanya boleh berupa pdf, word, excel.';
+        } else {
+            $file_rekammedis_name = uploadFile('file_rekammedis', 'uploads/rekammedis');
         }
     }
-    if (empty($file_hasilrontgen['name'])) {
-        $errors[] = 'File Hasil Rontgen Harus diisi';
-    } else {
-        $fileExtension = pathinfo($file_hasilrontgen['name'], PATHINFO_EXTENSION);
-        if (!in_array($fileExtension, array('pdf', 'doc', 'docx', 'xls', 'xlsx'))) {
-            $errors[] = 'File Hasil Rontgen hanya boleh berupa pdf, word, dan excel.';
+
+    $file_hasilrontgen_name = null;
+    if (!empty($file_hasilrontgen['name'])) {
+        $ext = pathinfo($file_hasilrontgen['name'], PATHINFO_EXTENSION);
+        if (!in_array($ext, ['pdf', 'doc', 'docx', 'xls', 'xlsx'])) {
+            $errors[] = 'File Hasil Rontgen hanya boleh berupa pdf, word, excel.';
+        } else {
+            $file_hasilrontgen_name = uploadFile('file_hasilrontgen', 'uploads/rontgen');
         }
     }
-    if (empty($hasil_laboratorium['name'])) {
-        $errors[] = 'Hasil Laboratorium Harus diisi';
-    } else {
-        $fileExtension = pathinfo($hasil_laboratorium['name'], PATHINFO_EXTENSION);
-        if (!in_array($fileExtension, array('pdf', 'doc', 'docx', 'xls', 'xlsx'))) {
-            $errors[] = 'Hasil Laboratorium hanya boleh berupa pdf, word, dan excel.';
+
+    $hasil_laboratorium_name = null;
+    if (!empty($hasil_laboratorium['name'])) {
+        $ext = pathinfo($hasil_laboratorium['name'], PATHINFO_EXTENSION);
+        if (!in_array($ext, ['pdf', 'doc', 'docx', 'xls', 'xlsx'])) {
+            $errors[] = 'Hasil Laboratorium hanya boleh berupa pdf, word, excel.';
+        } else {
+            $hasil_laboratorium_name = uploadFile('hasil_laboratorium', 'uploads/laboratorium');
         }
     }
 
@@ -135,14 +101,32 @@ function tambah_data(
         return false;
     }
 
-    // Upload files
-    $file_rekammedis_name = uploadFile('file_rekammedis', 'uploads/rekammedis');
-    $file_hasilrontgen_name = uploadFile('file_hasilrontgen', 'uploads/rontgen');
-    $hasil_laboratorium_name = uploadFile('hasil_laboratorium', 'uploads/laboratorium');
-
-    // Insert data ke database
-    $query = "INSERT INTO pasien (nama, nik, no_rm, jenis_kelamin, jenis_kepesertaan, tanggal_lahir, alamat, riwayat_tindakan, diagnosis, alergi, obat, id_unit, td, t, hr, rr, tb, bb, note_dokter, tgl_masuk, tgl_keluar, file_rekammedis, file_hasilrontgen, hasil_laboratorium) 
-              VALUES ('$nama', '$nik', '$no_rm', '$jenis_kelamin', '$jenis_kepesertaan', '$tanggal_lahir', '$alamat', '$riwayat_tindakan', '$diagnosis', '$alergi', '$obat', '$id_unit', '$td', '$t', '$hr', '$rr', '$tb', '$bb', '$note_dokter', '$tgl_masuk', '$tgl_keluar', '$file_rekammedis_name', '$file_hasilrontgen_name', '$hasil_laboratorium_name')";
+    // ✅ Insert data (field opsional boleh NULL)
+    $query = "INSERT INTO pasien 
+        (nama, nik, no_rm, jenis_kelamin, jenis_kepesertaan, tanggal_lahir, alamat,
+         riwayat_tindakan, diagnosis, alergi, obat, id_unit, td, t, hr, rr, tb, bb,
+         note_dokter, tgl_masuk, tgl_keluar, file_rekammedis, file_hasilrontgen, hasil_laboratorium) 
+        VALUES (
+         '$nama', '$nik', " . ($no_rm ? "'$no_rm'" : "NULL") . ",
+         '$jenis_kelamin', '$jenis_kepesertaan', '$tanggal_lahir', '$alamat',
+         " . ($riwayat_tindakan ? "'$riwayat_tindakan'" : "NULL") . ",
+         " . ($diagnosis ? "'$diagnosis'" : "NULL") . ",
+         " . ($alergi ? "'$alergi'" : "NULL") . ",
+         " . ($obat ? "'$obat'" : "NULL") . ",
+         " . ($id_unit ? "'$id_unit'" : "NULL") . ",
+         " . ($td ? "'$td'" : "NULL") . ",
+         " . ($t ? "'$t'" : "NULL") . ",
+         " . ($hr ? "'$hr'" : "NULL") . ",
+         " . ($rr ? "'$rr'" : "NULL") . ",
+         " . ($tb ? "'$tb'" : "NULL") . ",
+         " . ($bb ? "'$bb'" : "NULL") . ",
+         " . ($note_dokter ? "'$note_dokter'" : "NULL") . ",
+         " . ($tgl_masuk ? "'$tgl_masuk'" : "NULL") . ",
+         " . ($tgl_keluar ? "'$tgl_keluar'" : "NULL") . ",
+         " . ($file_rekammedis_name ? "'$file_rekammedis_name'" : "NULL") . ",
+         " . ($file_hasilrontgen_name ? "'$file_hasilrontgen_name'" : "NULL") . ",
+         " . ($hasil_laboratorium_name ? "'$hasil_laboratorium_name'" : "NULL") . "
+        )";
 
     return $conn->execute($query);
 }

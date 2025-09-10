@@ -43,7 +43,8 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         return $existingData->fetch_assoc();
     }
 
-    public function jumlah_konsultasi(){
+    public function jumlah_konsultasi()
+    {
         $query = "SELECT COUNT(*) AS total FROM konsultasi";
         $existingData = $this->execute($query);
 
@@ -61,10 +62,14 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
 
     function pasien()
     {
-        // $conn = new koneksi();
-        $query = "SELECT * FROM pasien JOIN unit ON pasien.id_unit = unit.id";
+        $query = "SELECT pasien.*, unit.instalasi 
+              FROM pasien 
+              LEFT JOIN unit ON pasien.id_unit = unit.id
+              ORDER BY pasien.id_pasien DESC";
         return $this->showData($query);
     }
+
+
     function aktivitas()
     {
         // $conn = new koneksi();

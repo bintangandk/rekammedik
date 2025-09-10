@@ -1,7 +1,5 @@
 <?php
 session_start();
-// include '../koneksi.php';
-// include '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
 if (!isset($_SESSION['email'])) {
   header('Location: ../../auth/login.php');
   exit();
@@ -17,9 +15,6 @@ $pasien = new Pegawai();
 $data_pasien = $pasien->pasien();
 $profile = $pasien->profile();
 $unit = $pasien->instalasi();
-// var_dump($data_pasien);
-
-// var
 ?>
 
 <!DOCTYPE html>
@@ -292,27 +287,28 @@ $unit = $pasien->instalasi();
                           <td class="text-center"><?= $pasien['jenis_kelamin'] ?></td>
                           <td class="text-center"><?= $pasien['alamat'] ?></td>
                           <td class="text-center"><?= $pasien['jenis_kepesertaan'] ?></td>
-                          <td class="text-center"><?= $pasien['no_rm'] ?></td>
-                          <td class="text-center"><?= $pasien['instalasi'] ?></td>
-                          <!-- <<<<<<<<<<<<<<  ✨ Codeium Command 🌟 >>>>>>>>>>>>>>>> -->
-                          <td class="text-center"><?= date('d-m-Y', strtotime($pasien['tgl_masuk'])) ?></td>
-
-                          <!-- <<<<<<<  663682a2-cbb2-4ad6-837e-4c564320656c  >>>>>>> -->
-                          <td class="text-center"><?= date('d-m-Y', strtotime($pasien['tgl_keluar'])) ?></td>
+                          <td class="text-center"><?= $pasien['no_rm'] ?? '-' ?></td>
+                          <td class="text-center"><?= $pasien['instalasi'] ?? '-' ?></td>
+                          <td class="text-center"><?= $pasien['tgl_masuk'] ? date('d-m-Y', strtotime($pasien['tgl_masuk'])) : '-' ?></td>
+                          <td class="text-center"><?= $pasien['tgl_keluar'] ? date('d-m-Y', strtotime($pasien['tgl_keluar'])) : '-' ?></td>
                           <td class="text-center">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="showData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
+                              onclick="showData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">
                               <i class="bi bi-eye"></i>
                             </button>
-                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="editData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">
+                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
+                              onclick="editData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">
                               <i class="bi bi-pencil"></i>
                             </button>
-                            <button id="deleteButton" class="btn btn-danger" onclick="deleteData(<?= $pasien['id_pasien'] ?>)">
+                            <button class="btn btn-danger" onclick="deleteData(<?= $pasien['id_pasien'] ?>)">
                               <i class="bi bi-trash"></i>
                             </button>
                           </td>
                         </tr>
                       <?php } ?>
                     </tbody>
+
+
                   </table>
                 </div>
               </div>
@@ -366,22 +362,10 @@ $unit = $pasien->instalasi();
                               </select>
                             </div>
                           </div>
-                          <input type="hidden" name="action" value="insert">
                           <div class="col-md-6 c">
                             <div class="form-group">
-                              <label for="no_rm">No. RM <span class="text-danger">*</span></label>
-                              <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM" required>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="instalasi">Unit Terakhir <span class="text-danger">*</span></label>
-                              <select name="id_unit" class="form-control" id="instalasi" placeholder="Pilih Instalasi" required>
-                                <option value="">Pilih Unit/Instalasi</option>
-                                <?php foreach ($unit as $key) { ?>
-                                  <option value="<?= $key['id'] ?>"><?= $key['instalasi'] ?></option>
-                                <?php } ?>
-                              </select>
+                              <label for="address">Alamat <span class="text-danger">*</span></label>
+                              <textarea class="form-control" id="address" name="alamat" required></textarea>
                             </div>
                           </div>
                           <div class="col-md-6 c">
@@ -394,54 +378,66 @@ $unit = $pasien->instalasi();
                               </select>
                             </div>
                           </div>
+                          <input type="hidden" name="action" value="insert">
                           <div class="col-md-6 c">
                             <div class="form-group">
-                              <label for="address">Alamat <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="address" name="alamat" required></textarea>
+                              <label for="no_rm">No. RM</label>
+                              <input type="text" class="form-control" id="no_rm" name="no_rm" placeholder="Masukan No. RM">
                             </div>
                           </div>
                           <div class="col-md-6 c">
                             <div class="form-group">
-                              <label for="vital">Vital Sign<span class="text-danger">*</span></label>
+                              <label for="instalasi">Unit Terakhir</label>
+                              <select name="id_unit" class="form-control" id="instalasi" placeholder="Pilih Instalasi">
+                                <option value="">Pilih Unit/Instalasi</option>
+                                <?php foreach ($unit as $key) { ?>
+                                  <option value="<?= $key['id'] ?>"><?= $key['instalasi'] ?></option>
+                                <?php } ?>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-6 c">
+                            <div class="form-group">
+                              <label for="vital">Vital Sig</label>
                               <div class="form-group row">
                                 <label for="td" class="col-sm-1 col-form-label">TD:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="td" name="td" placeholder="../.." required>
+                                  <input type="text" class="form-control" id="td" name="td" placeholder="../..">
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0" style="text-transform: none;">mmHg</label>
                               </div>
                               <div class="form-group row">
                                 <label for="temperature" class="col-sm-1 col-form-label">T:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="temperatur" name="t" placeholder="°C" required>
+                                  <input type="text" class="form-control" id="temperatur" name="t" placeholder="°C">
                                 </div>
                                 <label for="temperature" class="col-sm-1 col-form-label ml-0">°C</label>
                               </div>
                               <div class="form-group row">
                                 <label for="hr" class="col-sm-1 col-form-label">HR:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="hr" name="hr" placeholder="Minute" required>
+                                  <input type="text" class="form-control" id="hr" name="hr" placeholder="Minute">
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
                               </div>
                               <div class="form-group row">
                                 <label for="rr" class="col-sm-1 col-form-label">RR:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="rr" name="rr" placeholder="Menit" required>
+                                  <input type="text" class="form-control" id="rr" name="rr" placeholder="Menit">
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Menit</label>
                               </div>
                               <div class="form-group row">
                                 <label for="tb" class="col-sm-1 col-form-label">TB:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="tb" name="tb" placeholder="Cm" required>
+                                  <input type="text" class="form-control" id="tb" name="tb" placeholder="Cm">
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Cm</label>
                               </div>
                               <div class="form-group row">
                                 <label for="bb" class="col-sm-1 col-form-label">BB:</label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="bb" name="bb" placeholder="Kg" required>
+                                  <input type="text" class="form-control" id="bb" name="bb" placeholder="Kg">
                                 </div>
                                 <label for="td" class="col-sm-1 col-form-label ml-0">/Kg</label>
                               </div>
@@ -449,52 +445,52 @@ $unit = $pasien->instalasi();
                           </div>
                           <div class="col-md-6 c">
                             <div class="form-group">
-                              <label for="diagnosis">Diagnosis <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="diagnosis" name="diagnosis" required></textarea>
+                              <label for="diagnosis">Diagnosis</label>
+                              <textarea class="form-control" id="diagnosis" name="diagnosis"></textarea>
                             </div>
                             <div class="form-group">
-                              <label for="tindakan">Riwayat Tindakan <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="tindakan" name="riwayat_tindakan" required></textarea>
+                              <label for="tindakan">Riwayat Tindakan</label>
+                              <textarea class="form-control" id="tindakan" name="riwayat_tindakan"></textarea>
                             </div>
                             <div class="form-group">
-                              <label for="alergi">Alergi <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="alergi" name="alergi" required></textarea>
-                            </div>
-                          </div>
-                          <div class="col-md-6 c">
-                            <div class="form-group">
-                              <label for="obat">Obat <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="obat" name="obat" required></textarea>
+                              <label for="alergi">Alergi</label>
+                              <textarea class="form-control" id="alergi" name="alergi"></textarea>
                             </div>
                           </div>
                           <div class="col-md-6 c">
                             <div class="form-group">
-                              <label for="note">Note Dokter <span class="text-danger">*</span></label>
-                              <textarea class="form-control" id="note" name="note_dokter" required></textarea>
+                              <label for="obat">Obat</label>
+                              <textarea class="form-control" id="obat" name="obat"></textarea>
                             </div>
                           </div>
                           <div class="col-md-6 c">
                             <div class="form-group">
-                              <label for="date">Tanggal Masuk <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="date" name="tgl_masuk" required>
+                              <label for="note">Note Dokter</label>
+                              <textarea class="form-control" id="note" name="note_dokter"></textarea>
                             </div>
                           </div>
                           <div class="col-md-6 c">
                             <div class="form-group">
-                              <label for="date">Tanggal Keluar <span class="text-danger">*</span></label>
-                              <input type="date" class="form-control" id="date" name="tgl_keluar" required>
+                              <label for="date">Tanggal Masuk</label>
+                              <input type="date" class="form-control" id="date" name="tgl_masuk">
+                            </div>
+                          </div>
+                          <div class="col-md-6 c">
+                            <div class="form-group">
+                              <label for="date">Tanggal Keluar</label>
+                              <input type="date" class="form-control" id="date" name="tgl_keluar">
                             </div>
                           </div>
                           <div class="form-group">
-                            <label for="formFile" class="form-label">Upload Rekam Medis <span class="text-danger">*</span></label>
+                            <label for="formFile" class="form-label">Upload Rekam Medis</label>
                             <input class="form-control" type="file" id="formFile" name="file_rekammedis">
                           </div>
                           <div class="form-group">
-                            <label for="formFile" class="form-label">Upload Hasil Rontgen <span class="text-danger">*</span></label>
+                            <label for="formFile" class="form-label">Upload Hasil Rontgen</label>
                             <input class="form-control" type="file" name="file_hasilrontgen" id="formFile">
                           </div>
                           <div class="form-group">
-                            <label for="formFile" class="form-label">Upload Hasil Laboratorium <span class="text-danger">*</span></label>
+                            <label for="formFile" class="form-label">Upload Hasil Laboratorium</label>
                             <input class="form-control" type="file" name="hasil_laboratorium" id="formFile">
                           </div>
                         </div>
@@ -1006,23 +1002,6 @@ $unit = $pasien->instalasi();
     });
   </script>
   <script>
-    // document.getElementById('deleteButton').addEventListener('click', function() {
-    //   const userId = this.getAttribute('data-id');
-    //   Swal.fire({
-    //     title: 'Apakah Anda Yakin?',
-    //     text: "Anda igin menghapus data ini!",
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'Ya, Hapus!'
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       window.location.href = 'delete.php?id=' + userId;
-    //     }
-    //   });
-    // });
-
     function deleteData(id) {
 
       Swal.fire({
@@ -1068,30 +1047,6 @@ $unit = $pasien->instalasi();
     });
   </script>
 
-  <!-- modal insert -->
-  <script>
-    // Handle form submission
-    // document.getElementById('insertForm').addEventListener('submit', function(event) {
-    //   event.preventDefault();
-    //   // Perform your insert operation here, e.g., send data to the server
-    //   alert('Form submitted!');
-    //   // Close the modal
-    //   $('#insertModal').modal('hide');
-    // });
-  </script>
-
-  <!-- modal edit -->
-  <!-- <script>
-    // Handle form submission
-    document.getElementById('editForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      // Perform your insert operation here, e.g., send data to the server
-      // alert('Form submitted!');
-      // // Close the modal
-      // $('#editModal').modal('hide');
-    });
-  </script> -->
-
   <!-- modal show -->
   <script>
     // Handle form submission
@@ -1129,13 +1084,6 @@ $unit = $pasien->instalasi();
       document.getElementById('rekam_medis_file').value = data.file_rekammedis;
       document.getElementById('laboratorium_file').value = data.hasil_laboratorium;
       document.getElementById('rontgen_file').value = data.file_hasilrontgen;
-
-      // Update the href attribute for PDF links with the correct paths
-      // document.getElementById('rekam_medis_link').href = '../../../controller/uploads/rekammedis/' + data.file_rekammedis;
-      // document.getElementById('rontgen_link').href = '../../../controller/uploads/rontgen/' + data.file_hasilrontgen;
-      // document.getElementById('laboratorium_link').href = '../../../controller/uploads/laboratorium/' + data.hasil_laboratorium;
-
-
     }
 
 
@@ -1164,9 +1112,6 @@ $unit = $pasien->instalasi();
       document.getElementById('obat_edit').value = data.obat;
       document.getElementById('tgl_masuk_edit').value = data.tgl_masuk;
       document.getElementById('tgl_keluar_edit').value = data.tgl_keluar;
-
-      // Update the href attribute for PDF links with the correct paths
-
     }
   </script>
 
