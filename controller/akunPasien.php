@@ -24,7 +24,6 @@ function createAkunPasien($db, $id_pasien, $email, $password, $role, $no_telfon,
     $no_telfon = $db->escapeString($no_telfon);
     $gambar = $db->escapeString($gambar);
 
-    // Ambil nama pasien dari tabel pasien
     $pasien = $db->showData("SELECT nama FROM pasien WHERE id_pasien = $id_pasien LIMIT 1");
     if (!$pasien) {
         echo "Pasien tidak ditemukan!";
@@ -32,16 +31,13 @@ function createAkunPasien($db, $id_pasien, $email, $password, $role, $no_telfon,
     }
     $nama = $db->escapeString($pasien[0]['nama']);
 
-    // 1. Insert ke tabel users (termasuk Nama)
     $sql = "INSERT INTO users (email, password, role, no_telfon, Nama, gambar)
             VALUES ('$email', '$password', '$role', '$no_telfon', '$nama', '$gambar')";
     $result = $db->insertData($sql);
 
     if ($result) {
-        // Ambil id_user terakhir
         $id_user = $db->getlastId();
 
-        // 2. Update tabel pasien agar terhubung dengan user
         $update = "UPDATE pasien SET id_user = $id_user WHERE id_pasien = $id_pasien";
         $db->updateData($update);
 
