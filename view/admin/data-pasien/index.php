@@ -7,9 +7,8 @@ if (!isset($_SESSION['email'])) {
 unset($_SESSION['file']);
 if (($_SESSION['role'] != 'admin')) {
   header('Location: ../../users/dashboard/index.php');
-  # code...
 }
-require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+require '../../../koneksi.php'; 
 require '../../../controller/Pegawai.php';
 $pasien = new Pegawai();
 $data_pasien = $pasien->pasien();
@@ -43,10 +42,6 @@ $unit = $pasien->instalasi();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css">
 
-
-  <!-- Modal -->
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
-
   <!-- Core CSS -->
   <link rel="stylesheet" href="../../../assets/vendor/css/core.css" class="template-customizer-core-css" />
   <link rel="stylesheet" href="../../../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
@@ -71,7 +66,6 @@ $unit = $pasien->instalasi();
   <style>
     .modal-dialog {
       max-width: auto;
-
     }
   </style>
 </head>
@@ -292,23 +286,34 @@ $unit = $pasien->instalasi();
                           <td class="text-center"><?= $pasien['tgl_masuk'] ? date('d-m-Y', strtotime($pasien['tgl_masuk'])) : '-' ?></td>
                           <td class="text-center"><?= $pasien['tgl_keluar'] ? date('d-m-Y', strtotime($pasien['tgl_keluar'])) : '-' ?></td>
                           <td class="text-center">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
-                              onclick="showData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">
-                              <i class="bi bi-eye"></i>
-                            </button>
-                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
-                              onclick="editData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">
-                              <i class="bi bi-pencil"></i>
-                            </button>
-                            <button class="btn btn-danger" onclick="deleteData(<?= $pasien['id_pasien'] ?>)">
-                              <i class="bi bi-trash"></i>
-                            </button>
+                            <div class="dropdown dropend">
+                              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton<?= $pasien['id_pasien'] ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= $pasien['id_pasien'] ?>">
+                                <li>
+                                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#showModal"
+                                    onclick='showData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, "UTF-8"); ?>)'>
+                                    <i class="bi bi-eye me-2"></i> Lihat Data
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"
+                                    onclick='editData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, "UTF-8"); ?>)'>
+                                    <i class="bi bi-pencil me-2"></i> Edit Data
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="dropdown-item text-danger" href="#" onclick="deleteData(<?= $pasien['id_pasien'] ?>)">
+                                    <i class="bi bi-trash me-2"></i> Hapus Data
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
                           </td>
                         </tr>
                       <?php } ?>
                     </tbody>
-
-
                   </table>
                 </div>
               </div>
@@ -324,7 +329,7 @@ $unit = $pasien->instalasi();
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">Tambah Data Pasien</h4>
-                    <a data-dismiss="modal">
+                    <a data-bs-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
                   </div>
@@ -501,7 +506,7 @@ $unit = $pasien->instalasi();
                   <!-- Modal Footer -->
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                   </div>
                   </form>
                 </div>
@@ -516,7 +521,7 @@ $unit = $pasien->instalasi();
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">Edit Data Pasien</h4>
-                    <a data-dismiss="modal">
+                    <a data-bs-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
                   </div>
@@ -679,9 +684,6 @@ $unit = $pasien->instalasi();
                           </div>
                           <input type="hidden" name="id_pasien" id="id_pasien_edit">
 
-
-
-
                           <div class="form-group">
                             <label for="formFile" class="form-label">Upload Hasil Rontgen <span class="text-danger">*</span></label>
                             <input class="form-control" type="file" name="file_hasilrontgen">
@@ -698,7 +700,7 @@ $unit = $pasien->instalasi();
                   <!-- Modal Footer -->
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                   </div>
                   </form>
                 </div>
@@ -713,7 +715,7 @@ $unit = $pasien->instalasi();
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">Detail Data Pasien</h4>
-                    <a data-dismiss="modal">
+                    <a data-bs-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
                   </div>

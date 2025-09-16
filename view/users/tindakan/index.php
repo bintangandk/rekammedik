@@ -88,11 +88,23 @@ $pasienList = getAllPasien($db);
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../../../assets/js/config.js"></script>
 
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- style modal -->
     <style>
         .modal-dialog {
             max-width: auto;
 
+        }
+
+        .table-responsive {
+            overflow: visible !important;
+        }
+
+        .table-responsive .dropdown-menu {
+            position: absolute !important;
+            z-index: 1050 !important;
         }
     </style>
 </head>
@@ -135,23 +147,21 @@ $pasienList = getAllPasien($db);
                             <div data-i18n="Account Settings">Riwayat File</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <!-- <li class="menu-item">
                         <a href="../aktivitas/index.php" class="menu-link">
                             <i class="menu-icon bi bi-activity"></i>
                             <div data-i18n="Account Settings">Aktivitas</div>
                         </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="../konsultasi/index.php" class="menu-link">
-                            <i class="menu-icon bi bi-pencil"></i>
-                            <div data-i18n="Account Settings">Konsultasi</div>
-                        </a>
-                    </li>
-                    <li class="menu-item active">
-                        <a href="../tindakan/index.php" class="menu-link">
+                    </li> -->
+                    <li class="menu-item dropdown">
+                        <a href="#" class="menu-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="menu-icon bi bi-book"></i>
-                            <div data-i18n="Account Settings">Tindakan</div>
+                            <div data-i18n="Account Settings">Aktivitas</div>
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../konsultasi/index.php">Konsultasi</a></li>
+                            <li><a class="dropdown-item" href="../tindakan/index.php">Tindakan</a></li>
+                        </ul>
                     </li>
                     <li class="menu-item dropdown">
                         <a href="#" class="menu-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -300,17 +310,32 @@ $pasienList = getAllPasien($db);
                                                         <td class="text-center"><?= $data['tanggal']; ?></td>
                                                         <td class="text-center"><?= $data['durasi']; ?></td>
                                                         <td class="text-center">
-                                                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
-                                                                onclick="editTindakan(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
-                                                                <i class="bi bi-pencil"></i>
-                                                            </button>
-                                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#showModal"
-                                                                onclick="showTindakan(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
-                                                                <i class="bi bi-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-success" onclick="printTindakan(<?= $data['id_tindakan'] ?>)">
-                                                                <i class="bi bi-printer"></i>
-                                                            </button>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton<?= $row['id_konsultasi'] ?>"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= $data['id_tindakan'] ?>">
+                                                                    <li>
+                                                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"
+                                                                            onclick="editTindakan(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
+                                                                            <i class="bi bi-pencil me-2 text-warning"></i> Edit
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#showModal"
+                                                                            onclick="showTindakan(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
+                                                                            <i class="bi bi-eye me-2 text-primary"></i> Detail
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="dropdown-item text-success" href="#"
+                                                                            onclick="printTindakan(<?= $data['id_tindakan'] ?>)">
+                                                                            <i class="bi bi-printer me-2"></i> Print
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -351,8 +376,8 @@ $pasienList = getAllPasien($db);
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="id_pasien">Nama Pasien <span class="text-danger">*</span></label>
-                                                            <select id="id_pasien" name="id_pasien" class="form-control" required>
-                                                                <option value="">-- Pilih Pasien --</option>
+                                                            <select id="id_pasien" name="id_pasien" class="form-control select2" required>
+                                                                <option value="">Pilih Pasien</option>
                                                                 <?php foreach ($pasienList as $row): ?>
                                                                     <option value="<?= $row['id_pasien']; ?>"><?= $row['nama']; ?></option>
                                                                 <?php endforeach; ?>
@@ -362,8 +387,8 @@ $pasienList = getAllPasien($db);
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="id_dctindakan">Tindakan<span class="text-danger">*</span></label>
-                                                            <select id="id_dctindakan" name="id_dctindakan" class="form-control" required>
-                                                                <option value="">-- Pilih Tindakan--</option>
+                                                            <select id="id_dctindakan" name="id_dctindakan" class="form-control select2" required>
+                                                                <option value="">Pilih Tindakan</option>
                                                                 <?php foreach ($tindakanList as $row): ?>
                                                                     <option value="<?= $row['id_dctindakan']; ?>"><?= $row['nama_tindakan']; ?></option>
                                                                 <?php endforeach; ?>
@@ -373,8 +398,8 @@ $pasienList = getAllPasien($db);
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="id_diagnosis">Diagnosis<span class="text-danger">*</span></label>
-                                                            <select id="id_diagnosis" name="id_diagnosis" class="form-control" required>
-                                                                <option value="">-- Pilih Diagnosis--</option>
+                                                            <select id="id_diagnosis" name="id_diagnosis" class="form-control select2" required>
+                                                                <option value="">Pilih Diagnosis</option>
                                                                 <?php foreach ($diagnosisList as $row): ?>
                                                                     <option value="<?= $row['id_diagnosis']; ?>"><?= $row['nama_diagnosis']; ?></option>
                                                                 <?php endforeach; ?>
@@ -384,8 +409,8 @@ $pasienList = getAllPasien($db);
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="id_medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <select id="id_medikamentosa" name="id_medikamentosa" class="form-control" required>
-                                                                <option value="">-- Pilih Medikamentosa--</option>
+                                                            <select id="id_medikamentosa" name="id_medikamentosa" class="form-control select2" required>
+                                                                <option value="">Pilih Medikamentosa</option>
                                                                 <?php foreach ($medikamentosaList as $row): ?>
                                                                     <option value="<?= $row['id_medikamentosa']; ?>"><?= $row['nama_generik']; ?></option>
                                                                 <?php endforeach; ?>
@@ -457,7 +482,7 @@ $pasienList = getAllPasien($db);
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="id_pasien">Nama Pasien <span class="text-danger">*</span></label>
-                                                            <select id="id_pasien_edit" name="id_pasien" class="form-control" required>
+                                                            <select id="id_pasien_edit" name="id_pasien" class="form-control select2" required>
                                                                 <option value="">-- Pilih Pasien --</option>
                                                                 <?php foreach ($pasienList as $row): ?>
                                                                     <option value="<?= $row['id_pasien']; ?>"><?= $row['nama']; ?></option>
@@ -468,7 +493,7 @@ $pasienList = getAllPasien($db);
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="id_dctindakan">Tindakan<span class="text-danger">*</span></label>
-                                                            <select id="id_dctindakan_edit" name="id_dctindakan" class="form-control" required>
+                                                            <select id="id_dctindakan_edit" name="id_dctindakan" class="form-control select2" required>
                                                                 <option value="">-- Pilih Tindakan--</option>
                                                                 <?php foreach ($tindakanList as $row): ?>
                                                                     <option value="<?= $row['id_dctindakan']; ?>"><?= $row['nama_tindakan']; ?></option>
@@ -479,7 +504,7 @@ $pasienList = getAllPasien($db);
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="id_diagnosis">Diagnosis<span class="text-danger">*</span></label>
-                                                            <select id="id_diagnosis_edit" name="id_diagnosis" class="form-control" required>
+                                                            <select id="id_diagnosis_edit" name="id_diagnosis" class="form-control select2" required>
                                                                 <option value="">-- Pilih Diagnosis--</option>
                                                                 <?php foreach ($diagnosisList as $row): ?>
                                                                     <option value="<?= $row['id_diagnosis']; ?>"><?= $row['nama_diagnosis']; ?></option>
@@ -490,7 +515,7 @@ $pasienList = getAllPasien($db);
                                                     <div class="col-md-20">
                                                         <div class="form-group">
                                                             <label for="id_medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
-                                                            <select id="id_medikamentosa_edit" name="id_medikamentosa" class="form-control" required>
+                                                            <select id="id_medikamentosa_edit" name="id_medikamentosa" class="form-control select2" required>
                                                                 <option value="">-- Pilih Medikamentosa--</option>
                                                                 <?php foreach ($medikamentosaList as $row): ?>
                                                                     <option value="<?= $row['id_medikamentosa']; ?>"><?= $row['nama_generik']; ?></option>
@@ -675,10 +700,23 @@ $pasienList = getAllPasien($db);
     <!-- Page level custom scripts -->
     <script src="../../../assets/js/demo/datatables-demo.js"></script>
 
-
-
     <!-- Delete alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').each(function() {
+                let $parentModal = $(this).closest('.modal');
+                $(this).select2({
+                    width: '100%',
+                    dropdownParent: $parentModal.length ? $parentModal : $('body')
+                });
+            });
+        });
+    </script>
 
     <script>
         document.getElementById('logout-link').addEventListener('click', function(event) {
@@ -806,9 +844,9 @@ $pasienList = getAllPasien($db);
     <script>
         function editTindakan(data) {
             document.getElementById('id_edit').value = data.id_tindakan;
-            document.getElementById('id_pasien_edit').value = data.id_pasien; 
-            document.getElementById('id_diagnosis_edit').value = data.id_diagnosis; 
-            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa; 
+            document.getElementById('id_pasien_edit').value = data.id_pasien;
+            document.getElementById('id_diagnosis_edit').value = data.id_diagnosis;
+            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa;
             document.getElementById('id_dctindakan_edit').value = data.id_dctindakan;
             document.getElementById('tanggal_edit').value = data.tanggal;
             document.getElementById('durasi_edit').value = data.durasi;

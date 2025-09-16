@@ -79,7 +79,9 @@ $html = "
 ";
 
 
-$mpdf = new \Mpdf\Mpdf();
+$mpdf = new \Mpdf\Mpdf([
+    'format' => 'A4-L' // A4 Landscape
+]);
 $mpdf->WriteHTML($html);
 
 
