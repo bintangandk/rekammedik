@@ -271,7 +271,7 @@ $data_instalasi = $pegawai->instalasi();
                           <td class="text-center"><?= $pegawai['nip'] ?></td>
                           <td class="text-center"><?= $pegawai['role'] ?></td>
                           <td class="text-center"><?= $pegawai['instalasi'] ?></td>
-                          <td class="text-center">
+                          <!-- <td class="text-center">
                             <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="detail(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8'); ?>)">
                               <i class="bi bi-eye"></i>
                             </button>
@@ -281,6 +281,34 @@ $data_instalasi = $pegawai->instalasi();
                             <button id="deleteButton" class="btn btn-danger" onclick="deleteData(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8');  ?>)">
                               <i class="bi bi-trash"></i>
                             </button>
+                          </td> -->
+                          <td class="text-center">
+                            <div class="dropdown">
+                              <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton<?= $row['id_konsultasi'] ?>"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= $pegawai['id_user'] ?>">
+                                <li>
+                                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"
+                                    onclick="edit(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8'); ?>)">
+                                    <i class="bi bi-pencil me-2 text-warning"></i> Edit
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#showModal"
+                                    onclick="detail(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8'); ?>)">
+                                    <i class="bi bi-eye me-2 text-primary"></i> Detail
+                                  </a>
+                                </li>
+                                <!-- <li>
+                                  <a class="dropdown-item text-danger" href="#"
+                                    onclick="deleteData(<?= htmlspecialchars(json_encode($pegawai)); ?>)">
+                                    <i class="bi bi-trash me-2"></i> Hapus
+                                  </a>
+                                </li> -->
+                              </ul>
+                            </div>
                           </td>
                         </tr>
                       <?php } ?>
@@ -308,7 +336,7 @@ $data_instalasi = $pegawai->instalasi();
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">Edit Data Pegawai</h4>
-                    <a data-dismiss="modal">
+                    <a data-bs-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
                   </div>
@@ -359,7 +387,7 @@ $data_instalasi = $pegawai->instalasi();
                   <!-- Modal Footer -->
                   <div class=" modal-footer">
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                   </div>
                   </form>
                   <!-- <button type="submit">Simpan</button> -->
@@ -376,7 +404,7 @@ $data_instalasi = $pegawai->instalasi();
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">Detail Data Pegawai</h4>
-                    <a data-dismiss="modal">
+                    <a data-bs-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
                   </div>
@@ -420,7 +448,7 @@ $data_instalasi = $pegawai->instalasi();
 
                   <!-- Modal Footer -->
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kembali</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Kembali</button>
                   </div>
 
                 </div>
@@ -538,8 +566,6 @@ $data_instalasi = $pegawai->instalasi();
 
   <!-- modal edit -->
   <script>
-   
-
     function detail(data) {
       // console.log(data.id_user)
       document.getElementById('nama_detail').value = data.Nama

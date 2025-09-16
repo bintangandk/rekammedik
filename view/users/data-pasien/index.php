@@ -112,23 +112,21 @@ $unit = $pasien->instalasi();
               <div data-i18n="Account Settings">Riwayat File</div>
             </a>
           </li>
-          <li class="menu-item">
+          <!-- <li class="menu-item">
             <a href="../aktivitas/index.php" class="menu-link">
               <i class="menu-icon bi bi-activity"></i>
               <div data-i18n="Account Settings">Aktivitas</div>
             </a>
-          </li>
-          <li class="menu-item">
-            <a href="../konsultasi/index.php" class="menu-link">
-              <i class="menu-icon bi bi-pencil"></i>
-              <div data-i18n="Account Settings">Konsultasi</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="../tindakan/index.php" class="menu-link">
+          </li> -->
+          <li class="menu-item dropdown">
+            <a href="#" class="menu-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="menu-icon bi bi-book"></i>
-              <div data-i18n="Account Settings">Tindakan</div>
+              <div data-i18n="Account Settings">Aktivitas</div>
             </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="../konsultasi/index.php">Konsultasi</a></li>
+              <li><a class="dropdown-item" href="../tindakan/index.php">Tindakan</a></li>
+            </ul>
           </li>
           <li class="menu-item dropdown">
             <a href="#" class="menu-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -275,10 +273,7 @@ $unit = $pasien->instalasi();
                         <td class="text-center"><?= $pasien['jenis_kepesertaan'] ?></td>
                         <td class="text-center"><?= $pasien['no_rm'] ?></td>
                         <td class="text-center"><?= $pasien['instalasi'] ?></td>
-                        <!-- <<<<<<<<<<<<<<  ✨ Codeium Command 🌟 >>>>>>>>>>>>>>>> -->
                         <td class="text-center"><?= date('d-m-Y', strtotime($pasien['tgl_masuk'])) ?></td>
-
-                        <!-- <<<<<<<  663682a2-cbb2-4ad6-837e-4c564320656c  >>>>>>> -->
                         <td class="text-center"><?= date('d-m-Y', strtotime($pasien['tgl_keluar'])) ?></td>
                         <td class="text-center">
                           <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="showData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">

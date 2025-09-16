@@ -74,6 +74,15 @@ $pasienList = getPasienWithoutAkun($db);
       max-width: auto;
 
     }
+
+    .table-responsive {
+      overflow: visible !important;
+    }
+
+    .table-responsive .dropdown-menu {
+      position: absolute !important;
+      z-index: 1050 !important;
+    }
   </style>
 </head>
 
@@ -271,17 +280,30 @@ $pasienList = getPasienWithoutAkun($db);
                             <td class="text-center"><?php echo htmlspecialchars($row['email']); ?></td>
                             <td class="text-center"><?php echo htmlspecialchars($row['no_telfon']); ?></td>
                             <td class="text-center">
-                              <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
-                                onclick="showAkun(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
-                                <i class="bi bi-eye"></i>
-                              </button>
-                              <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
-                                onclick="editAkun(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
-                                <i class="bi bi-pencil"></i>
-                              </button>
-                              <button class="btn btn-danger" onclick="deleteAkun(<?= $row['id_user'] ?>)">
-                                <i class="bi bi-trash"></i>
-                              </button>
+                              <div class="dropdown">
+                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton<?= $row['id_user'] ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                  <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= $row['id_user'] ?>">
+                                  <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#showModal"
+                                      onclick='showAkun(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, "UTF-8"); ?>)'>
+                                      <i class="bi bi-eye me-2"></i> Lihat Data
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"
+                                      onclick='editAkun(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, "UTF-8"); ?>)'>
+                                      <i class="bi bi-pencil me-2"></i> Edit Data
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item text-danger" href="#" onclick="deleteAkun(<?= $row['id_user'] ?>)">
+                                      <i class="bi bi-trash me-2"></i> Hapus Data
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
                             </td>
                           </tr>
                         <?php endforeach; ?>
@@ -385,7 +407,7 @@ $pasienList = getPasienWithoutAkun($db);
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">Edit Akun Pasien</h4>
-                    <a data-dismiss="modal">
+                    <a data-bs-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
                   </div>
@@ -448,7 +470,7 @@ $pasienList = getPasienWithoutAkun($db);
                   <!-- Modal Footer -->
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                   </div>
                   </form>
                 </div>
@@ -464,7 +486,7 @@ $pasienList = getPasienWithoutAkun($db);
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">Detail Akun Pasien</h4>
-                    <a data-dismiss="modal">
+                    <a data-bs-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
                   </div>
@@ -518,7 +540,7 @@ $pasienList = getPasienWithoutAkun($db);
 
                   <!-- Modal Footer -->
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
                   </div>
                   </form>
                 </div>
