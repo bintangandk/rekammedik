@@ -8,7 +8,7 @@ unset($_SESSION['file']);
 if (($_SESSION['role'] != 'admin')) {
   header('Location: ../../users/dashboard/index.php');
 }
-require '../../../koneksi.php'; 
+require '../../../koneksi.php';
 require '../../../controller/Pegawai.php';
 $pasien = new Pegawai();
 $data_pasien = $pasien->pasien();
@@ -329,7 +329,7 @@ $unit = $pasien->instalasi();
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">Tambah Data Pasien</h4>
-                    <a data-bs-dismiss="modal">
+                    <a data-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
                   </div>
@@ -506,7 +506,7 @@ $unit = $pasien->instalasi();
                   <!-- Modal Footer -->
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                   </div>
                   </form>
                 </div>
@@ -1008,7 +1008,7 @@ $unit = $pasien->instalasi();
 
       Swal.fire({
         title: 'Apakah Anda Yakin?',
-        text: "Anda igin menghapus data ini!",
+        text: "Jika anda menghapus data pasien ini, maka data yang terkait dengan pasien akan ikut terhapus",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
