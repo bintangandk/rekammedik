@@ -212,6 +212,8 @@ $konsultasi = $id_pasien ? getKonsultasiByPasien($db, $id_pasien) : [];
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
+                        <th class="text-center">No. RM</th>
+                        <th class="text-center">Nama</th>
                         <th class="text-center">Diagnosis</th>
                         <th class="text-center">Medikamentosa</th>
                         <th class="text-center">Tanggal</th>
@@ -222,6 +224,8 @@ $konsultasi = $id_pasien ? getKonsultasiByPasien($db, $id_pasien) : [];
                     <tfoot>
                       <tr>
                         <th class="text-center">No</th>
+                        <th class="text-center">No. RM</th>
+                        <th class="text-center">Nama</th>
                         <th class="text-center">Diagnosis</th>
                         <th class="text-center">Medikamentosa</th>
                         <th class="text-center">Tanggal</th>
@@ -237,6 +241,8 @@ $konsultasi = $id_pasien ? getKonsultasiByPasien($db, $id_pasien) : [];
                             <td class="text-center"><?= $no++; ?></td>
                             <td class="text-center"><?= $row['no_rm'] ?></td>
                             <td class="text-center"><?= $row['nama_pasien']; ?></td>
+                            <td class="text-center"><?= $row['nama_diagnosis'] ?></td>
+                            <td class="text-center"><?= $row['nama_medikamentosa'] ?></td>
                             <td class="text-center"><?= $row['tanggal']; ?></td>
                             <td class="text-center"><?= $row['durasi']; ?></td>
                             <td class="text-center"><?= $row['nama_dokter']; ?></td>
@@ -244,7 +250,7 @@ $konsultasi = $id_pasien ? getKonsultasiByPasien($db, $id_pasien) : [];
                         <?php endforeach; ?>
                       <?php else: ?>
                         <tr>
-                          <td colspan="3">Tidak ada data</td>
+                          <td colspan="7">Tidak ada data</td>
                         </tr>
                       <?php endif; ?>
                     </tbody>

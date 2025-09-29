@@ -181,7 +181,7 @@ function users_pasien($data)
 
 function update($data)
 {
-    // var_dump($data);
+
     $conn = new koneksi();
 
     // Mendapatkan data dari parameter dan mengamankannya dari serangan XSS
@@ -277,7 +277,7 @@ function update($data)
     // Mendapatkan path file yang ada dari database
     $query = "SELECT file_rekammedis, file_hasilrontgen, hasil_laboratorium FROM pasien WHERE id_pasien = '$id_pasien'";
     $existingData = $conn->execute($query);
-    // var_dump($query);
+
     // Memeriksa apakah query berhasil dan mengembalikan data
     if ($existingData && $existingData->num_rows > 0) {
         $existingFiles = $existingData->fetch_assoc();
@@ -285,7 +285,7 @@ function update($data)
         $file_rekammedis_name = $existingFiles['file_rekammedis'];
         $file_hasilrontgen_name = $existingFiles['file_hasilrontgen'];
         $hasil_laboratorium_name = $existingFiles['hasil_laboratorium'];
-        // var_dump($file_rekammedis_name);
+
         // Menghapus file yang ada jika file tersebut ada
         if (!empty($_FILES['file_hasilrontgen']['name'])) {
             // Menghapus file lama
@@ -320,7 +320,6 @@ function update($data)
 
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
-        // var_dump($errors); // Tambahkan ini untuk melihat pesan kesalahan
         return false;
     }
     // Memperbarui data di database
@@ -350,10 +349,8 @@ function update($data)
                       file_hasilrontgen = '$file_hasilrontgen_name', 
                       hasil_laboratorium = '$hasil_laboratorium_name' 
                       WHERE id_pasien = '$id_pasien'";
-    // var_dump($query);
-    return $conn->execute($query);
 
-    // var_dump($query);
+    return $conn->execute($query);
 }
 
 
@@ -383,9 +380,6 @@ function simpan_file($data)
     $nama = $row['Nama'];
 
     $stmt = "INSERT INTO riwayat_file (tanggal, waktu, file, nama,id_user) VALUES ('$tanggal', '$waktu', '$fileName', '$nama','$id_user')";
-
-    // Log query for debugging
-    // error_log("Query: $stmt");
 
     return $conn->execute($stmt);
 }
@@ -514,7 +508,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $id_unit = htmlspecialchars($_POST['id_unit'], ENT_QUOTES, 'UTF-8');
         $kepesertaan = htmlspecialchars($_POST['kepesertaan'], ENT_QUOTES, 'UTF-8');
         $td = htmlspecialchars($_POST['td'], ENT_QUOTES, 'UTF-8');
-        $r = htmlspecialchars($_POST['t'], ENT_QUOTES, 'UTF-8');
+        $t = htmlspecialchars($_POST['t'], ENT_QUOTES, 'UTF-8');
         $hr = htmlspecialchars($_POST['hr'], ENT_QUOTES, 'UTF-8');
         $rr = htmlspecialchars($_POST['rr'], ENT_QUOTES, 'UTF-8');
         $tb = htmlspecialchars($_POST['tb'], ENT_QUOTES, 'UTF-8');
@@ -545,20 +539,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     if (isset($_POST['action']) && $_POST['action'] == 'edit') {
-        // var_dump($_POST);
-        // var_dump(update($_POST));
         if (update($_POST)) {
             $_SESSION['success'] = 'Data berhasil diubah.';
         } else {
             $_SESSION['errors'] = 'Data gagal diubah.';
-            // var_dump($_POST);
-            // var_dump(update($_POST));
         }
         header("Location: ../view/admin/data-pasien/index.php");
-
-        // Fungsi untuk mengunggah file
-
-
     }
 
 
@@ -579,10 +565,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-
-    // <<<<<<<<<<<<<<  ✨ Codeium Command ⭐ >>>>>>>>>>>>>>>>
-
-
     if (isset($_POST['action']) && $_POST['action'] == 'delete') {
         $id = htmlspecialchars($_POST['id_pasien']);
         if (hapus($id)) {
@@ -601,23 +583,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 
-// <<<<<<<  32bfd995-187f-4efa-8510-223f9c6b93e3  >>>>>>>
-
-
 function hapus($id)
 {
     $conn = new koneksi();
+
     $row = $conn->execute("SELECT * FROM pasien WHERE id_pasien = '$id'")->fetch_assoc();
-    // <<<<<<<<<<<<<<  ✨ Codeium Command 🌟 >>>>>>>>>>>>>>>>
-    unlink("uploads/rekammedis/" . $row['file_rekammedis']);
-    unlink("uploads/rontgen/" . $row['file_hasilrontgen']);
-    unlink("uploads/laboratorium/" . $row['hasil_laboratorium']);
-    // unlink($row['file_rekammedis']);
-    // unlink($row['file_hasilrontgen']);
-    // unlink($row['hasil_laboratorium']);
-    // <<<<<<<  b7969aa4-6011-4e6a-bf72-679f6453c9de  >>>>>>>
+    if ($row) {
+        if (!empty($row['file_rekammedis']) && file_exists("uploads/rekammedis/" . $row['file_rekammedis'])) {
+            unlink("uploads/rekammedis/" . $row['file_rekammedis']);
+        }
+        if (!empty($row['file_hasilrontgen']) && file_exists("uploads/rontgen/" . $row['file_hasilrontgen'])) {
+            unlink("uploads/rontgen/" . $row['file_hasilrontgen']);
+        }
+        if (!empty($row['hasil_laboratorium']) && file_exists("uploads/laboratorium/" . $row['hasil_laboratorium'])) {
+            unlink("uploads/laboratorium/" . $row['hasil_laboratorium']);
+        }
+    }
+
+    // hapus data anak dulu
+    $conn->execute("DELETE FROM tindakan WHERE id_pasien = '$id'");
+    $conn->execute("DELETE FROM konsultasi WHERE id_pasien = '$id'");
+
+    // baru hapus pasien
     return $conn->execute("DELETE FROM pasien WHERE id_pasien = '$id'");
-    // $_SESSION['success'] = 'Berhasil hapus data!';
-    // header("Location: ../view/admin/data-pasien/index.php");
-    // exit;
 }

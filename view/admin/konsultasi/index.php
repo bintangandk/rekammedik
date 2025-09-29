@@ -683,6 +683,43 @@ $pasienList = getAllPasien($db);
         });
     </script>
 
+    <script>
+        function deleteKonsultasi(id) {
+            Swal.fire({
+                title: 'Apakah kamu yakin?',
+                text: "Data yang dihapus tidak bisa dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // bikin form hidden untuk submit delete
+                    let form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "../../../controller/konsultasi.php";
+
+                    let inputAction = document.createElement("input");
+                    inputAction.type = "hidden";
+                    inputAction.name = "action";
+                    inputAction.value = "delete_data";
+                    form.appendChild(inputAction);
+
+                    let inputId = document.createElement("input");
+                    inputId.type = "hidden";
+                    inputId.name = "id_konsultasi";
+                    inputId.value = id;
+                    form.appendChild(inputId);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            })
+        }
+    </script>
+
 
     <script>
         function editKonsultasi(data) {

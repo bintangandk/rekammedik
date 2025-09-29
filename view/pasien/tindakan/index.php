@@ -213,7 +213,9 @@ $tindakans = $id_pasien ? getTindakansByIdPasien($db, $id_pasien) : [];
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="tex-center">No. RM</th>
+                        <th class="text-center">No. RM</th>
+                        <th class="text-center">Nama Pasien</th>
+                        <th class="text-center">Tindakan</th>
                         <th class="text-center">Diagnosis</th>
                         <th class="text-center">Medikamentosa</th>
                         <th class="text-center">Tanggal</th>
@@ -223,7 +225,9 @@ $tindakans = $id_pasien ? getTindakansByIdPasien($db, $id_pasien) : [];
                     <tfoot>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="tex-center">No. RM</th>
+                        <th class="text-center">No. RM</th>
+                        <th class="text-center">Nama Pasien</th>
+                        <th class="text-center">Tindakan</th>
                         <th class="text-center">Diagnosis</th>
                         <th class="text-center">Medikamentosa</th>
                         <th class="text-center">Tanggal</th>
@@ -239,6 +243,8 @@ $tindakans = $id_pasien ? getTindakansByIdPasien($db, $id_pasien) : [];
                             <td class="text-center"><?= $data['no_rm'] ?></td>
                             <td class="text-center"><?= $data['nama_pasien']; ?></td>
                             <td class="text-center"><?= $data['nama_tindakan']; ?></td>
+                            <td class="text-center"><?= $data['nama_diagnosis']; ?></td>
+                            <td class="text-center"><?= $data['nama_medikamentosa']; ?></td>
                             <td class="text-center"><?= $data['tanggal']; ?></td>
                             <td class="text-center"><?= $data['durasi']; ?></td>
                           </tr>
