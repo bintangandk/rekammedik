@@ -282,17 +282,30 @@ $tindakans = getAllTindakan($db);
                                                         <td class="text-center"><?= $row['kategori'] ?></td>
                                                         <td class="text-center"><?= $row['durasi'] ?></td>
                                                         <td class="text-center">
-                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal"
-                                                                onclick="editDcTindakan(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
-                                                                <i class="bi bi-pencil"></i>
-                                                            </button>
-                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
-                                                                onclick="showDcTindakan(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
-                                                                <i class="bi bi-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-danger" onclick="deleteDicTindakan(<?= $row['id_dctindakan'] ?>)">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
+                                                            <div class="dropdown dropend">
+                                                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton<?= $pasien['id_pasien'] ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= $pasien['id_pasien'] ?>">
+                                                                    <li>
+                                                                        <a class="dropdown-item text-secondary" href="#" data-bs-toggle="modal" data-bs-target="#showModal"
+                                                                            onclick="showDcTindakan(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
+                                                                            <i class="bi bi-eye me-2"></i> Lihat Data
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="dropdown-item text-primary" href="#" data-bs-toggle="modal" data-bs-target="#editModal"
+                                                                            onclick="editDcTindakan(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
+                                                                            <i class="bi bi-pencil me-2"></i> Edit Data
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="dropdown-item text-danger" href="#" onclick="deleteDicTindakan(<?= $row['id_dctindakan'] ?>)">
+                                                                            <i class="bi bi-trash me-2"></i> Hapus Data
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
