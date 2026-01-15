@@ -263,6 +263,10 @@ $pasienList = getAllPasien($db);
                                     <i class="bi bi-pencil"></i>
                                     <i class="bi bi-plus"></i>
                                 </button>
+                                <!-- Print Button -->
+                                <button type="button" class="btn btn-secondary" onclick="window.print()">
+                                    <i class="bi bi-printer"></i>
+                                </button>
                             </div>
 
                             <div class="card-body">
