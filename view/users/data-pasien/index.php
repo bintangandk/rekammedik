@@ -276,12 +276,26 @@ $unit = $pasien->instalasi();
                         <td class="text-center"><?= date('d-m-Y', strtotime($pasien['tgl_masuk'])) ?></td>
                         <td class="text-center"><?= date('d-m-Y', strtotime($pasien['tgl_keluar'])) ?></td>
                         <td class="text-center">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="showData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">
-                            <i class="bi bi-eye"></i>
-                          </button>
-                          <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="editData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">
-                            <i class="bi bi-pencil"></i>
-                          </button>
+                          <div class="dropdown">
+                            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton<?= $data['id_konsultasi'] ?>"
+                              data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= $data['id_konsultasi'] ?>">
+                              <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"
+                                  onclick="editData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">
+                                  <i class="bi bi-pencil me-2 text-warning"></i> Edit
+                                </a>
+                              </li>
+                              <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#showModal"
+                                  onclick="showData(<?= htmlspecialchars(json_encode($pasien), ENT_QUOTES, 'UTF-8'); ?>)">
+                                  <i class="bi bi-eye me-2 text-primary"></i> Detail
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
                         </td>
                       </tr>
                     <?php } ?>
@@ -310,7 +324,7 @@ $unit = $pasien->instalasi();
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">Edit Data Pasien</h4>
-                    <a data-dismiss="modal">
+                    <a data-bs-dismiss="modal">
                       <i class="bi bi-x"></i>
                     </a>
                   </div>
@@ -403,7 +417,7 @@ $unit = $pasien->instalasi();
                   <!-- Modal Footer -->
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                   </div>
                   </form>
                 </div>
