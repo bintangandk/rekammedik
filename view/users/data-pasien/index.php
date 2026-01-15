@@ -176,7 +176,7 @@ $unit = $pasien->instalasi();
                   <li>
                     <a class="dropdown-item" href="#">
                       <div class="d-flex">
-                        <div class="flex-shrink-0 me-3">
+                        <div class="shrink-0 me-3">
                           <div class="avatar avatar-online">
 
                             <?php if ($profile['gambar'] == 'profile.jpg') { ?>
@@ -187,7 +187,7 @@ $unit = $pasien->instalasi();
 
                           </div>
                         </div>
-                        <div class="flex-grow-1">
+                        <div class="grow">
                           <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
                           <!-- sesuai role -->
                           <small class="text-muted"><?= $profile['role'] ?></small>
@@ -226,7 +226,7 @@ $unit = $pasien->instalasi();
         <div class="content-wrapper">
           <!-- Content -->
 
-          <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="container-xxl grow container-p-y">
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Pasien</h4>
 
             <!-- Table Data Pasien -->
