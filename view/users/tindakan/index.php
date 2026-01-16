@@ -36,6 +36,14 @@ $pasienList = getAllPasien($db);
     .swal2-container {
         z-index: 20000 !important;
     }
+
+    .colored-toast.swal2-icon-error {
+        background-color: #ff3e1d !important;
+    }
+
+    .colored-toast.swal2-icon-success {
+        background-color: #28a745 !important;
+    }
 </style>
 
 <!DOCTYPE html>
