@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php'; 
-include '../koneksi.php'; 
+require_once __DIR__ . '/../vendor/autoload.php';
+include '../koneksi.php';
 
 
 $db = new koneksi();
@@ -67,7 +67,7 @@ $html = "
     </thead>
     <tbody>
         <tr>
-            <td>".date('d-m-Y', strtotime($konsul['tanggal']))."</td>
+            <td>" . date('d-m-Y', strtotime($konsul['tanggal'])) . "</td>
             <td>{$konsul['durasi']}</td>
             <td>{$konsul['nama_dokter']}</td>
             <td>{$konsul['nama_diagnosis']}</td>
@@ -87,7 +87,7 @@ $mpdf->WriteHTML($html);
 
 $mpdf->SetHTMLFooter("
     <div style='text-align: right; font-size: 10pt;'>
-        Dicetak pada: ".date('d-m-Y')."
+        Dicetak pada: " . date('d-m-Y') . "
     </div>
 ");
 

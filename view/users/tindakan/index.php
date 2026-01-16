@@ -147,12 +147,6 @@ $pasienList = getAllPasien($db);
                             <div data-i18n="Account Settings">Riwayat File</div>
                         </a>
                     </li>
-                    <!-- <li class="menu-item">
-                        <a href="../aktivitas/index.php" class="menu-link">
-                            <i class="menu-icon bi bi-activity"></i>
-                            <div data-i18n="Account Settings">Aktivitas</div>
-                        </a>
-                    </li> -->
                     <li class="menu-item dropdown">
                         <a href="#" class="menu-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="menu-icon bi bi-book"></i>
@@ -211,7 +205,7 @@ $pasienList = getAllPasien($db);
                                     <li>
                                         <a class="dropdown-item" href="#">
                                             <div class="d-flex">
-                                                <div class="flex-shrink-0 me-3">
+                                                <div class="shrink-0 me-3">
                                                     <div class="avatar avatar-online">
                                                         <?php if ($profile['gambar'] == 'profile.jpg') { ?>
                                                             <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
@@ -220,7 +214,7 @@ $pasienList = getAllPasien($db);
                                                         <?php } ?>
                                                     </div>
                                                 </div>
-                                                <div class="flex-grow-1">
+                                                <div class="grow">
                                                     <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
                                                     <!-- sesuai role -->
                                                     <small class="text-muted"><?= $profile['role'] ?></small>
@@ -259,7 +253,7 @@ $pasienList = getAllPasien($db);
                 <div class="content-wrapper">
                     <!-- Content -->
 
-                    <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="container-xxl grow container-p-y">
                         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Tindakan</h4>
 
                         <!-- Table Konsultasi -->
@@ -270,9 +264,12 @@ $pasienList = getAllPasien($db);
                                     <i class="bi bi-pencil"></i>
                                     <i class="bi bi-plus"></i>
                                 </button>
+                                <!-- Print Button -->
+                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#printModalTindakan">
+                                    <i class="bi bi-printer"></i>
+                                    Cetak
+                                </button>
                             </div>
-
-                            <!--/ Print Button -->
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -636,6 +633,68 @@ $pasienList = getAllPasien($db);
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Modal Print-->
+                        <div class="modal fade" id="printModalTindakan">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Cetak Data Tindakan</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <form id="formPrintTindakan"
+                                        action="../../../controller/print_tindakan_range.php"
+                                        method="GET"
+                                        target="printFrame">
+
+                                        <div class="modal-body">
+                                            <div class="form-group mb-3">
+                                                <label>Tanggal Awal <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" name="tgl_awal" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Tanggal Akhir <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" name="tgl_akhir" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="bi bi-printer"></i> Cetak
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                                Tutup
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Preview PDF -->
+                        <div class="modal fade" id="pdfPreviewModal" tabindex="-1">
+                            <div class="modal-dialog modal-xl modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Preview Laporan Tindakan</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body p-0">
+                                        <iframe
+                                            id="printFrame"
+                                            name="printFrame"
+                                            style="width:100%; height:80vh; border:none;">
+                                        </iframe>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -702,7 +761,7 @@ $pasienList = getAllPasien($db);
 
     <!-- Delete alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -871,6 +930,66 @@ $pasienList = getAllPasien($db);
         function printTindakan(id) {
             window.open('../../../controller/print_tindakan.php?id=' + id, '_blank');
         }
+    </script>
+
+    <script>
+        document.getElementById('formPrintTindakan').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+            const formData = new FormData(form);
+
+            fetch('../../../controller/check_tindakan_range.php?' + new URLSearchParams(formData))
+                .then(res => res.json())
+                .then(data => {
+                    if (data.total == 0) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Tidak ada data konsultasi pada rentang tanggal yang dipilih'
+                        });
+                        return;
+                    }
+
+                    const modal = bootstrap.Modal.getInstance(
+                        document.getElementById('printModalTindakan')
+                    );
+                    modal.hide();
+
+                    form.submit();
+                });
+        });
+    </script>
+
+
+    <script>
+        const iframe = document.getElementById('printFrame');
+
+        iframe.addEventListener('load', function() {
+            const previewModal = new bootstrap.Modal(
+                document.getElementById('pdfPreviewModal')
+            );
+            previewModal.show();
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Laporan berhasil dibuat'
+            });
+        });
+    </script>
+
+
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast'
+            },
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
     </script>
 </body>
 
