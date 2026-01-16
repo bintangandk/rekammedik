@@ -9,7 +9,17 @@ $tglAwal  = $_GET['tgl_awal'];
 $tglAkhir = $_GET['tgl_akhir'];
 
 // =====================
-// QUERY DATA TINDAKAN
+// FILTER TAMBAHAN (OPTIONAL)
+// =====================
+$where = "t.tanggal BETWEEN '$tglAwal' AND '$tglAkhir'";
+
+if (!empty($_GET['id_pasien'])) {
+    $idPasien = $_GET['id_pasien'];
+    $where .= " AND t.id_pasien = '$idPasien'";
+}
+
+// =====================
+// QUERY
 // =====================
 $sql = "
     SELECT 
@@ -26,14 +36,14 @@ $sql = "
     LEFT JOIN dic_diagnosis d ON t.id_diagnosis = d.id_diagnosis
     LEFT JOIN dic_medikamentosa m ON t.id_medikamentosa = m.id_medikamentosa
     LEFT JOIN dic_tindakan dt ON t.id_dctindakan = dt.id_dctindakan
-    WHERE t.tanggal BETWEEN '$tglAwal' AND '$tglAkhir'
+    WHERE $where
     ORDER BY t.tanggal ASC
 ";
 
 $result = $conn->query($sql);
 
 // =====================
-// JIKA DATA KOSONG
+// DATA KOSONG
 // =====================
 if ($result->num_rows == 0) {
     echo "
@@ -41,7 +51,7 @@ if ($result->num_rows == 0) {
         <html>
         <body>
             <div id='no-data'
-                 data-message='Tidak ada data tindakan pada rentang tanggal yang dipilih'>
+                 data-message='Tidak ada data tindakan sesuai filter yang dipilih'>
             </div>
         </body>
         </html>
@@ -60,7 +70,39 @@ $html = "
 <p style='text-align:center;'>
     Periode: " . date('d-m-Y', strtotime($tglAwal)) . " s/d " . date('d-m-Y', strtotime($tglAkhir)) . "
 </p>
+";
 
+$idPasien = $_GET['id_pasien'] ?? null;
+
+if ($idPasien) {
+    $sqlPasien = "SELECT nama, no_rm, tanggal_lahir, jenis_kelamin FROM pasien WHERE id_pasien = '$idPasien'";
+    $resultPasien = $conn->query($sqlPasien);
+    $pasien = $resultPasien->fetch_assoc();
+
+    if ($pasien) {
+        $html .= "<table width='100%' cellpadding='5' cellspacing='0'>
+    <tr>
+        <td width='25%'><b>Nama Pasien</b></td>
+        <td>: {$pasien['nama']}</td>
+    </tr>
+    <tr>
+        <td><b>No. Rekam Medis</b></td>
+        <td>: {$pasien['no_rm']}</td>
+    </tr>
+    <tr>
+        <td><b>Tgl. Lahir</b></td>
+        <td>: " . date('d-m-Y', strtotime($pasien['tanggal_lahir'])) . "</td>
+    </tr>
+    <tr>
+        <td><b>Jenis Kelamin</b></td>
+        <td>: {$pasien['jenis_kelamin']}</td>
+    </tr>
+</table>";
+    }
+}
+
+
+$html .= "
 <br>
 
 <table border='1' cellpadding='6' cellspacing='0' width='100%' 
@@ -102,14 +144,9 @@ while ($row = $result->fetch_assoc()) {
 $html .= "</tbody></table>";
 
 // =====================
-// GENERATE PDF
+// PDF
 // =====================
-$mpdf = new \Mpdf\Mpdf([
-    'format' => 'A4-L',
-    'margin_top' => 10,
-    'margin_bottom' => 15
-]);
-
+$mpdf = new \Mpdf\Mpdf(['format' => 'A4-L']);
 $mpdf->WriteHTML($html);
 
 $mpdf->SetHTMLFooter("
