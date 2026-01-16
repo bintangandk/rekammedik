@@ -43,6 +43,16 @@ $pasienList = getAllPasien($db);
         position: absolute !important;
         z-index: 1050 !important;
     }
+
+    .colored-toast.swal2-icon-error {
+        background-color: #ff3e1d !important;
+    }
+
+    .colored-toast.swal2-icon-success {
+        background-color: #28a745 !important;
+    }
+</style>
+
 </style>
 
 <!DOCTYPE html>
@@ -252,7 +262,7 @@ $pasienList = getAllPasien($db);
                 <div class="content-wrapper">
                     <!-- Content -->
 
-                    <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="container-xxl grow container-p-y">
                         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Konsultasi</h4>
 
                         <!-- Table Konsultasi -->
@@ -262,6 +272,11 @@ $pasienList = getAllPasien($db);
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#insertModal">
                                     <i class="bi bi-pencil"></i>
                                     <i class="bi bi-plus"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#printModalKonsultasi">
+                                    <i class="bi bi-printer"></i>
+                                    Cetak
                                 </button>
                             </div>
 
@@ -600,6 +615,68 @@ $pasienList = getAllPasien($db);
                             </div>
                         </div>
 
+                        <!-- Modal Print-->
+                        <div class="modal fade" id="printModalKonsultasi">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Cetak Data Konsultasi</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <form id="formPrintKonsultasi"
+                                        action="../../../controller/print_konsultasi_range.php"
+                                        method="GET"
+                                        target="printFrame">
+
+                                        <div class="modal-body">
+                                            <div class="form-group mb-3">
+                                                <label>Tanggal Awal <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" name="tgl_awal" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Tanggal Akhir <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" name="tgl_akhir" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="bi bi-printer"></i> Cetak
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                                Tutup
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Preview PDF -->
+                        <div class="modal fade" id="pdfPreviewModal" tabindex="-1">
+                            <div class="modal-dialog modal-xl modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Preview Laporan Konsultasi</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body p-0">
+                                        <iframe
+                                            id="printFrame"
+                                            name="printFrame"
+                                            style="width:100%; height:80vh; border:none;">
+                                        </iframe>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -835,6 +912,65 @@ $pasienList = getAllPasien($db);
         }
     </script>
 
+    <script>
+        document.getElementById('formPrintKonsultasi').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+            const formData = new FormData(form);
+
+            fetch('../../../controller/check_konsultasi_range.php?' + new URLSearchParams(formData))
+                .then(res => res.json())
+                .then(data => {
+                    if (data.total == 0) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Tidak ada data konsultasi pada rentang tanggal yang dipilih'
+                        });
+                        return;
+                    }
+
+                    const modal = bootstrap.Modal.getInstance(
+                        document.getElementById('printModalKonsultasi')
+                    );
+                    modal.hide();
+
+                    form.submit();
+                });
+        });
+    </script>
+
+
+    <script>
+        const iframe = document.getElementById('printFrame');
+
+        iframe.addEventListener('load', function() {
+            const previewModal = new bootstrap.Modal(
+                document.getElementById('pdfPreviewModal')
+            );
+            previewModal.show();
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Laporan berhasil dibuat'
+            });
+        });
+    </script>
+
+
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast'
+            },
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+    </script>
 
 </body>
 

@@ -147,12 +147,6 @@ $pasienList = getAllPasien($db);
                             <div data-i18n="Account Settings">Riwayat File</div>
                         </a>
                     </li>
-                    <!-- <li class="menu-item">
-                        <a href="../aktivitas/index.php" class="menu-link">
-                            <i class="menu-icon bi bi-activity"></i>
-                            <div data-i18n="Account Settings">Aktivitas</div>
-                        </a>
-                    </li> -->
                     <li class="menu-item dropdown">
                         <a href="#" class="menu-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="menu-icon bi bi-book"></i>
@@ -211,7 +205,7 @@ $pasienList = getAllPasien($db);
                                     <li>
                                         <a class="dropdown-item" href="#">
                                             <div class="d-flex">
-                                                <div class="flex-shrink-0 me-3">
+                                                <div class="shrink-0 me-3">
                                                     <div class="avatar avatar-online">
                                                         <?php if ($profile['gambar'] == 'profile.jpg') { ?>
                                                             <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
@@ -220,7 +214,7 @@ $pasienList = getAllPasien($db);
                                                         <?php } ?>
                                                     </div>
                                                 </div>
-                                                <div class="flex-grow-1">
+                                                <div class="grow">
                                                     <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
                                                     <!-- sesuai role -->
                                                     <small class="text-muted"><?= $profile['role'] ?></small>
@@ -259,7 +253,7 @@ $pasienList = getAllPasien($db);
                 <div class="content-wrapper">
                     <!-- Content -->
 
-                    <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="container-xxl grow container-p-y">
                         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Tindakan</h4>
 
                         <!-- Table Konsultasi -->
@@ -270,9 +264,11 @@ $pasienList = getAllPasien($db);
                                     <i class="bi bi-pencil"></i>
                                     <i class="bi bi-plus"></i>
                                 </button>
+                                <!-- Print Button -->
+                                <button type="button" class="btn btn-outline-primary" onclick="window.print()">
+                                    <i class="bi bi-printer"></i>
+                                </button>
                             </div>
-
-                            <!--/ Print Button -->
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -702,7 +698,7 @@ $pasienList = getAllPasien($db);
 
     <!-- Delete alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
