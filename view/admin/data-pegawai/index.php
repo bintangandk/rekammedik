@@ -271,17 +271,6 @@ $data_instalasi = $pegawai->instalasi();
                           <td class="text-center"><?= $pegawai['nip'] ?></td>
                           <td class="text-center"><?= $pegawai['role'] ?></td>
                           <td class="text-center"><?= $pegawai['instalasi'] ?></td>
-                          <!-- <td class="text-center">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#showModal" onclick="detail(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8'); ?>)">
-                              <i class="bi bi-eye"></i>
-                            </button>
-                            <button class="btn btn-warning" data-toggle="modal" data-target="#editModal" onclick="edit(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8'); ?>)">
-                              <i class="bi bi-pencil"></i>
-                            </button>
-                            <button id="deleteButton" class="btn btn-danger" onclick="deleteData(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8');  ?>)">
-                              <i class="bi bi-trash"></i>
-                            </button>
-                          </td> -->
                           <td class="text-center">
                             <div class="dropdown">
                               <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton<?= $row['id_konsultasi'] ?>"
@@ -558,7 +547,6 @@ $data_instalasi = $pegawai->instalasi();
       }).then((result) => {
         if (result.isConfirmed) {
           window.location.href = '../../../controller/hapus_pegawai.php?action=delete&id=' + userId;
-          // window.location.href = 'index.php?action=delete&id=' 
         }
       });
     }
