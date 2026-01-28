@@ -2,7 +2,6 @@
 // var_dump("dsdsdsds");
 session_start();
 require_once '../koneksi.php';
-$conn = mysqli_connect("localhost", "root", "", "rekammedik");
 if (!is_dir('uploads/profile')) {
     mkdir('uploads/profile', 0777, true);
 }
@@ -11,15 +10,15 @@ $kon = new koneksi();
 $pegawai = new Pegawai();
 
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
-   
+
 
     $id = htmlspecialchars($_GET['id']);
-   
+
     $row = $kon->execute("SELECT * FROM users WHERE id_user = '$id'")->fetch_assoc();
-  
+
     unlink("uploads/profile/" . $row['gambar']);
     $query = "DELETE FROM users WHERE id_user ='$id'";
-    $result = mysqli_query($conn, $query);
+    $result = $kon->execute($query);
     // var_dump($result);
     try {
 
@@ -35,16 +34,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
     } catch (\Throwable $th) {
         // var_dump($th);
     }
-
-    // $response = $pegawai->delete($_GET['id']);
-    // // var_dump($response);
-    // if ($response['status'] === 'success') {
-    //     // var_dump($response);
-    //     $_SESSION['success'] = "Data berhasil dihapus!";
-    //     header("Location: ../view/admin/data-pegawai/index.php");
-    // } else {
-    //     header("Location: path/to/your/view/admin/data-pegawai/index.php?message=Gagal menghapus data");
-    // }
 } else {
     // Logika lain untuk controller utama
 }

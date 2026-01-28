@@ -181,7 +181,7 @@ $data_instalasi = $pegawai->instalasi();
                   <li>
                     <a class="dropdown-item" href="#">
                       <div class="d-flex">
-                        <div class="flex-shrink-0 me-3">
+                        <div class="shrink-0 me-3">
                           <div class="avatar avatar-online">
 
                             <?php if ($profile['gambar'] == 'profile.jpg') { ?>
@@ -192,7 +192,7 @@ $data_instalasi = $pegawai->instalasi();
 
                           </div>
                         </div>
-                        <div class="flex-grow-1">
+                        <div class="grow">
                           <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
                           <!-- sesuai role -->
                           <small class="text-muted"><?= $profile['role'] ?></small>
@@ -231,7 +231,7 @@ $data_instalasi = $pegawai->instalasi();
         <div class="content-wrapper">
           <!-- Content -->
 
-          <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="container-xxl grow container-p-y">
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Pegawai</h4>
 
             <!-- Table Data Pasien -->
@@ -301,12 +301,12 @@ $data_instalasi = $pegawai->instalasi();
                                     <i class="bi bi-eye me-2 text-primary"></i> Detail
                                   </a>
                                 </li>
-                                <!-- <li>
+                                <li>
                                   <a class="dropdown-item text-danger" href="#"
                                     onclick="deleteData(<?= htmlspecialchars(json_encode($pegawai)); ?>)">
                                     <i class="bi bi-trash me-2"></i> Hapus
                                   </a>
-                                </li> -->
+                                </li>
                               </ul>
                             </div>
                           </td>
@@ -549,7 +549,7 @@ $data_instalasi = $pegawai->instalasi();
       console.log(userId);
       Swal.fire({
         title: 'Apakah Anda Yakin?',
-        text: "Anda igin menghapus data ini!",
+        text: "Anda ingin menghapus data ini!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
