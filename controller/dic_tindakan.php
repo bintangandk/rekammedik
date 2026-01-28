@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include_once __DIR__ . '/../koneksi.php';
 
 $db = new koneksi();
@@ -25,10 +28,13 @@ function createDicTindakan($db, $kode_dctindakan, $nama_tindakan, $kategori = nu
     $result = $db->insertData($sql);
 
     if ($result) {
-        header("Location: /view/admin/dic-tindakan/index.php");
+        $_SESSION['success'] = "Data berhasil ditambahkan!";
+        header("Location: ../view/admin/dic-tindakan/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan tindakan";
+        $_SESSION['error'] = "Gagal menambahkan tindakan!";
+        header("Location: ../view/admin/dic-tindakan/index.php");
+        exit;
     }
 }
 
@@ -59,10 +65,13 @@ function updateDicTindakan($db, $id_dctindakan, $kode_dctindakan, $nama_tindakan
     $result = $db->updateData($sql);
 
     if ($result) {
-        header("Location: /view/admin/dic-tindakan/index.php");
+        $_SESSION['success'] = "Data berhasil diupdate!";
+        header("Location: ../view/admin/dic-tindakan/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan tindakan";
+        $_SESSION['error'] = "Gagal mengupdate tindakan!";
+        header("Location: ../view/admin/dic-tindakan/index.php");
+        exit;
     }
 }
 
@@ -73,10 +82,13 @@ function deleteDcTindakan($db, $id_dctindakan)
     $result = $db->deleteData($sql);
 
     if ($result) {
-        header("Location: /view/admin/dic-tindakan/index.php");
+        $_SESSION['success'] = "Data berhasil dihapus!";
+        header("Location: ../view/admin/dic-tindakan/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan tindakan";
+        $_SESSION['error'] = "Gagal menghapus tindakan!";
+        header("Location: ../view/admin/dic-tindakan/index.php");
+        exit;
     }
 }
 

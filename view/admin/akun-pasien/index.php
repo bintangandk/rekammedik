@@ -647,6 +647,79 @@ $pasienList = getPasienWithoutAkun($db);
   </script>
 
   <script>
+    //  Edit form submission handler & SESSION alerts
+    document.addEventListener("DOMContentLoaded", function() {
+      const editForm = document.getElementById("editForm");
+      const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+      const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+
+      if (success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Sukses',
+          text: success,
+        });
+        <?php unset($_SESSION['success']); ?>
+      }
+
+      if (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error,
+        });
+        <?php unset($_SESSION['error']); ?>
+      }
+
+      if (!editForm) return;
+
+      editForm.addEventListener("submit", function(e) {
+        e.preventDefault(); // cegah reload default
+
+        const formData = new FormData(editForm);
+
+        fetch("../../../controller/akunPasien.php", {
+            method: "POST",
+            body: formData,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            Swal.fire({
+              icon: data.status === "success" ? "success" : "error",
+              title: data.status === "success" ? "Berhasil!" : "Oops...",
+              text: data.message,
+              confirmButtonText: "OK",
+              allowOutsideClick: false,
+              allowEscapeKey: false
+            }).then((result) => {
+              if (result.isConfirmed && data.status === "success") {
+                const modalEl = document.getElementById("editModal");
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
+
+                setTimeout(() => {
+                  location.reload();
+                }, 500);
+              }
+            });
+          })
+          .catch(err => {
+            console.error("❌ Fetch error:", err);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Terjadi kesalahan pada server!",
+              confirmButtonText: "OK"
+            });
+          });
+      });
+    });
+  </script>
+
+  <script>
     function editAkun(data) {
       document.getElementById('id_edit').value = data.id_user;
       document.getElementById('Nama_edit').value = data.Nama;

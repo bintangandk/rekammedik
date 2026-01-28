@@ -409,7 +409,7 @@ $medikamentosas = getAllMedikamentosa($db);
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                        <form id="insertForm" action="../../../controller/dic_medikamentosa.php" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
                                                     <input type="hidden" name="action" value="update_data">
@@ -484,7 +484,7 @@ $medikamentosas = getAllMedikamentosa($db);
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                        <form id="showForm" method="POST" enctype="multipart/form-data">
                                             <div class="container">
                                                 <div class="row">
                                                     <input type="hidden" name="action" value="tambah_data">
@@ -615,6 +615,29 @@ $medikamentosas = getAllMedikamentosa($db);
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+            const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+
+            if (success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses',
+                    text: success,
+                });
+                <?php unset($_SESSION['success']); ?>
+            }
+
+            if (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error,
+                });
+                <?php unset($_SESSION['error']); ?>
+            }
+        });
+
         document.getElementById('logout-link').addEventListener('click', function(event) {
             event.preventDefault(); // Mencegah tautan default
 
@@ -633,9 +656,7 @@ $medikamentosas = getAllMedikamentosa($db);
                 }
             });
         });
-    </script>
 
-    <script>
         function editMedikamentosa(data) {
             document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa;
             document.getElementById('kode_obat_edit').value = data.kode_obat;
@@ -657,9 +678,7 @@ $medikamentosas = getAllMedikamentosa($db);
             document.getElementById('golongan_show').value = data.golongan;
             document.getElementById('keterangan_show').value = data.keterangan;
         }
-    </script>
 
-    <script>
         function deleteMedikamentosa(id) {
             Swal.fire({
                 title: 'Apakah kamu yakin?',

@@ -700,6 +700,7 @@ $pasienList = getAllPasien($db);
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
+        // Initialize Select2
         $(document).ready(function() {
             $('.select2').each(function() {
                 let $parentModal = $(this).closest('.modal');
@@ -709,9 +710,8 @@ $pasienList = getAllPasien($db);
                 });
             });
         });
-    </script>
 
-    <script>
+        // Logout confirmation
         document.getElementById('logout-link').addEventListener('click', function(event) {
             event.preventDefault(); // Mencegah tautan default
 
@@ -730,20 +730,23 @@ $pasienList = getAllPasien($db);
                 }
             });
         });
-    </script>
 
-    <script>
+        // Edit tindakan handler
         function editTindakan(data) {
             document.getElementById('id_edit').value = data.id_tindakan;
-            document.getElementById('id_pasien_edit').value = data.id_pasien;
-            document.getElementById('id_diagnosis_edit').value = data.id_diagnosis;
-            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa;
-            document.getElementById('id_dctindakan_edit').value = data.id_dctindakan;
+
+            // Set select values dan trigger Select2 update
+            $('#id_pasien_edit').val(data.id_pasien).trigger('change');
+            $('#id_diagnosis_edit').val(data.id_diagnosis).trigger('change');
+            $('#id_medikamentosa_edit').val(data.id_medikamentosa).trigger('change');
+            $('#id_dctindakan_edit').val(data.id_dctindakan).trigger('change');
+
             document.getElementById('tanggal_edit').value = data.tanggal;
             document.getElementById('durasi_edit').value = data.durasi;
             document.getElementById('catatan_dokter_edit').value = data.catatan_dokter;
         }
 
+        // Show tindakan handler
         function showTindakan(data) {
             document.getElementById('id_show').value = data.id_tindakan;
             document.getElementById('no_rm_show').value = data.no_rm;
@@ -755,9 +758,8 @@ $pasienList = getAllPasien($db);
             document.getElementById('durasi_show').value = data.durasi;
             document.getElementById('catatan_dokter_show').value = data.catatan_dokter;
         }
-    </script>
 
-    <script>
+        // Delete tindakan handler
         function deleteTindakan(id) {
             Swal.fire({
                 title: 'Apakah kamu yakin?',
@@ -792,11 +794,30 @@ $pasienList = getAllPasien($db);
                 }
             })
         }
-    </script>
 
-    <script>
+        //  Edit form submission handler
         document.addEventListener("DOMContentLoaded", function() {
             const editForm = document.getElementById("editForm");
+            const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+            const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+
+            if (success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses',
+                    text: success,
+                });
+                <?php unset($_SESSION['success']); ?>
+            }
+
+            if (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error,
+                });
+                <?php unset($_SESSION['error']); ?>
+            }
 
             if (!editForm) return;
 
@@ -807,10 +828,24 @@ $pasienList = getAllPasien($db);
 
                 fetch("../../../controller/tindakan.php", {
                         method: "POST",
-                        body: formData
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        // Log response status
+                        console.log("Response status:", response.status);
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                console.error("Server error:", text);
+                                throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
+                            });
+                        }
+                        return response.json();
+                    })
                     .then(data => {
+                        console.log("Response data:", data);
                         Swal.fire({
                             icon: data.status === "success" ? "success" : "error",
                             title: data.status === "success" ? "Berhasil!" : "Oops...",
@@ -835,21 +870,19 @@ $pasienList = getAllPasien($db);
                         Swal.fire({
                             icon: "error",
                             title: "Oops...",
-                            text: "Terjadi kesalahan pada server!",
+                            text: "Terjadi kesalahan pada server! " + err.message,
                             confirmButtonText: "OK"
                         });
                     });
             });
         });
-    </script>
 
-    <script>
+        // Print single tindakan handler
         function printTindakan(id) {
             window.open('../../../controller/print_tindakan.php?id=' + id, '_blank');
         }
-    </script>
 
-    <script>
+        // Print with date range handler
         document.getElementById('formPrintTindakans').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -875,10 +908,8 @@ $pasienList = getAllPasien($db);
                     form.submit();
                 });
         });
-    </script>
 
-
-    <script>
+        // PDF Preview handler
         const iframe = document.getElementById('printFrame');
 
         iframe.addEventListener('load', function() {
@@ -905,10 +936,8 @@ $pasienList = getAllPasien($db);
                 title: 'Laporan berhasil dibuat'
             });
         });
-    </script>
 
-
-    <script>
+        // Toast configuration
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',

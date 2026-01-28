@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include_once __DIR__ . '/../koneksi.php';
 
 $db = new koneksi();
@@ -41,10 +44,13 @@ function createAkunPasien($db, $id_pasien, $email, $password, $role, $no_telfon,
         $update = "UPDATE pasien SET id_user = $id_user WHERE id_pasien = $id_pasien";
         $db->updateData($update);
 
-        header("Location: /view/admin/akun-pasien/index.php");
+        $_SESSION['success'] = 'Akun pasien berhasil ditambahkan';
+        header("Location: ../view/admin/akun-pasien/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan akun pasien";
+        $_SESSION['error'] = 'Terjadi kesalahan saat menambahkan akun pasien';
+        header("Location: ../view/admin/akun-pasien/index.php");
+        exit;
     }
 }
 
@@ -72,12 +78,33 @@ function updateAkunPasien($db, $id_user, $email, $password, $role, $no_telfon, $
 
     $result = $db->updateData($sql);
 
-    if ($result) {
-        header("Location: /view/admin/akun-pasien/index.php");
-        exit;
+    // Check if this is an AJAX request
+    $is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+    if ($is_ajax) {
+        header('Content-Type: application/json; charset=utf-8');
+        ob_clean();
+        if ($result) {
+            echo json_encode([
+                "status" => "success",
+                "message" => "Data akun berhasil diperbarui!"
+            ]);
+        } else {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Gagal memperbarui data akun!"
+            ]);
+        }
     } else {
-        echo "Gagal menambahkan tindakan";
+        // Session-based alert for form submission
+        if ($result) {
+            $_SESSION['success'] = 'Akun pasien berhasil diperbarui';
+        } else {
+            $_SESSION['error'] = 'Terjadi kesalahan saat memperbarui akun pasien';
+        }
+        header("Location: ../view/admin/akun-pasien/index.php");
     }
+    exit;
 }
 
 function deleteAkunPasien($db, $id_user)
@@ -88,10 +115,13 @@ function deleteAkunPasien($db, $id_user)
     $result = $db->deleteData($sql);
 
     if ($result) {
-        header("Location: /view/admin/akun-pasien/index.php");
+        $_SESSION['success'] = 'Akun pasien berhasil dihapus';
+        header("Location: ../view/admin/akun-pasien/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan tindakan";
+        $_SESSION['error'] = 'Terjadi kesalahan saat menghapus akun pasien';
+        header("Location: ../view/admin/akun-pasien/index.php");
+        exit;
     }
 }
 

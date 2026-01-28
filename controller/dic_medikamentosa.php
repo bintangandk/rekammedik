@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include_once __DIR__ . '/../koneksi.php';
 
 $db = new koneksi();
@@ -31,10 +34,13 @@ function createMedikamentosa($db, $kode_obat, $nama_generik, $nama_dagang = null
     $result = $db->insertData($sql);
 
     if ($result) {
-        header("Location: /view/admin/dic-medikamentosa/index.php");
+        $_SESSION['success'] = "Data berhasil ditambahkan!";
+        header("Location: ../view/admin/dic-medikamentosa/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan diagnosis!";
+        $_SESSION['error'] = "Gagal menambahkan diagnosis!";
+        header("Location: ../view/admin/dic-medikamentosa/index.php");
+        exit;
     }
 }
 
@@ -68,10 +74,13 @@ function updateMedikammentosa($db, $id_medikamentosa, $kode_obat, $nama_generik,
     $result = $db->updateData($sql);
 
     if ($result) {
-        header("Location: /view/admin/dic-medikamentosa/index.php");
+        $_SESSION['success'] = "Data berhasil diupdate!";
+        header("Location: ../view/admin/dic-medikamentosa/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan diagnosis!";
+        $_SESSION['error'] = "Gagal mengupdate medikamentosa!";
+        header("Location: ../view/admin/dic-medikamentosa/index.php");
+        exit;
     }
 }
 
@@ -82,10 +91,13 @@ function deleteMedikamentosa($db, $id_medikamentosa)
     $result = $db->deleteData($sql);
 
     if ($result) {
-        header("Location: /view/admin/dic-medikamentosa/index.php");
+        $_SESSION['success'] = "Data berhasil dihapus!";
+        header("Location: ../view/admin/dic-medikamentosa/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan diagnosis!";
+        $_SESSION['error'] = "Gagal menghapus diagnosis!";
+        header("Location: ../view/admin/dic-medikamentosa/index.php");
+        exit;
     }
 }
 
@@ -118,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST['action'])) {
         if ($_POST['action'] === 'tambah_data') {
-            createMedikamentosa($db, $_POST['kode_obat'], $_POST['nama_generik'], $_POST['nama_dagang'], $_POST['bentuk_sediaan'], $_POST['satuan'], $_POST['golongan'],$_POST['keterangan']);
+            createMedikamentosa($db, $_POST['kode_obat'], $_POST['nama_generik'], $_POST['nama_dagang'], $_POST['bentuk_sediaan'], $_POST['satuan'], $_POST['golongan'], $_POST['keterangan']);
         } elseif ($_POST['action'] === 'update_data') {
             updateMedikammentosa($db, $_POST['id_medikamentosa'], $_POST['kode_obat'], $_POST['nama_generik'], $_POST['nama_dagang'], $_POST['bentuk_sediaan'], $_POST['satuan'], $_POST['golongan'], $_POST['keterangan']);
         } elseif ($_POST['action'] === 'delete_data') {
@@ -126,4 +138,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
-

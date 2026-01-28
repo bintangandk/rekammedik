@@ -188,7 +188,7 @@ $tindakans = getAllTindakan($db);
                                     <li>
                                         <a class="dropdown-item" href="#">
                                             <div class="d-flex">
-                                                <div class="flex-shrink-0 me-3">
+                                                <div class="shrink-0 me-3">
                                                     <div class="avatar avatar-online">
                                                         <?php if ($profile['gambar'] == 'profile.jpg') { ?>
                                                             <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
@@ -197,7 +197,7 @@ $tindakans = getAllTindakan($db);
                                                         <?php } ?>
                                                     </div>
                                                 </div>
-                                                <div class="flex-grow-1">
+                                                <div class="grow">
                                                     <span class="fw-semibold d-block"><?= $profile['Nama'] ?></span>
                                                     <!-- sesuai role -->
                                                     <small class="text-muted"><?= $profile['role'] ?></small>
@@ -236,7 +236,7 @@ $tindakans = getAllTindakan($db);
                 <div class="content-wrapper">
                     <!-- Content -->
 
-                    <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="container-xxl grow container-p-y">
                         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Dic-Tindakan</h4>
 
                         <!-- Table Konsultasi -->
@@ -621,6 +621,29 @@ $tindakans = getAllTindakan($db);
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+            const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+
+            if (success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses',
+                    text: success,
+                });
+                <?php unset($_SESSION['success']); ?>
+            }
+
+            if (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error,
+                });
+                <?php unset($_SESSION['error']); ?>
+            }
+        });
+
         document.getElementById('logout-link').addEventListener('click', function(event) {
             event.preventDefault(); // Mencegah tautan default
 
@@ -639,9 +662,7 @@ $tindakans = getAllTindakan($db);
                 }
             });
         });
-    </script>
 
-    <script>
         function editDcTindakan(data) {
             document.getElementById('id_dctindakan_edit').value = data.id_dctindakan;
             document.getElementById('kode_dctindakan_edit').value = data.kode_dctindakan;
@@ -661,9 +682,7 @@ $tindakans = getAllTindakan($db);
             document.getElementById('keterangan_show').value = data.keterangan;
             document.getElementById('perlengkapan_show').value = data.perlengkapan;
         }
-    </script>
 
-    <script>
         function deleteDicTindakan(id) {
             Swal.fire({
                 title: 'Apakah kamu yakin?',

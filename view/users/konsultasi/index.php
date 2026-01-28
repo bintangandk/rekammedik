@@ -835,8 +835,11 @@ $pasienList = getAllPasien($db);
         function editKonsultasi(data) {
             document.getElementById('id_edit').value = data.id_konsultasi;
             document.getElementById('id_pasien_edit').value = data.id_pasien;
+            $('#id_pasien_edit').trigger('change');
             document.getElementById('id_diagnosis_edit').value = data.id_diagnosis;
+            $('#id_diagnosis_edit').trigger('change');
             document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa;
+            $('#id_medikamentosa_edit').trigger('change');
             document.getElementById('tanggal_edit').value = data.tanggal;
             document.getElementById('durasi_edit').value = data.durasi;
             document.getElementById('nama_dokter_edit').value = data.nama_dokter;
@@ -858,8 +861,29 @@ $pasienList = getAllPasien($db);
     </script>
 
     <script>
+        //  Edit form submission handler & SESSION alerts
         document.addEventListener("DOMContentLoaded", function() {
             const editForm = document.getElementById("editForm");
+            const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+            const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+
+            if (success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses',
+                    text: success,
+                });
+                <?php unset($_SESSION['success']); ?>
+            }
+
+            if (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error,
+                });
+                <?php unset($_SESSION['error']); ?>
+            }
 
             if (!editForm) return;
 
@@ -870,7 +894,10 @@ $pasienList = getAllPasien($db);
 
                 fetch("../../../controller/konsultasi.php", {
                         method: "POST",
-                        body: formData
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
                     })
                     .then(response => response.json())
                     .then(data => {

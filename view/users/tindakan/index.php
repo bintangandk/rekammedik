@@ -862,59 +862,96 @@ $pasienList = getAllPasien($db);
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const editForm = document.getElementById("editForm");
+            const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+            const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
 
-            if (!editForm) return;
+            if (success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses',
+                    text: success,
+                });
+                <?php unset($_SESSION['success']); ?>
+            }
 
-            editForm.addEventListener("submit", function(e) {
-                e.preventDefault(); // cegah reload default
+            if (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error,
+                });
+                <?php unset($_SESSION['error']); ?>
+            }
+        });
 
-                const formData = new FormData(editForm);
+        if (!editForm) return;
 
-                fetch("../../../controller/tindakan.php", {
-                        method: "POST",
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        Swal.fire({
-                            icon: data.status === "success" ? "success" : "error",
-                            title: data.status === "success" ? "Berhasil!" : "Oops...",
-                            text: data.message,
-                            confirmButtonText: "OK",
-                            allowOutsideClick: false,
-                            allowEscapeKey: false
-                        }).then((result) => {
-                            if (result.isConfirmed && data.status === "success") {
-                                const modalEl = document.getElementById("editModal");
-                                const modal = bootstrap.Modal.getInstance(modalEl);
-                                if (modal) modal.hide();
+        editForm.addEventListener("submit", function(e) {
+            e.preventDefault(); // cegah reload default
 
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 500);
-                            }
+            const formData = new FormData(editForm);
+
+            fetch("../../../controller/tindakan.php", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    // Log response status
+                    console.log("Response status:", response.status);
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            console.error("Server error:", text);
+                            throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
                         });
-                    })
-                    .catch(err => {
-                        console.error("❌ Fetch error:", err);
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: "Terjadi kesalahan pada server!",
-                            confirmButtonText: "OK"
-                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Response data:", data);
+                    Swal.fire({
+                        icon: data.status === "success" ? "success" : "error",
+                        title: data.status === "success" ? "Berhasil!" : "Oops...",
+                        text: data.message,
+                        confirmButtonText: "OK",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then((result) => {
+                        if (result.isConfirmed && data.status === "success") {
+                            const modalEl = document.getElementById("editModal");
+                            const modal = bootstrap.Modal.getInstance(modalEl);
+                            if (modal) modal.hide();
+
+                            setTimeout(() => {
+                                location.reload();
+                            }, 500);
+                        }
                     });
-            });
+                })
+                .catch(err => {
+                    console.error("❌ Fetch error:", err);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Terjadi kesalahan pada server! " + err.message,
+                        confirmButtonText: "OK"
+                    });
+                });
         });
     </script>
 
     <script>
         function editTindakan(data) {
             document.getElementById('id_edit').value = data.id_tindakan;
-            document.getElementById('id_pasien_edit').value = data.id_pasien;
-            document.getElementById('id_diagnosis_edit').value = data.id_diagnosis;
-            document.getElementById('id_medikamentosa_edit').value = data.id_medikamentosa;
-            document.getElementById('id_dctindakan_edit').value = data.id_dctindakan;
+
+            // Set select values dan trigger Select2 update
+            $('#id_pasien_edit').val(data.id_pasien).trigger('change');
+            $('#id_diagnosis_edit').val(data.id_diagnosis).trigger('change');
+            $('#id_medikamentosa_edit').val(data.id_medikamentosa).trigger('change');
+            $('#id_dctindakan_edit').val(data.id_dctindakan).trigger('change');
+
             document.getElementById('tanggal_edit').value = data.tanggal;
             document.getElementById('durasi_edit').value = data.durasi;
             document.getElementById('nama_dokter_edit').value = data.nama_dokter;

@@ -386,7 +386,7 @@ $diagnosis = getAllDiagnosis($db);
                                     <!-- Modal Header -->
                                     <div class="modal-header">
                                         <h4 class="modal-title">Edit Dictionary Diagnosis</h4>
-                                        <a data-dismiss="modal">
+                                        <a data-bs-dismiss="modal">
                                             <i class="bi bi-x"></i>
                                         </a>
                                     </div>
@@ -428,7 +428,7 @@ $diagnosis = getAllDiagnosis($db);
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                                     </div>
 
                                 </div>
@@ -444,7 +444,7 @@ $diagnosis = getAllDiagnosis($db);
                                     <!-- Modal Header -->
                                     <div class="modal-header">
                                         <h4 class="modal-title">Detail Dictionary Diagnosis</h4>
-                                        <a data-dismiss="modal">
+                                        <a data-bs-dismiss="modal">
                                             <i class="bi bi-x"></i>
                                         </a>
                                     </div>
@@ -482,7 +482,7 @@ $diagnosis = getAllDiagnosis($db);
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
                                     </div>
                                 </div>
                                 </form>
@@ -560,6 +560,30 @@ $diagnosis = getAllDiagnosis($db);
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const success = <?php echo json_encode(isset($_SESSION['success']) ? $_SESSION['success'] : ''); ?>;
+            const error = <?php echo json_encode(isset($_SESSION['error']) ? $_SESSION['error'] : ''); ?>;
+
+            if (success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses',
+                    text: success,
+                });
+                <?php unset($_SESSION['success']); ?>
+            }
+
+            if (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error,
+                });
+                <?php unset($_SESSION['error']); ?>
+            }
+        });
+
+        // logout alert
         document.getElementById('logout-link').addEventListener('click', function(event) {
             event.preventDefault(); // Mencegah tautan default
 
@@ -578,9 +602,9 @@ $diagnosis = getAllDiagnosis($db);
                 }
             });
         });
-    </script>
 
-    <script>
+
+        // edit modal
         function editDiagnosis(data) {
             document.getElementById('id_edit').value = data.id_diagnosis;
             document.getElementById('kode_edit').value = data.kode;
@@ -588,15 +612,15 @@ $diagnosis = getAllDiagnosis($db);
             document.getElementById('kategori_penyakit_edit').value = data.kategori_penyakit;
         }
 
+        // show modal
         function showDiagnosis(data) {
             document.getElementById('id_show').value = data.id_diagnosis;
             document.getElementById('kode_show').value = data.kode;
             document.getElementById('nama_diagnosis_show').value = data.nama_diagnosis;
             document.getElementById('kategori_penyakit_show').value = data.kategori_penyakit;
         }
-    </script>
 
-    <script>
+        // delete alert
         function deleteDiagnosis(id) {
             Swal.fire({
                 title: 'Apakah kamu yakin?',
