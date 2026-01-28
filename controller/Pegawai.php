@@ -121,15 +121,11 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         return $this->showData($query);
         // }
     }
-    //    public  function delete($id){
-    // $this=new koneksi();
-    // var_dump($id);
+
     public function delete($id)
     {
         // Membersihkan input $id untuk menghindari SQL injection
         $id = $this->escapeString($id);
-        // var_dump($id);
-        // Membuat query SQL untuk menghapus data dari tabel 'users' dengan id yang diberikan
         $query = "DELETE FROM users WHERE id = '$id'";
 
         // Menambahkan output debug untuk melihat query yang dihasilkan
@@ -138,22 +134,12 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         // Mengeksekusi query dan menyimpan hasilnya ke variabel $result
         $result = $this->execute($query);
 
-        // Menambahkan output debug untuk melihat hasil eksekusi query
-        // if (!$result) {
-        //     $error = $this->getLastError(); // Asumsikan ada metode untuk mendapatkan kesalahan terakhir
-        //     error_log("Error: $error");
-        // }
-
-        // Memeriksa apakah query berhasil dieksekusi
         if ($result) {
-            // Jika berhasil, kembalikan array dengan status 'success' dan pesan berhasil
             return [
                 'status' => 'success',
                 'message' => 'Data berhasil dihapus.'
             ];
         } else {
-            // error_log("Error: $error");
-            // Jika gagal, kembalikan array dengan status 'error' dan pesan gagal
             return [
                 'status' => 'error',
                 'message' => 'Gagal menghapus data.'
