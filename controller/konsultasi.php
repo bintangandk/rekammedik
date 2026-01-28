@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include_once __DIR__ . '/../koneksi.php';
 
 $db = new koneksi();
@@ -121,10 +124,13 @@ function createKonsultasi($db, $id_pasien, $id_diagnosis, $id_medikamentosa, $ta
     $result = $db->insertData($sql);
 
     if ($result) {
-        header("Location: /view/users/konsultasi/index.php");
+        $_SESSION['success'] = 'Konsultasi berhasil ditambahkan';
+        header("Location: ../view/users/konsultasi/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan konsultasi!";
+        $_SESSION['error'] = 'Terjadi kesalahan saat menambahkan konsultasi';
+        header("Location: ../view/users/konsultasi/index.php");
+        exit;
     }
 }
 
@@ -152,18 +158,34 @@ function updateKonsultasi($db, $id, $id_pasien, $id_diagnosis, $id_medikamentosa
 
     $result = $db->updateData($sql);
 
-    header('Content-Type: application/json; charset=utf-8');
-    ob_clean();
-    if ($result) {
-        echo json_encode([
-            "status" => "success",
-            "message" => "Data berhasil diperbarui!"
-        ]);
+    // Check if this is an AJAX request
+    $is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+    if ($is_ajax) {
+        header('Content-Type: application/json; charset=utf-8');
+        ob_clean();
+        if ($result) {
+            echo json_encode([
+                "status" => "success",
+                "message" => "Data berhasil diperbarui!"
+            ]);
+        } else {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Gagal memperbarui data!"
+            ]);
+        }
     } else {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Gagal memperbarui data!"
-        ]);
+        // Session-based alert for form submission
+        if ($result) {
+            $_SESSION['success'] = 'Konsultasi berhasil diperbarui';
+        } else {
+            $_SESSION['error'] = 'Terjadi kesalahan saat memperbarui konsultasi';
+        }
+        $redirect_url = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin')
+            ? '../view/admin/konsultasi/index.php'
+            : '../view/users/konsultasi/index.php';
+        header("Location: " . $redirect_url);
     }
     exit;
 }
@@ -177,10 +199,13 @@ function deletekonsultasi($db, $id)
     $result = $db->deleteData($sql);
 
     if ($result) {
-        header("Location: /view/admin/konsultasi/index.php");
+        $_SESSION['success'] = 'Konsultasi berhasil dihapus';
+        header("Location: ../view/admin/konsultasi/index.php");
         exit;
     } else {
-        echo "Gagal menambahkan konsultasi!";
+        $_SESSION['error'] = 'Terjadi kesalahan saat menghapus konsultasi';
+        header("Location: ../view/admin/konsultasi/index.php");
+        exit;
     }
 }
 
