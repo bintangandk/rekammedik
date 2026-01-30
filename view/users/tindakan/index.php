@@ -990,7 +990,7 @@ $pasienList = getAllPasien($db);
                     if (data.total == 0) {
                         Toast.fire({
                             icon: 'error',
-                            title: 'Tidak ada data konsultasi pada rentang tanggal yang dipilih'
+                            title: 'Tidak ada data tindakan pada rentang tanggal yang dipilih'
                         });
                         return;
                     }

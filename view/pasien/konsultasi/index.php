@@ -3,13 +3,13 @@ session_start();
 
 $id_user = $_SESSION['id_user'] ?? null;
 if (!$id_user) {
-    header('Location: ../../auth/login.php');
-    exit();
+  header('Location: ../../auth/login.php');
+  exit();
 }
 
 if ($_SESSION['role'] != 'pasien') {
-    header('Location: ../../admin/dashboard/index.php');
-    exit();
+  header('Location: ../../admin/dashboard/index.php');
+  exit();
 }
 
 // Load dependency
@@ -153,14 +153,14 @@ $konsultasi = $id_pasien ? getKonsultasiByPasien($db, $id_pasien) : [];
                   <li>
                     <a class="dropdown-item" href="#">
                       <div class="d-flex">
-                        <div class="flex-shrink-0 me-3">
+                        <div class="shrink-0 me-3">
                           <div class="avatar avatar-online">
 
                             <img src="../../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
 
                           </div>
                         </div>
-                        <div class="flex-grow-1">
+                        <div class="grow">
                           <span class="fw-semibold d-block">Asep</span>
                           <!-- sesuai role -->
                           <small class="text-muted">Pasien</small>
@@ -199,7 +199,7 @@ $konsultasi = $id_pasien ? getKonsultasiByPasien($db, $id_pasien) : [];
         <div class="content-wrapper">
           <!-- Content -->
 
-          <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="container-xxl grow container-p-y">
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Riwayat Konsultasi</h4>
 
             <!-- Table Data Pasien -->
@@ -230,6 +230,7 @@ $konsultasi = $id_pasien ? getKonsultasiByPasien($db, $id_pasien) : [];
                         <th class="text-center">Medikamentosa</th>
                         <th class="text-center">Tanggal</th>
                         <th class="text-center">Durasi</th>
+                        <th class="text-center">Catatan Dokter</th>
                         <th class="text-center">Dokter</th>
                       </tr>
                     </tfoot>
@@ -245,12 +246,13 @@ $konsultasi = $id_pasien ? getKonsultasiByPasien($db, $id_pasien) : [];
                             <td class="text-center"><?= $row['nama_medikamentosa'] ?></td>
                             <td class="text-center"><?= $row['tanggal']; ?></td>
                             <td class="text-center"><?= $row['durasi']; ?></td>
+                            <td class="text-center"><?= $row['catatan_dokter']; ?></td>
                             <td class="text-center"><?= $row['nama_dokter']; ?></td>
                           </tr>
                         <?php endforeach; ?>
                       <?php else: ?>
                         <tr>
-                          <td colspan="7">Tidak ada data</td>
+                          <td colspan="9">Tidak ada data</td>
                         </tr>
                       <?php endif; ?>
                     </tbody>
