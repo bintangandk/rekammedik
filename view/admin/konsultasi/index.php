@@ -550,8 +550,8 @@ $pasienList = getAllPasien($db);
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
 
-                                    <form id="formPrintTindakan"
-                                        action="../../../controller/print_tindakan_range.php"
+                                    <form id="formPrintKonsultasi"
+                                        action="../../../controller/print_konsultasi_range.php"
                                         method="GET"
                                         target="printFrame">
 
@@ -862,7 +862,7 @@ $pasienList = getAllPasien($db);
     </script>
 
     <script>
-        document.getElementById('formPrintKonsultasis').addEventListener('submit', function(e) {
+        document.getElementById('formPrintKonsultasi').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const form = this;
@@ -874,13 +874,13 @@ $pasienList = getAllPasien($db);
                     if (data.total == 0) {
                         Toast.fire({
                             icon: 'error',
-                            title: 'Tidak ada data tindakan pada rentang tanggal yang dipilih'
+                            title: 'Tidak ada data konsultasi pada rentang tanggal yang dipilih'
                         });
                         return;
                     }
 
                     const modal = bootstrap.Modal.getInstance(
-                        document.getElementById('printModalTindakans')
+                        document.getElementById('printModalKonsultasis')
                     );
                     modal.hide();
 

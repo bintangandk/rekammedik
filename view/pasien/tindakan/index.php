@@ -3,17 +3,17 @@ session_start();
 
 $id_user = $_SESSION['id_user'] ?? null;
 if (!$id_user) {
-    header('Location: ../../auth/login.php');
-    exit();
+  header('Location: ../../auth/login.php');
+  exit();
 }
 
 if ($_SESSION['role'] != 'pasien') {
-    header('Location: ../../admin/dashboard/index.php');
-    exit();
+  header('Location: ../../admin/dashboard/index.php');
+  exit();
 }
 
 // Load dependencies sekali saja
-require_once '../../../koneksi.php'; 
+require_once '../../../koneksi.php';
 require_once '../../../controller/Pegawai.php';
 require_once '../../../controller/tindakan.php';
 require_once '../../../controller/pasien_helper.php';
@@ -152,7 +152,7 @@ $tindakans = $id_pasien ? getTindakansByIdPasien($db, $id_pasien) : [];
                   <li>
                     <a class="dropdown-item" href="#">
                       <div class="d-flex">
-                        <div class="flex-shrink-0 me-3">
+                        <div class="shrink-0 me-3">
                           <div class="avatar avatar-online">
 
 
@@ -161,7 +161,7 @@ $tindakans = $id_pasien ? getTindakansByIdPasien($db, $id_pasien) : [];
 
                           </div>
                         </div>
-                        <div class="flex-grow-1">
+                        <div class="grow">
                           <span class="fw-semibold d-block">Asep</span>
                           <!-- sesuai role -->
                           <small class="text-muted">Pasien</small>
@@ -200,7 +200,7 @@ $tindakans = $id_pasien ? getTindakansByIdPasien($db, $id_pasien) : [];
         <div class="content-wrapper">
           <!-- Content -->
 
-          <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="container-xxl grow container-p-y">
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Table /</span>Riwayat Tindakan</h4>
 
             <!-- Table Data Pasien -->
@@ -232,6 +232,7 @@ $tindakans = $id_pasien ? getTindakansByIdPasien($db, $id_pasien) : [];
                         <th class="text-center">Medikamentosa</th>
                         <th class="text-center">Tanggal</th>
                         <th class="text-center">Durasi</th>
+                        <th class="text-center">Catatan Dokter</th>
                       </tr>
                     </tfoot>
                     <tbody>
@@ -247,11 +248,12 @@ $tindakans = $id_pasien ? getTindakansByIdPasien($db, $id_pasien) : [];
                             <td class="text-center"><?= $data['nama_medikamentosa']; ?></td>
                             <td class="text-center"><?= $data['tanggal']; ?></td>
                             <td class="text-center"><?= $data['durasi']; ?></td>
+                            <td class="text-center"><?= $data['catatan_dokter']; ?></td>
                           </tr>
                         <?php endforeach; ?>
                       <?php else: ?>
                         <tr>
-                          <td class="text-center" colspan="7">Tidak ada data</td>
+                          <td class="text-center" colspan="9">Tidak ada data</td>
                         </tr>
                       <?php endif; ?>
                     </tbody>
