@@ -7,8 +7,7 @@ class Pegawai extends koneksi
     public function index()
     {
         $query = "SELECT * 
-FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
-        // $conn=new koneksi();
+            FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         return $this->showData($query);
     }
 
@@ -18,7 +17,6 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         $query = "SELECT COUNT(*) AS total FROM harian_login WHERE tanggal = '$tanggal'";
         $existingData = $this->execute($query);
 
-        // if ($existingData && $existingData->num_rows > 0) {
         return $existingData->fetch_assoc();
     }
 
@@ -28,18 +26,15 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         $query = "SELECT COUNT(*) AS total FROM riwayat_file WHERE tanggal = '$tanggal'";
         $existingData = $this->execute($query);
 
-        // if ($existingData && $existingData->num_rows > 0) {
         return $existingData->fetch_assoc();
     }
 
     public function fileperuser()
     {
-        // $tanggal=date('Y-m-d');
         $id_user = $_SESSION['id_user'];
         $query = "SELECT COUNT(*) AS total FROM riwayat_file WHERE id_user='$id_user'";
         $existingData = $this->execute($query);
 
-        // if ($existingData && $existingData->num_rows > 0) {
         return $existingData->fetch_assoc();
     }
 
@@ -55,7 +50,6 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
 
     public function instalasi()
     {
-        // $this=new koneksi();
         $query = "SELECT * FROM unit";
         return $this->showData($query);
     }
@@ -72,10 +66,8 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
 
     function aktivitas()
     {
-        // $conn = new koneksi();
         $id_user = $_SESSION['id_user'];
 
-        // Tambahkan nama tabel secara eksplisit untuk menghindari ambiguitas
         $query = "SELECT * FROM aktivitas 
                   JOIN unit ON aktivitas.id_unit = unit.id 
                   JOIN users ON aktivitas.id_user = users.id_user 
@@ -90,48 +82,34 @@ FROM users JOIN unit ON users.id_unit = unit.id WHERE users.role != 'admin'";
         $query = "SELECT * FROM users WHERE id_user = '$_SESSION[id_user]'";
         $existingData = $this->execute($query);
 
-        // if ($existingData && $existingData->num_rows > 0) {
         return $existingData->fetch_assoc();
-
-        // }
     }
     function profile_peruser()
     {
         $query = "SELECT * FROM users join unit on users.id_unit = unit.id WHERE  id_user = '$_SESSION[id_user]'";
         $existingData = $this->execute($query);
 
-        // if ($existingData && $existingData->num_rows > 0) {
         return $existingData->fetch_assoc();
-
-        // }
     }
     function riwayat_peruser()
     {
         $query = "SELECT * FROM riwayat_file   WHERE id_user = '$_SESSION[id_user]'";
 
-
-        // if ($existingData && $existingData->num_rows > 0) {
         return $this->showData($query);
-
-        // }
     }
     function riwayat()
     {
         $query = "SELECT * FROM riwayat_file";
         return $this->showData($query);
-        // }
     }
 
     public function delete($id)
     {
-        // Membersihkan input $id untuk menghindari SQL injection
         $id = $this->escapeString($id);
         $query = "DELETE FROM users WHERE id = '$id'";
 
-        // Menambahkan output debug untuk melihat query yang dihasilkan
         error_log("Query: $query");
 
-        // Mengeksekusi query dan menyimpan hasilnya ke variabel $result
         $result = $this->execute($query);
 
         if ($result) {
