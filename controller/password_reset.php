@@ -9,12 +9,9 @@ use PHPMailer\PHPMailer\Exception;
 
 require '../vendor/autoload.php';
 date_default_timezone_set('Asia/Jakarta');
-// include '../vendor/phpmailer/phpmailer/src/Exception.php';
-// include '../vendor/phpmailer/phpmailer/src/PHPMailer.php';
-// include '../vendor/phpmailer/phpmailer/src/SMTP.php';
 $con = new koneksi();
 $email = $_POST["email"];
-$token = random_int(100000, 999999); // Menghasilkan token berupa angka acak 6 digit
+$token = random_int(100000, 999999);
 
 $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 
@@ -66,6 +63,3 @@ try {
     $_SESSION['error'] = 'Email gagal di kirim';
     header("Location: ../view/auth/forgot-password.php");
 }
-  // header("Location: ../view/auth/forgot-password.php");
-// }
-// $email->SMTPAuth=true;

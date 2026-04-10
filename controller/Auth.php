@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../koneksi.php'; // Menyertakan file koneksi dari folder luar
+include '../koneksi.php';
 if (!is_dir('uploads/profile')) {
     mkdir('uploads/profile', 0777, true);
 }
@@ -17,6 +17,13 @@ function login($email, $password)
         $user = mysqli_fetch_assoc($result);
         // Verify the hashed password
         if (password_verify($password, $user['password'])) {
+            // Check if account status is pending
+            if (isset($user['status']) && strtolower($user['status']) == 'pending') {
+                $_SESSION['error'] = 'Akun Anda masih menunggu persetujuan dari administrator. Silakan coba lagi nanti.';
+                header("Location: ../view/auth/login.php");
+                exit();
+            }
+
             $tanggal = date('Y-m-d');
             $cek = "SELECT * FROM harian_login WHERE id_users = '$user[id_user]' AND tanggal = '$tanggal'";
             $result = $conn->execute($cek);
