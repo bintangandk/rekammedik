@@ -6,9 +6,8 @@ if (!isset($_SESSION['email'])) {
 }
 if (($_SESSION['role'] != 'admin')) {
   header('Location: ../../admin/dashboard/index.php');
-  # code...
 }
-require '../../../koneksi.php'; // Menyertakan file koneksi dari folder luar
+require '../../../koneksi.php';
 require '../../../controller/Pegawai.php';
 
 $pegawai = new Pegawai();
@@ -68,6 +67,56 @@ $data_instalasi = $pegawai->instalasi();
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../../../assets/js/config.js"></script>
 
+  <!-- Loading Overlay CSS -->
+  <style>
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loading-overlay.show {
+      display: flex;
+    }
+
+    .loading-content {
+      text-align: center;
+      color: white;
+    }
+
+    .spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3085d6;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      font-size: 18px;
+      font-weight: 500;
+      margin-top: 10px;
+    }
+  </style>
 
 </head>
 
@@ -246,6 +295,7 @@ $data_instalasi = $pegawai->instalasi();
                         <th class="text-center">NIP</th>
                         <th class="text-center">Peranan/Jabatan</th>
                         <th class="text-center">Instalasi</th>
+                        <th class="text-center">Status</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -256,6 +306,7 @@ $data_instalasi = $pegawai->instalasi();
                         <th class="text-center">NIP</th>
                         <th class="text-center">Peranan/Jabatan</th>
                         <th class="text-center">Instalasi</th>
+                        <th class="text-center">Status</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </tfoot>
@@ -265,37 +316,60 @@ $data_instalasi = $pegawai->instalasi();
                       foreach ($data_pegawai as $pegawai) { ?>
                         <tr>
                           <td class="text-center"><?= $no++; ?>
-                            <!--  -->
                           </td>
                           <td class="text-center"><?= $pegawai['Nama'] ?></td>
                           <td class="text-center"><?= $pegawai['nip'] ?></td>
                           <td class="text-center"><?= $pegawai['role'] ?></td>
                           <td class="text-center"><?= $pegawai['instalasi'] ?></td>
                           <td class="text-center">
+                            <?php if (strtolower($pegawai['status']) == 'active') { ?>
+                              <span class="badge bg-success"><?= $pegawai['status'] ?></span>
+                            <?php } elseif (strtolower($pegawai['status']) == 'pending') { ?>
+                              <span class="badge bg-warning"><?= $pegawai['status'] ?></span>
+                            <?php } else { ?>
+                              <span class="badge bg-secondary"><?= $pegawai['status'] ?></span>
+                            <?php } ?>
+                          </td>
+                          <td class="text-center">
                             <div class="dropdown">
-                              <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton<?= $row['id_konsultasi'] ?>"
+                              <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton<?= $pegawai['id_user'] ?>" aria-haspopup="true" data-bs-auto-close="outside"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-three-dots-vertical"></i>
                               </button>
                               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= $pegawai['id_user'] ?>">
-                                <li>
-                                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"
-                                    onclick="edit(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8'); ?>)">
-                                    <i class="bi bi-pencil me-2 text-warning"></i> Edit
-                                  </a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#showModal"
-                                    onclick="detail(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8'); ?>)">
-                                    <i class="bi bi-eye me-2 text-primary"></i> Detail
-                                  </a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item text-danger" href="#"
-                                    onclick="deleteData(<?= htmlspecialchars(json_encode($pegawai)); ?>)">
-                                    <i class="bi bi-trash me-2"></i> Hapus
-                                  </a>
-                                </li>
+                                <?php if (strtolower($pegawai['status']) == 'pending') { ?>
+                                  <li>
+                                    <a class="dropdown-item text-success" href="#"
+                                      onclick="approve(<?= htmlspecialchars(json_encode($pegawai)); ?>)">
+                                      <i class="bi bi-check me-2"></i> Approve
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item text-danger" href="#"
+                                      onclick="reject(<?= htmlspecialchars(json_encode($pegawai)); ?>)">
+                                      <i class="bi bi-x me-2"></i> Reject
+                                    </a>
+                                  </li>
+                                <?php } else { ?>
+                                  <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"
+                                      onclick="edit(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8'); ?>)">
+                                      <i class="bi bi-pencil me-2 text-warning"></i> Edit
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#showModal"
+                                      onclick="detail(<?= htmlspecialchars(json_encode($pegawai), ENT_QUOTES, 'UTF-8'); ?>)">
+                                      <i class="bi bi-eye me-2 text-primary"></i> Detail
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item text-danger" href="#"
+                                      onclick="deleteData(<?= htmlspecialchars(json_encode($pegawai)); ?>)">
+                                      <i class="bi bi-trash me-2"></i> Hapus
+                                    </a>
+                                  </li>
+                                <?php } ?>
                               </ul>
                             </div>
                           </td>
@@ -375,7 +449,7 @@ $data_instalasi = $pegawai->instalasi();
 
                   <!-- Modal Footer -->
                   <div class=" modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary" onclick="showLoading('Memperbarui data...')">Simpan</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                   </div>
                   </form>
@@ -474,6 +548,14 @@ $data_instalasi = $pegawai->instalasi();
   </div>
   <!-- / Layout wrapper -->
 
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <div class="loading-text">Memproses data...</div>
+    </div>
+  </div>
+
 
 
   <!-- Core JS -->
@@ -532,6 +614,21 @@ $data_instalasi = $pegawai->instalasi();
   <!-- Delete alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    // Loading overlay functions
+    function showLoading(message = 'Memproses data...') {
+      const overlay = document.getElementById('loadingOverlay');
+      const loadingText = overlay.querySelector('.loading-text');
+      if (loadingText) {
+        loadingText.textContent = message;
+      }
+      overlay.classList.add('show');
+    }
+
+    function hideLoading() {
+      const overlay = document.getElementById('loadingOverlay');
+      overlay.classList.remove('show');
+    }
+
     function deleteData(data) {
       console.log(data);
       const userId = data.id_user;
@@ -546,10 +643,89 @@ $data_instalasi = $pegawai->instalasi();
         confirmButtonText: 'Ya, Hapus!'
       }).then((result) => {
         if (result.isConfirmed) {
+          showLoading('Menghapus data...');
           window.location.href = '../../../controller/hapus_pegawai.php?action=delete&id=' + userId;
         }
       });
     }
+
+    // fungsi untuk approve data pegawai
+    function approve(data) {
+      console.log(data);
+      const userId = data.id_user;
+      console.log(userId);
+      Swal.fire({
+        title: 'Apakah Anda Yakin?',
+        text: "Anda ingin menyetujui data ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Setujui!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          showLoading('Menyetujui akun dan mengirim email...');
+          window.location.href = '../../../controller/Pegawai.php?action=approve&id=' + userId;
+        }
+      });
+    }
+
+    // fungsi untuk reject data pegawai
+    function reject(data) {
+      console.log(data);
+      const userId = data.id_user;
+      const userName = data.Nama;
+      console.log(userId);
+      Swal.fire({
+        title: 'Apakah Anda Yakin?',
+        text: "Anda ingin menolak pendaftaran " + userName + "? Data akan dihapus dan email pemberitahuan akan dikirim.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, Tolak!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          showLoading('Menolak akun dan mengirim email...');
+          window.location.href = '../../../controller/Pegawai.php?action=reject&id=' + userId;
+        }
+      });
+    }
+
+    // Check for success or error messages in URL
+    window.addEventListener('DOMContentLoaded', function() {
+      // Hide loading overlay when page loads
+      hideLoading();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const successMsg = urlParams.get('success');
+      const errorMsg = urlParams.get('error');
+
+      if (successMsg) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil!',
+          text: successMsg,
+          confirmButtonColor: '#3085d6'
+        }).then(() => {
+          // Remove the query parameters from URL
+          window.history.replaceState({}, document.title, window.location.pathname);
+        });
+      }
+
+      if (errorMsg) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal!',
+          text: errorMsg,
+          confirmButtonColor: '#d33'
+        }).then(() => {
+          // Remove the query parameters from URL
+          window.history.replaceState({}, document.title, window.location.pathname);
+        });
+      }
+    });
   </script>
 
   <!-- modal edit -->
