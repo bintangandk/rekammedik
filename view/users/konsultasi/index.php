@@ -28,20 +28,6 @@ $diagnosisList = getAllDiagnosis($db);
 $medikamentosaList = getAllMedikamentosa($db);
 $pasienList = getAllPasien($db);
 
-$konsultasiByPasien = [];
-foreach ($konsultasi as $item) {
-    $idPasien = $item['id_pasien'];
-
-    if (!isset($konsultasiByPasien[$idPasien])) {
-        $konsultasiByPasien[$idPasien] = [
-            'summary' => $item,
-            'details' => []
-        ];
-    }
-
-    $konsultasiByPasien[$idPasien]['details'][] = $item;
-}
-
 ?>
 
 <style>
@@ -64,81 +50,6 @@ foreach ($konsultasi as $item) {
 
     .colored-toast.swal2-icon-success {
         background-color: #28a745 !important;
-    }
-
-    #showModal .modal-dialog {
-        max-width: 95vw;
-        width: 95vw;
-    }
-
-    #showModal .modal-body {
-        overflow-x: auto;
-    }
-
-    #showModal .table {
-        min-width: 980px;
-    }
-
-    #showModal .mobile-detail-list {
-        display: none;
-    }
-
-    #showModal .detail-card {
-        border: 1px solid #d9dee3;
-        border-radius: 0.5rem;
-        padding: 0.75rem;
-        margin-bottom: 0.75rem;
-        background-color: #fff;
-    }
-
-    #showModal .detail-card-title {
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: #566a7f;
-    }
-
-    #showModal .detail-item {
-        margin-bottom: 0.4rem;
-        font-size: 0.875rem;
-        line-height: 1.4;
-        word-break: break-word;
-    }
-
-    #showModal .detail-item:last-child {
-        margin-bottom: 0;
-    }
-
-    #showModal .detail-label {
-        display: block;
-        font-weight: 600;
-        color: #697a8d;
-        margin-bottom: 0.1rem;
-    }
-
-    @media (max-width: 767.98px) {
-        #showModal .modal-dialog {
-            max-width: 100vw;
-            width: 100vw;
-            margin: 0;
-            min-height: 100vh;
-        }
-
-        #showModal .modal-content {
-            min-height: 100vh;
-            border-radius: 0;
-        }
-
-        #showModal .desktop-detail-table {
-            display: none;
-        }
-
-        #showModal .mobile-detail-list {
-            display: block;
-        }
-
-        #showModal .modal-body {
-            padding: 0.9rem;
-        }
     }
 </style>
 
@@ -395,10 +306,9 @@ foreach ($konsultasi as $item) {
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <?php if (!empty($konsultasiByPasien)): ?>
+                                            <?php if (!empty($konsultasi)): ?>
                                                 <?php $no = 1;
-                                                foreach ($konsultasiByPasien as $group):
-                                                    $data = $group['summary']; ?>
+                                                foreach ($konsultasi as $data): ?>
                                                     <tr>
                                                         <td class="text-center"><?= $no++; ?></td>
                                                         <td class="text-center"><?= $data['no_rm'] ?></td>
@@ -421,7 +331,7 @@ foreach ($konsultasi as $item) {
                                                                     </li>
                                                                     <li>
                                                                         <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#showModal"
-                                                                            onclick='showKonsultasi(<?= htmlspecialchars(json_encode($group), ENT_QUOTES, 'UTF-8'); ?>)'>
+                                                                            onclick="showKonsultasi(<?= htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>)">
                                                                             <i class="bi bi-eye me-2 text-primary"></i> Detail
                                                                         </a>
                                                                     </li>
@@ -626,7 +536,7 @@ foreach ($konsultasi as $item) {
 
                         <!-- Modal Show-->
                         <div class="modal fade" id="showModal">
-                            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-dialog">
                                 <div class="modal-content">
 
                                     <!-- Modal Header -->
@@ -639,49 +549,67 @@ foreach ($konsultasi as $item) {
 
                                     <!-- Modal Body -->
                                     <div class="modal-body">
-                                        <div class="mb-3">
-                                            <div class="row g-2">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">No. RM</label>
-                                                    <input type="text" class="form-control" id="no_rm_show" readonly>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Nama Pasien</label>
-                                                    <input type="text" class="form-control" id="nama_pasien_show" readonly>
+                                        <form id="insertForm" action="#" method="POST" enctype="multipart/form-data">
+                                            <div class="container">
+                                                <div class="row">
+
+                                                    <input type="hidden" id="id_show" name="id_konsultasi">
+
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="no_rm">No. RM<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="no_rm_show" name="no_rm" readonly></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="name">Nama Pasien<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="nama_pasien_show" name="name" readonly></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="dokter">Nama Dokter<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="nama_dokter_show" name="dokter" readonly></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="diagnosis">Diagnosis<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="nama_diagnosis_show" name="diagnosis" readonly></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="medikamentosa">Medikamentosa<span class="text-danger">*</span></label>
+                                                            <input class="form-control" id="nama_medikamentosa_show" name="medikamentosa" readonly></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="catatan_dokter">Catatan Dokter<span class="text-danger">*</span></label>
+                                                            <textarea class="form-control" id="catatan_dokter_show" name="catatan_dokter" readonly></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
+                                                            <input type="date" class="form-control" id="tanggal_show" name="tanggal" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-20">
+                                                        <div class="form-group">
+                                                            <label>Durasi Konsultasi</label>
+                                                            <input type="time" class="form-control" id="durasi_show" name="durasi" readonly>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="table-responsive desktop-detail-table">
-                                            <table class="table table-bordered table-sm align-middle">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-center">No</th>
-                                                        <th class="text-center">Tanggal</th>
-                                                        <th class="text-center">Durasi</th>
-                                                        <th class="text-center">Dokter</th>
-                                                        <th class="text-center">Diagnosis</th>
-                                                        <th class="text-center">Medikamentosa</th>
-                                                        <th class="text-center">Catatan Dokter</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="detail_konsultasi_body">
-                                                    <tr>
-                                                        <td colspan="7" class="text-center">Tidak ada data</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <div id="detail_konsultasi_cards" class="mobile-detail-list">
-                                            <div class="detail-card">
-                                                <div class="text-center">Tidak ada data</div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -919,87 +847,16 @@ foreach ($konsultasi as $item) {
         }
 
 
-        function escapeHtml(value) {
-            if (value === null || value === undefined) return '';
-            return String(value)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        function showKonsultasi(groupData) {
-            const summary = groupData.summary || {};
-            const details = Array.isArray(groupData.details) ? groupData.details : [];
-            const detailBody = document.getElementById('detail_konsultasi_body');
-            const detailCards = document.getElementById('detail_konsultasi_cards');
-
-            document.getElementById('no_rm_show').value = summary.no_rm || '-';
-            document.getElementById('nama_pasien_show').value = summary.nama_pasien || '-';
-
-            if (!detailBody) return;
-
-            if (!details.length) {
-                detailBody.innerHTML = '<tr><td colspan="7" class="text-center">Tidak ada data</td></tr>';
-
-                if (detailCards) {
-                    detailCards.innerHTML = `
-                        <div class="detail-card">
-                            <div class="text-center">Tidak ada data</div>
-                        </div>
-                    `;
-                }
-                return;
-            }
-
-            detailBody.innerHTML = details.map((item, index) => {
-                return `
-                    <tr>
-                        <td class="text-center">${index + 1}</td>
-                        <td>${escapeHtml(item.tanggal)}</td>
-                        <td>${escapeHtml(item.durasi)}</td>
-                        <td>${escapeHtml(item.nama_dokter)}</td>
-                        <td>${escapeHtml(item.nama_diagnosis)}</td>
-                        <td>${escapeHtml(item.nama_medikamentosa)}</td>
-                        <td>${escapeHtml(item.catatan_dokter)}</td>
-                    </tr>
-                `;
-            }).join('');
-
-            if (detailCards) {
-                detailCards.innerHTML = details.map((item, index) => {
-                    return `
-                        <div class="detail-card">
-                            <div class="detail-card-title">Konsultasi #${index + 1}</div>
-                            <div class="detail-item">
-                                <span class="detail-label">Tanggal</span>
-                                ${escapeHtml(item.tanggal)}
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Durasi</span>
-                                ${escapeHtml(item.durasi)}
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Dokter</span>
-                                ${escapeHtml(item.nama_dokter)}
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Diagnosis</span>
-                                ${escapeHtml(item.nama_diagnosis)}
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Medikamentosa</span>
-                                ${escapeHtml(item.nama_medikamentosa)}
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Catatan Dokter</span>
-                                ${escapeHtml(item.catatan_dokter)}
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
+        function showKonsultasi(data) {
+            document.getElementById('id_show').value = data.id_konsultasi;
+            document.getElementById('no_rm_show').value = data.no_rm;
+            document.getElementById('nama_pasien_show').value = data.nama_pasien;
+            document.getElementById('nama_diagnosis_show').value = data.nama_diagnosis;
+            document.getElementById('nama_medikamentosa_show').value = data.nama_medikamentosa;
+            document.getElementById('tanggal_show').value = data.tanggal;
+            document.getElementById('durasi_show').value = data.durasi;
+            document.getElementById('nama_dokter_show').value = data.nama_dokter;
+            document.getElementById('catatan_dokter_show').value = data.catatan_dokter;
         }
     </script>
 
