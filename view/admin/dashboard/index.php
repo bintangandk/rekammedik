@@ -103,10 +103,10 @@ $totalTindakan = countTotalTindakan($db);
                     <li class="menu-item">
                         <a href="../data-pasien/index.php" class="menu-link">
                             <i class="menu-icon bi-heart-pulse "></i>
-                            <div data-i18n="Account Settings">Data Pasien</div>
+                            <div data-i18n="Account Settings">Data Rekam Medis Pasien</div>
                         </a>
                     </li>
-                     <li class="menu-item">
+                    <li class="menu-item">
                         <a href="../akun-pasien/index.php" class="menu-link">
                             <i class="menu-icon bi-person "></i>
                             <div data-i18n="Account Settings">Akun Pasien</div>
@@ -115,13 +115,13 @@ $totalTindakan = countTotalTindakan($db);
                     <li class="menu-item">
                         <a href="../data-pegawai/index.php" class="menu-link">
                             <i class="menu-icon bi-person-badge"></i>
-                            <div data-i18n="Account Settings">Data Pegawai</div>
+                            <div data-i18n="Account Settings"> User Data RM Pasien</div>
                         </a>
                     </li>
                     <li class="menu-item">
                         <a href="../riwayat-file/index.php" class="menu-link">
                             <i class="menu-icon bi bi-clipboard"></i>
-                            <div data-i18n="Account Settings">Riwayat File</div>
+                            <div data-i18n="Account Settings">Riwayat Akses Data RM Pasien</div>
                         </a>
                     </li>
                     <li class="menu-item">
@@ -313,7 +313,7 @@ $totalTindakan = countTotalTindakan($db);
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="col-lg-4 col-md-7 col-12 mb-4">
+                                    <div class="col-lg-4 col-md-7 col-12 mb-4">
                                         <div class="card h-100">
                                             <div class="card-body">
                                                 <div class="card-title d-flex align-items-start justify-content-between">

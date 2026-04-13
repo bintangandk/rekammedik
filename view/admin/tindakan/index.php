@@ -147,7 +147,7 @@ $pasienList = getAllPasien($db);
                     <li class="menu-item">
                         <a href="../data-pasien/index.php" class="menu-link">
                             <i class="menu-icon bi-heart-pulse "></i>
-                            <div data-i18n="Account Settings">Data Pasien</div>
+                            <div data-i18n="Account Settings">Data Rekam Medis Pasien</div>
                         </a>
                     </li>
                     <li class="menu-item">
@@ -159,13 +159,13 @@ $pasienList = getAllPasien($db);
                     <li class="menu-item">
                         <a href="../data-pegawai/index.php" class="menu-link">
                             <i class="menu-icon bi-person-badge"></i>
-                            <div data-i18n="Account Settings">Data Pegawai</div>
+                            <div data-i18n="Account Settings">User Data RM Pasien</div>
                         </a>
                     </li>
                     <li class="menu-item">
                         <a href="../riwayat-file/index.php" class="menu-link">
                             <i class="menu-icon bi bi-clipboard"></i>
-                            <div data-i18n="Account Settings">Riwayat File</div>
+                            <div data-i18n="Account Settings">Riwayat Akses Data RM Pasien</div>
                         </a>
                     </li>
                     <li class="menu-item">
